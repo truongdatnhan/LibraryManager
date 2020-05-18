@@ -39,7 +39,6 @@ public class searchNVPanel extends JFrame {
 	public searchNVPanel() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 600, 400);
-		setUndecorated(true);
 		setLocationRelativeTo(null);
 		mainPanel = new JPanel();
 		mainPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
