@@ -1,0 +1,11 @@
+eclipse.preferences.version=1
+encoding//src/BUS/nguoidungBUS.java=UTF-8
+encoding//src/BUS/nhanvienBUS.java=UTF-8
+encoding//src/DAO/MyConnectToMySQL.java=UTF-8
+encoding//src/DAO/MyConnectUnit.java=UTF-8
+encoding//src/DAO/nhanvienDAO.java=UTF-8
+encoding//src/FORM/QLNVPanel.java=UTF-8
+encoding//src/FORM/QLSPanel.java=UTF-8
+encoding//src/FORM/logInForm.java=UTF-8
+encoding//src/FORM/menu.java=UTF-8
+encoding//src/TOOL/check.java=UTF-8
