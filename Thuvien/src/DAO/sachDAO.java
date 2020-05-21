@@ -5,17 +5,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 
-import DTO.nguoidungDTO;
 import DTO.nhanvienDTO;
+import DTO.sachDTO;
 
-public class nhanvienDAO {
+public class sachDAO {
 	MyConnectUnit conn = null;
 	ResultSet rs = null;
 
-	public nhanvienDAO() {
+	public sachDAO() {
 		if (conn == null) {
 			conn = new MyConnectUnit("localhost", "root", "123456", "Thuvien");
 		}
@@ -23,26 +21,16 @@ public class nhanvienDAO {
 
 	public ArrayList<nhanvienDTO> docDSNV() throws Exception {
 		ArrayList<nhanvienDTO> dsnv = new ArrayList<nhanvienDTO>();
-		rs = conn.Select("nhanvien");
+		rs = conn.Select("sach");
 //		String query = "SELECT * FROM NHANVIEN";
 //		rs = conn.excuteQuery(query);
 		while (rs.next()) {
-			nhanvienDTO nhanvien = new nhanvienDTO();
-			nhanvien.setManv(rs.getString(1));
-			nhanvien.setHo(rs.getString(2));
-			nhanvien.setTen(rs.getString(3));
-			nhanvien.setNgaysinh(rs.getString(4));
-			nhanvien.setGioitinh(rs.getString(5));
-			nhanvien.setDiachi(rs.getString(6));
-			nhanvien.setEmail(rs.getString(7));
-			nhanvien.setSdt(rs.getString(8));
-			nhanvien.setLuong(rs.getString(9));
-			dsnv.add(nhanvien);
+			
 		}
 		return dsnv;
 	}
 
-	public void Insert(nhanvienDTO nv) throws Exception {
+	public void Insert(sachDTO s) throws Exception {
 //		String query = "INSERT INTO NHANVIEN VALUES ('" + nv.getManv() + "','" + nv.getHo() + "','" + nv.getTen()
 //				+ "','" + nv.getNgaysinh() + "','" + nv.getGioitinh() + "','" + nv.getDiachi() + "','" + nv.getEmail()
 //				+ "','" + nv.getSdt() + "','" + nv.getLuong() + "');";
@@ -70,10 +58,10 @@ public class nhanvienDAO {
 	}
 
 //	public static void main(String[] args) throws Exception {
-//		nhanvienDTO nv = new nhanvienDTO("A","A","A","2020-10-8","A","A","A","A","7");
+//		sachDTO s = new nhanvienDTO("A","A","A","2020-10-8","A","A","A","A","7");
 //		Insert(nv);
 //	}
-	public void Delete(nhanvienDTO nv) throws Exception {
+	public void Delete(sachDTO s) throws Exception {
 //		String quy
 		boolean kt = conn.Delete("nhanvien", "manv = '" + nv.getManv() + "'");
 		if (kt == true) {
@@ -83,7 +71,7 @@ public class nhanvienDAO {
 		}
 	}
 
-	public void Update(nhanvienDTO nv) throws Exception {
+	public void Update(sachDTO s) throws Exception {
 		HashMap<String, Object> updateValue = new HashMap<String, Object>();
 		updateValue.put("honv", nv.getHo());
 		updateValue.put("tennv", nv.getTen());
@@ -102,11 +90,5 @@ public class nhanvienDAO {
 
 		// nên suy xét lại thay đổi thành boolean vì thay đổi phải cho hiển thị thông
 		// báo thành công và thất bại ra màn hình cho người dùng
-	}
-
-	public DefaultTableModel Search(String Blike, String Alike) throws Exception {
-		DefaultTableModel model = new DefaultTableModel();
-		rs = conn.Select("nhanvien", Blike + " LIKE '%" + Alike);
-		return model;
 	}
 }

@@ -19,6 +19,7 @@ import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.ActionEvent;
@@ -67,64 +68,40 @@ public class logInForm extends JFrame implements ActionListener, MouseListener, 
 		bus.docDSND();
 		setBackground(Color.WHITE);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 450);
+		setBounds(100, 100, 650, 400);
 		setLocationRelativeTo(null);
-		setUndecorated(true);
+		// setUndecorated(true);
+		setTitle("Quản lí thư viện");
+		ImageIcon icon = new ImageIcon("./icon/book.png");
+		Image img = icon.getImage();
+		this.setIconImage(img);
 		mainPanel = new JPanel();
-		mainPanel.setBackground(new Color(154, 206, 235));
+		mainPanel.setBackground(new Color(128, 203, 196));
 		mainPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(mainPanel);
 		mainPanel.setLayout(null);
 
 		JLabel lbIcon = new JLabel("");
 		lbIcon.setHorizontalAlignment(SwingConstants.CENTER);
-		lbIcon.setIcon(new ImageIcon("D:\\Program Files\\Eclipse\\ThuVien\\icon\\book1.png"));
+		lbIcon.setIcon(new ImageIcon("./icon/book1.png"));
 		lbIcon.setBackground(Color.WHITE);
-		lbIcon.setBounds(315, 56, 200, 94);
+		lbIcon.setBounds(238, 16, 200, 94);
 		mainPanel.add(lbIcon);
 
-		JPanel navPanel = new JPanel();
-		navPanel.setBackground(new Color(31, 117, 254));
-		navPanel.setBounds(0, 0, 800, 40);
-		mainPanel.add(navPanel);
-		navPanel.setLayout(null);
-
-		lbTitle = new JLabel("QUẢN LÍ THƯ VIỆN");
-		lbTitle.setBackground(new Color(0, 0, 0));
-		lbTitle.setForeground(new Color(0, 0, 0));
-		lbTitle.setFont(new Font("Calibri", Font.BOLD, 25));
-		lbTitle.setBounds(315, 0, 215, 40);
-		navPanel.add(lbTitle);
-
-		closePanel = new JPanel();
-		closePanel.setBounds(760, 0, 40, 40);
-		closePanel.setBackground(new Color(31, 117, 254));
-		navPanel.add(closePanel);
-		closePanel.setLayout(null);
-
-		lbClose = new JLabel("");
-		lbClose.setBounds(0, 0, 40, 40);
-		closePanel.add(lbClose);
-
-		lbClose.setIcon(new ImageIcon("D:\\Program Files\\Eclipse\\ThuVien\\icon\\close.png_32.png"));
-		lbClose.setHorizontalAlignment(SwingConstants.CENTER);
-		lbClose.addMouseListener(this);
-		closePanel.addMouseListener(this);
-
 		txUserName = new JTextField();
-		txUserName.setBounds(315, 166, 200, 30);
+		txUserName.setBounds(238, 135, 200, 30);
 		mainPanel.add(txUserName);
 		txUserName.setColumns(10);
 		txUserName.addKeyListener(this);
 
 		tpPassword = new JPasswordField();
-		tpPassword.setBounds(315, 223, 200, 30);
+		tpPassword.setBounds(238, 191, 200, 30);
 		mainPanel.add(tpPassword);
 		tpPassword.addKeyListener(this);
 
 		pnLogin = new JPanel();
 		pnLogin.setBackground(new Color(25, 166, 210));
-		pnLogin.setBounds(315, 273, 200, 30);
+		pnLogin.setBounds(238, 237, 200, 30);
 		mainPanel.add(pnLogin);
 		pnLogin.setLayout(null);
 
@@ -137,19 +114,19 @@ public class logInForm extends JFrame implements ActionListener, MouseListener, 
 
 		lbUsername = new JLabel("Tài khoản");
 		lbUsername.setFont(new Font("Calibri", Font.BOLD, 18));
-		lbUsername.setBounds(200, 166, 100, 40);
+		lbUsername.setBounds(121, 131, 100, 40);
 		mainPanel.add(lbUsername);
 
 		lbPassword = new JLabel("Mật khẩu");
 		lbPassword.setFont(new Font("Calibri", Font.BOLD, 18));
-		lbPassword.setBounds(200, 219, 100, 40);
+		lbPassword.setBounds(121, 187, 100, 40);
 		mainPanel.add(lbPassword);
 
 		lbForgetPass = new JLabel("Quên mật khẩu ?");
 		lbForgetPass.setForeground(new Color(0, 0, 139));
 		lbForgetPass.setFont(new Font("Calibri", Font.PLAIN, 16));
 		lbForgetPass.setHorizontalAlignment(SwingConstants.LEFT);
-		lbForgetPass.setBounds(315, 319, 137, 20);
+		lbForgetPass.setBounds(252, 283, 137, 20);
 		lbForgetPass.addMouseListener(this);
 		mainPanel.add(lbForgetPass);
 	}
@@ -166,7 +143,7 @@ public class logInForm extends JFrame implements ActionListener, MouseListener, 
 		if (e.getSource() == pnLogin || e.getSource() == lbLogin) {
 			if (check.checkNull(txUserName.getText())) {
 				txUserName.setBorder(BorderFactory.createLineBorder(Color.red));
-				JOptionPane.showMessageDialog(null, "Hãy nhập vào tài khoản");
+				// JOptionPane.showMessageDialog(null, "Hãy nhập vào tài khoản");
 			} else if (check.checkNull(new String(tpPassword.getPassword()))) {
 				tpPassword.setBorder(BorderFactory.createLineBorder(Color.red));
 				JOptionPane.showMessageDialog(null, "Hãy nhập vào mật khẩu");
@@ -176,11 +153,12 @@ public class logInForm extends JFrame implements ActionListener, MouseListener, 
 				nguoidung.setMkhau(new String(tpPassword.getPassword()));
 				if (bus.checkAccount(nguoidung.getManv(), nguoidung.getMkhau(), "MQ001") == true) {
 					JOptionPane.showMessageDialog(null, "Đăng nhập thành công");
-					menu Menu;
+
 					try {
-						Menu = new menu();
-						Menu.setVisible(true);
-						setVisible(false);
+						menuFrame frame = new menuFrameAdmin();
+
+						frame.setVisible(true);
+						this.dispose();
 					} catch (Exception e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -188,12 +166,12 @@ public class logInForm extends JFrame implements ActionListener, MouseListener, 
 
 				} else if (bus.checkAccount(nguoidung.getManv(), nguoidung.getMkhau(), "MQ002") == true) {
 					JOptionPane.showMessageDialog(null, "Đăng nhập thành công");
-					menu Menu;
+
 					try {
-						Menu = new menu();
-						Menu.setVisible(true);
+						menuFrame frame = new menuFrame();
+						frame.setVisible(true);
 						setVisible(false);
-						Menu.tabbedPane.removeTabAt(0);
+						this.dispose();
 					} catch (Exception e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();

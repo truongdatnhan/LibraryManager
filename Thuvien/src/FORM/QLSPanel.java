@@ -7,6 +7,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Vector;
 
 import javax.swing.SwingConstants;
@@ -14,7 +18,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.JTextField;
 import java.awt.Color;
 
-public class QLSPanel extends JPanel {
+public class QLSPanel extends JPanel implements MouseListener,ActionListener{
 	private JTextField txMasach;
 	private JTextField txTensach;
 	private JTextField txGia;
@@ -24,6 +28,7 @@ public class QLSPanel extends JPanel {
 	private JTextField txSoluong;
 	private DefaultTableModel model;
 	private JTable tbQLS;
+	private JButton btnThem, btnXoa, btnSua, btnTailai;
 
 	/**
 	 * Create the panel.
@@ -101,35 +106,33 @@ public class QLSPanel extends JPanel {
 		add(txSoluong);
 		txSoluong.setColumns(10);
 		
-		JButton btnThem = new JButton("Thêm");
+		btnThem = new JButton("Thêm");
 		btnThem.setFont(new Font("Calibri", Font.PLAIN, 17));
 		btnThem.setIcon(new ImageIcon("D:\\Program Files\\Eclipse\\Thuvien\\icon\\icons8_add_32.png"));
-		btnThem.setBounds(110, 205, 150, 30);
+		btnThem.setBounds(50, 206, 150, 30);
+		btnThem.addActionListener(this);
 		add(btnThem);
 
-		JButton btnXoa = new JButton("Xóa");
+		btnXoa = new JButton("Xóa");
 		btnXoa.setFont(new Font("Calibri", Font.PLAIN, 18));
 		btnXoa.setIcon(new ImageIcon("D:\\Program Files\\Eclipse\\Thuvien\\icon\\icons8_delete_sign_32.png"));
-		btnXoa.setBounds(270, 205, 150, 30);
+		btnXoa.setBounds(204, 205, 150, 30);
+		btnXoa.addActionListener(this);
 		add(btnXoa);
 
-		JButton btnTailai = new JButton("Tải lại");
+		btnTailai = new JButton("Tải lại");
 		btnTailai.setFont(new Font("Calibri", Font.PLAIN, 18));
 		btnTailai.setIcon(new ImageIcon("D:\\Program Files\\Eclipse\\Thuvien\\icon\\icons8_synchronize_32.png"));
-		btnTailai.setBounds(430, 205, 150, 30);
+		btnTailai.setBounds(509, 205, 150, 30);
+		btnTailai.addActionListener(this);
 		add(btnTailai);
 
-		JButton btnSua = new JButton("Sửa");
+		btnSua = new JButton("Sửa");
 		btnSua.setFont(new Font("Calibri", Font.PLAIN, 18));
 		btnSua.setIcon(new ImageIcon("D:\\Program Files\\Eclipse\\Thuvien\\icon\\icons8_change_32.png"));
-		btnSua.setBounds(590, 205, 150, 30);
+		btnSua.setBounds(357, 205, 150, 30);
+		btnSua.addActionListener(this);
 		add(btnSua);
-
-		JButton btnTim = new JButton("Tìm kiếm");
-		btnTim.setFont(new Font("Calibri", Font.PLAIN, 18));
-		btnTim.setIcon(new ImageIcon("D:\\Program Files\\Eclipse\\Thuvien\\icon\\icons8_search_32.png"));
-		btnTim.setBounds(750, 205, 150, 30);
-		add(btnTim);
 		
 		Vector<String> header = new Vector<String>();
 		header.add("Mã sách");
@@ -150,6 +153,41 @@ public class QLSPanel extends JPanel {
 		JScrollPane scrollPane = new JScrollPane(tbQLS);
 		scrollPane.setBounds(30, 250, 1050, 250);
 		add(scrollPane);
+	}
 
+	@Override
+	public void mouseClicked(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }
