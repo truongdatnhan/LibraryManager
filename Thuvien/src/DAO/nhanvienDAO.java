@@ -17,7 +17,7 @@ public class nhanvienDAO {
 
 	public nhanvienDAO() {
 		if (conn == null) {
-			conn = new MyConnectUnit("localhost", "root", "123456", "Thuvien");
+			conn = new MyConnectUnit("localhost", "root", "", "Thuvien");
 		}
 	}
 
