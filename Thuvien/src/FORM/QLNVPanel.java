@@ -222,9 +222,10 @@ public class QLNVPanel extends JPanel implements ActionListener, KeyListener, Mo
 		comboBox.setModel(new DefaultComboBoxModel<String>(new String[] { "Mã nhân viên", "Tên nhân viên" }));
 		comboBox.setBounds(547, 256, 150, 26);
 		add(comboBox);
-		
+
 		JButton btnNewButton = new JButton("Xuất Excel");
-		btnNewButton.setIcon(new ImageIcon("D:\\Program Files\\Eclipse\\Thuvien\\icon\\icons8_Microsoft_Excel_2019_32.png"));
+		btnNewButton.setIcon(
+				new ImageIcon("D:\\Program Files\\Eclipse\\Thuvien\\icon\\icons8_Microsoft_Excel_2019_32.png"));
 		btnNewButton.setBounds(662, 205, 150, 25);
 		add(btnNewButton);
 		tbQLNV.addMouseListener(new MouseAdapter() {
@@ -396,7 +397,7 @@ public class QLNVPanel extends JPanel implements ActionListener, KeyListener, Mo
 				JOptionPane.showMessageDialog(null, "Bạn chưa chọn nhân viên");
 			}
 		} else if (evt.getSource() == btnSua) {
-			
+
 		} else if (evt.getSource() == btnTailai) {
 			txManv.setEditable(true);
 			txManv.setText(null);
@@ -417,18 +418,32 @@ public class QLNVPanel extends JPanel implements ActionListener, KeyListener, Mo
 
 	@Override
 	public void keyPressed(KeyEvent evt) {
-		// TODO Auto-generated method stub
+		// System.out.println(evt.getKeyCode());
 
 	}
 
 	@Override
 	public void keyReleased(KeyEvent evt) {
 		// TODO Auto-generated method stub
-		DefaultTableModel table = (DefaultTableModel)tbQLNV.getModel();
+		DefaultTableModel table = (DefaultTableModel) tbQLNV.getModel();
 		String search = txTimkiem.getText().toLowerCase();
+
 		TableRowSorter<DefaultTableModel> tr = new TableRowSorter<DefaultTableModel>(table);
 		tbQLNV.setRowSorter(tr);
-		tr.setRowFilter(RowFilter.regexFilter(search));
+		if (search == null) {
+			tr.setRowFilter(null);
+		} else {
+			String select = (String) comboBox.getSelectedItem();
+			
+
+			if (select.equals("Mã nhân viên"))
+				tr.setRowFilter(RowFilter.regexFilter("(?i)" + search, 0));
+			else {
+				if (select.equals("Tên nhân viên")) {
+					tr.setRowFilter(RowFilter.regexFilter("(?i)" + search, 2));
+				}
+			}
+		}
 	}
 
 	@Override
@@ -440,7 +455,7 @@ public class QLNVPanel extends JPanel implements ActionListener, KeyListener, Mo
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override

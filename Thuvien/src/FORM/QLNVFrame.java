@@ -183,6 +183,9 @@ public class QLNVFrame extends JFrame implements ActionListener, MouseListener {
 		}
 		
 	}
+	
+		
+	
 
 	@Override
 	public void mouseEntered(MouseEvent evt) {

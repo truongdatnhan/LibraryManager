@@ -92,4 +92,10 @@ public class MyConnectUnit {
 	}
 	
 	
+	
+	public void Close() throws Exception {
+		connect.Close();
+	}
+	
+	
 }

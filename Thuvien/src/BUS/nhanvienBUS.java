@@ -11,6 +11,7 @@ import javax.swing.table.TableRowSorter;
 
 import DAO.nhanvienDAO;
 import DTO.nhanvienDTO;
+import FORM.logInForm;
 import TOOL.check;
 
 public class nhanvienBUS {
@@ -20,13 +21,12 @@ public class nhanvienBUS {
 		//khai báo defaulttablemodel
 		DefaultTableModel model = new DefaultTableModel();
 		//khai báo đối tượng data từ lớp nhanvienDAO
-		nhanvienDAO data = new nhanvienDAO();
 		//nếu danh sách nhân viên null thì sẽ tạo ra một arraylist mới
 		if (dsnv == null) {
 			dsnv = new ArrayList<nhanvienDTO>();
 		}
 		//đọc dữ liệu lên và truyền vào arraylist
-		dsnv = data.docDSNV();
+		dsnv = nhanvienDAO.docDSNV();
 		//gắn tiêu đề cho model
 		Vector<String> header = new Vector<String>();
 		header.add("Mã nhân viên");
@@ -61,21 +61,19 @@ public class nhanvienBUS {
 	}
 
 	public void Insert(nhanvienDTO nv) throws Exception {
-		nhanvienDAO data = new nhanvienDAO();
-		data.Insert(nv);
+		nhanvienDAO.Insert(nv);
 		dsnv.add(nv);
 	}
 
 	public void Delete(nhanvienDTO nv) throws Exception {
-		nhanvienDAO data = new nhanvienDAO();
-		data.Delete(nv);
+		
+		nhanvienDAO.Delete(nv);
 		dsnv.remove(nv);
 		
 	}
 
 	public void Update(nhanvienDTO nv) throws Exception {
-		nhanvienDAO data = new nhanvienDAO();
-		data.Update(nv);
+		nhanvienDAO.Update(nv);
 		// phần thêm
 		int k = 0;
 		for (int i = 0; i < dsnv.size(); i++) {
@@ -84,6 +82,35 @@ public class nhanvienBUS {
 			}
 		}
 		dsnv.set(k, nv);
+	}
+	
+	public String findName() {
+		String name = "";
+//		for(nhanvienDTO nv : dsnv) {
+//			if(nv.getManv().compareTo(logInForm.userID)==0) {
+//				name = nv.getHo()+ " "+nv.getTen();
+//			}
+//		}
+//		nhanvienDTO nv = new nhanvienDTO();
+//		for(int i = 0;i<dsnv.size();i++) {
+//			if(dsnv.get(i).getManv().compareTo(logInForm.userID)==0) {
+//				name = nv.getHo()+ " "+nv.getTen();
+//			}
+//		}
+//		JOptionPane.showMessageDialog(null, logInForm.userID);
+		nhanvienDAO data = new nhanvienDAO();
+		try {
+			dsnv = data.docDSNV();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		for(nhanvienDTO nv : dsnv) {
+			if (nv.getManv().compareTo(logInForm.userID) == 0) {
+				name = nv.getHo() + " " + nv.getTen();
+			}
+		}
+		return name;
 	}
 	
 	public boolean checkID(String manv) {
@@ -102,5 +129,8 @@ public class nhanvienBUS {
 			return true;
 		}
 	}
-
+	
+	public int count () throws Exception {
+		return nhanvienDAO.count("nhanvien", "manv");
+	}
 }

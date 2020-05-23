@@ -49,6 +49,16 @@ public class nguoidungBUS {
 		}
 		return false;
 	}
+	
+	public String sayHello(String username) {
+		String userID = "";
+		for(nguoidungDTO nd : dsnd) {
+			if(username.compareTo(nd.getManv())==0) {
+				userID = nd.getManv();
+			}
+		}
+		return userID;
+	}
 
 	public void close() throws Exception {
 		nguoidungDAO data = new nguoidungDAO();

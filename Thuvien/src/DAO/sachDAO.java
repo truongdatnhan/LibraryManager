@@ -10,45 +10,44 @@ import DTO.nhanvienDTO;
 import DTO.sachDTO;
 
 public class sachDAO {
-	MyConnectUnit conn = null;
-	ResultSet rs = null;
+	static MyConnectUnit conn = null;
+	static ResultSet rs = null;
 
-	public sachDAO() {
-		if (conn == null) {
-			conn = new MyConnectUnit("localhost", "root", "123456", "Thuvien");
-		}
-	}
-
-	public ArrayList<nhanvienDTO> docDSNV() throws Exception {
-		ArrayList<nhanvienDTO> dsnv = new ArrayList<nhanvienDTO>();
+	public static ArrayList<sachDTO> docDSNV() throws Exception {
+		conn = new MyConnectUnit("localhost", "root", "123456", "Thuvien");
+		ArrayList<sachDTO> dss = new ArrayList<sachDTO>();
 		rs = conn.Select("sach");
 //		String query = "SELECT * FROM NHANVIEN";
 //		rs = conn.excuteQuery(query);
 		while (rs.next()) {
-			
+			sachDTO s = new sachDTO();
+			s.setMasach(rs.getString(1));
+			s.setTensach(rs.getString(2));
+			s.setGiasach(Long.parseLong(rs.getString(3)));
+			s.setMatheloai(rs.getString(4));
+			s.setMatg(rs.getString(5));
+			s.setManxb(rs.getString(6));
+			s.setMalinhvuc(rs.getString(7));
+			s.setHinhanh(rs.getString(8));
+			s.setSoluong(Integer.parseInt(rs.getString(9)));
+			s.setTrangthai(Integer.parseInt(rs.getString(10)));
+			dss.add(s);
 		}
-		return dsnv;
+		return dss;
 	}
 
 	public void Insert(sachDTO s) throws Exception {
-//		String query = "INSERT INTO NHANVIEN VALUES ('" + nv.getManv() + "','" + nv.getHo() + "','" + nv.getTen()
-//				+ "','" + nv.getNgaysinh() + "','" + nv.getGioitinh() + "','" + nv.getDiachi() + "','" + nv.getEmail()
-//				+ "','" + nv.getSdt() + "','" + nv.getLuong() + "');";
-//		rs = conn.excuteQuery(query);
-//		System.out.print(query);
-		String query = "INSERT INTO NHANVIEN VALUES ('" + nv.getDiachi() + "','" + nv.getHo() + "','" + nv.getTen()
-				+ "','" + nv.getNgaysinh() + "','" + nv.getGioitinh() + "','" + nv.getDiachi() + "','" + nv.getEmail()
-				+ "','" + nv.getSdt() + "','" + nv.getLuong() + "');";
 		HashMap<String, Object> insertValue = new HashMap<String, Object>();
-		insertValue.put("manv", nv.getManv());
-		insertValue.put("honv", nv.getHo());
-		insertValue.put("tennv", nv.getTen());
-		insertValue.put("ngaysinh", nv.getNgaysinh());
-		insertValue.put("gioitinh", nv.getGioitinh());
-		insertValue.put("diachinv", nv.getDiachi());
-		insertValue.put("emailnv", nv.getEmail());
-		insertValue.put("sdtnv", nv.getSdt());
-		insertValue.put("luong", nv.getLuong());
+		insertValue.put("masach", s.getMasach());
+		insertValue.put("tensach", s.getTensach());
+		insertValue.put("giasach", s.getGiasach());
+		insertValue.put("matheloai", s.getMatheloai());
+		insertValue.put("matg", s.getMatg());
+		insertValue.put("manxb", s.getMalinhvuc());
+		insertValue.put("malinhvuc", s.getMalinhvuc());
+		insertValue.put("hinhanh", s.getHinhanh());
+		insertValue.put("soluong", s.getSoluong());
+		insertValue.put("trangthai","1");
 		boolean kt = conn.Insert("nhanvien", insertValue);
 		if (kt == true) {
 			JOptionPane.showMessageDialog(null, "Thêm thành công");
@@ -57,13 +56,26 @@ public class sachDAO {
 		}
 	}
 
-//	public static void main(String[] args) throws Exception {
-//		sachDTO s = new nhanvienDTO("A","A","A","2020-10-8","A","A","A","A","7");
-//		Insert(nv);
-//	}
 	public void Delete(sachDTO s) throws Exception {
-//		String quy
-		boolean kt = conn.Delete("nhanvien", "manv = '" + nv.getManv() + "'");
+////		String quy
+//		boolean kt = conn.Delete("nhanvien", "manv = '" + nv.getManv() + "'");
+//		if (kt == true) {
+//			JOptionPane.showMessageDialog(null, "Xóa thành công");
+//		} else {
+//			JOptionPane.showMessageDialog(null, "Xóa thất bại");
+//		}
+		HashMap<String, Object> updateValue = new HashMap<String, Object>();
+		updateValue.put("masach", s.getMasach());
+		updateValue.put("tensach", s.getTensach());
+		updateValue.put("giasach", s.getGiasach());
+		updateValue.put("matheloai", s.getMatheloai());
+		updateValue.put("matg", s.getMatg());
+		updateValue.put("manxb", s.getMalinhvuc());
+		updateValue.put("malinhvuc", s.getMalinhvuc());
+		updateValue.put("hinhanh", s.getHinhanh());
+		updateValue.put("soluong", s.getSoluong());
+		updateValue.put("trangthai","0");
+		boolean kt = conn.Update("nhanvien", updateValue, "masach = '" + s.getMasach() + "'");
 		if (kt == true) {
 			JOptionPane.showMessageDialog(null, "Xóa thành công");
 		} else {
@@ -73,15 +85,17 @@ public class sachDAO {
 
 	public void Update(sachDTO s) throws Exception {
 		HashMap<String, Object> updateValue = new HashMap<String, Object>();
-		updateValue.put("honv", nv.getHo());
-		updateValue.put("tennv", nv.getTen());
-		updateValue.put("ngaysinh", nv.getNgaysinh());
-		updateValue.put("gioitinh", nv.getGioitinh());
-		updateValue.put("diachinv", nv.getDiachi());
-		updateValue.put("emailnv", nv.getEmail());
-		updateValue.put("sdtnv", nv.getSdt());
-		updateValue.put("luong", nv.getLuong());
-		boolean kt = conn.Update("nhanvien", updateValue, "manv = '" + nv.getManv() + "'");
+		updateValue.put("masach", s.getMasach());
+		updateValue.put("tensach", s.getTensach());
+		updateValue.put("giasach", s.getGiasach());
+		updateValue.put("matheloai", s.getMatheloai());
+		updateValue.put("matg", s.getMatg());
+		updateValue.put("manxb", s.getMalinhvuc());
+		updateValue.put("malinhvuc", s.getMalinhvuc());
+		updateValue.put("hinhanh", s.getHinhanh());
+		updateValue.put("soluong", s.getSoluong());
+		updateValue.put("trangthai","1");
+		boolean kt = conn.Update("nhanvien", updateValue, "masach = '" + s.getMasach() + "'");
 		if (kt == true) {
 			JOptionPane.showMessageDialog(null, "Sửa thành công");
 		} else {

@@ -10,6 +10,15 @@ public class nhanvienDTO {
 	private String email;
 	private String sdt;
 	private String luong;
+	private int trangthai;
+
+	public int getTrangthai() {
+		return trangthai;
+	}
+
+	public void setTrangthai(int trangthai) {
+		this.trangthai = trangthai;
+	}
 
 	public nhanvienDTO() {
 		manv = null;
@@ -21,6 +30,7 @@ public class nhanvienDTO {
 		email = null;
 		sdt = null;
 		luong = null;
+		trangthai = 1;
 	}
 
 	public nhanvienDTO(String manv, String ho, String ten, String ngaysinh, String gioitinh, String diachi,
@@ -34,6 +44,7 @@ public class nhanvienDTO {
 		this.email = email;
 		this.sdt = sdt;
 		this.luong = luong;
+		this.trangthai = 1;
 	}
 
 	public String getManv() {

@@ -81,6 +81,7 @@ public class MyConnectToMySQL {
 		// trả kết quả ra ngoài
 		return res;
 	}
+	
 
 	public void Close() throws Exception {
 		if (this.rs != null && !this.rs.isClosed()) {

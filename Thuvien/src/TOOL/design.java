@@ -1,8 +1,10 @@
 package TOOL;
 
+import java.awt.Font;
 import java.awt.Image;
 
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 
 public class design {
 	public static ImageIcon resizeIcon(String url,int width,int height) {
@@ -12,4 +14,5 @@ public class design {
 		icon = new ImageIcon(newimg);
 		return icon;
 	}
+	
 }
