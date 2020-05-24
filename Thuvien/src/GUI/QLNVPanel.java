@@ -53,6 +53,7 @@ public class QLNVPanel extends JPanel implements ActionListener, KeyListener, Mo
 	private JDateChooser dateChooser;
 	private JTextField txTimkiem;
 	private ButtonGroup groupGioitinh ;
+	private JComboBox comboBox;
 
 	public QLNVPanel() throws Exception {
 		// set background cho nó
@@ -224,7 +225,7 @@ public class QLNVPanel extends JPanel implements ActionListener, KeyListener, Mo
 		add(scrollPane);
 
 		txTimkiem = new JTextField();
-		txTimkiem.setBounds(659, 249, 217, 25);
+		txTimkiem.setBounds(763, 253, 217, 25);
 		txTimkiem.addKeyListener(this);
 		add(txTimkiem);
 		txTimkiem.setColumns(10);
@@ -233,6 +234,20 @@ public class QLNVPanel extends JPanel implements ActionListener, KeyListener, Mo
 		btnNewButton.setIcon(new ImageIcon("./icon/icons8_Microsoft_Excel_2019_32.png"));
 		btnNewButton.setBounds(726, 204, 150, 25);
 		add(btnNewButton);
+		
+		JComboBox comboThang = new JComboBox();
+		comboThang.setModel(new DefaultComboBoxModel(new String[] {"--Vui lòng chọn--", "Tháng 1", "Tháng 2 ", "Tháng 3"}));
+		comboThang.setBounds(583, 253, 175, 25);
+		add(comboThang);
+		
+		JLabel lbThang = new JLabel("Tháng ");
+		lbThang.setBounds(528, 253, 50, 25);
+		add(lbThang);
+		
+		comboBox = new JComboBox();
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"--Vui lòng chọn--", "Mã nhân viên", "Tên nhân viên"}));
+		comboBox.setBounds(10, 253, 154, 26);
+		add(comboBox);
 		tbQLNV.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				int i = tbQLNV.getSelectedRow();
@@ -422,9 +437,21 @@ public class QLNVPanel extends JPanel implements ActionListener, KeyListener, Mo
 		// TODO Auto-generated method stub
 		DefaultTableModel table = (DefaultTableModel) tbQLNV.getModel();
 		String search = txTimkiem.getText().toLowerCase();
+
 		TableRowSorter<DefaultTableModel> tr = new TableRowSorter<DefaultTableModel>(table);
 		tbQLNV.setRowSorter(tr);
-		tr.setRowFilter(RowFilter.regexFilter(search));
+		if (search == null) {
+			tr.setRowFilter(null);
+		} else {
+			String select = (String) comboBox.getSelectedItem();
+			if (select.equals("Mã nhân viên"))
+				tr.setRowFilter(RowFilter.regexFilter("(?i)" + search, 0));
+			else {
+				if (select.equals("Tên nhân viên")) {
+					tr.setRowFilter(RowFilter.regexFilter("(?i)" + search, 2));
+				}
+			}
+		}
 	}
 
 	@Override

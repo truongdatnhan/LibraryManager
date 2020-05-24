@@ -11,7 +11,7 @@ import javax.swing.table.TableRowSorter;
 
 import DAO.nhanvienDAO;
 import DTO.nhanvienDTO;
-import FORM.logInForm;
+import GUI.logInForm;
 import TOOL.check;
 
 public class nhanvienBUS {

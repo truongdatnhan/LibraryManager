@@ -11,7 +11,7 @@ public class nguoidungDAO {
 
 	public nguoidungDAO() {
 		if (conn == null) {
-			conn = new MyConnectToMySQL("localhost", "root", "", "Thuvien");
+			conn = new MyConnectToMySQL("localhost", "root", "123456", "Thuvien");
 		}
 	}
 
