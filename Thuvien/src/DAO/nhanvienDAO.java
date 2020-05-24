@@ -16,7 +16,7 @@ public class nhanvienDAO {
 	static ResultSet rs = null;
 
 	public static ArrayList<nhanvienDTO> docDSNV() throws Exception {
-		conn = new MyConnectUnit("localhost", "root", "123456", "Thuvien");
+		conn = new MyConnectUnit("localhost", "root", "", "Thuvien");
 		ArrayList<nhanvienDTO> dsnv = new ArrayList<nhanvienDTO>();
 		rs = conn.Select("nhanvien", "trangthai = 1");
 //		String query = "SELECT * FROM NHANVIEN";
