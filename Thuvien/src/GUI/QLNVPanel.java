@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
+import javax.swing.RowFilter.ComparisonType;
 
 import com.toedter.calendar.JDateChooser;
 
@@ -250,6 +251,7 @@ public class QLNVPanel extends JPanel implements ActionListener, KeyListener, Mo
 
 		comboThang = new JComboBox();
 		comboThang.addKeyListener(this);
+		comboThang.addMouseListener(this);
 		comboThang.setModel(new DefaultComboBoxModel(
 				new String[] { "--Vui lòng chọn--", "Tháng 1", "Tháng 2 ", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6",
 						"Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12" }));
@@ -480,73 +482,7 @@ public class QLNVPanel extends JPanel implements ActionListener, KeyListener, Mo
 		TableRowSorter<DefaultTableModel> tr = new TableRowSorter<DefaultTableModel>(test);
 		table.setRowSorter(tr);
 
-		/*RowFilter<NhanVienModel, Integer> filter = new RowFilter<NhanVienModel, Integer>() {
-
-			@Override
-			public boolean include(Entry<? extends NhanVienModel, ? extends Integer> entry) {
-				NhanVienModel nvModel = entry.getModel();
-				nhanvienDTO nvien = nvModel.getNV(entry.getIdentifier());
-				String birth = nvien.getNgaysinh();
-				String[] data = birth.split("-");
-				//int thang = Integer.parseInt(data[1]);
-				int thang = 1;
-				switch (thang) {
-				case 1:
-					if(thang == comboThang.getSelectedIndex()) {
-						return true;
-					}
-				case 2:
-					if(thang == comboThang.getSelectedIndex()) {
-						return true;
-					}
-				case 3:
-					if(thang == comboThang.getSelectedIndex()) {
-						return true;
-					}
-				case 4:
-					if(thang == comboThang.getSelectedIndex()) {
-						return true;
-					}
-				case 5:
-					if(thang == comboThang.getSelectedIndex()) {
-						return true;
-					}
-				case 6:
-					if(thang == comboThang.getSelectedIndex()) {
-						return true;
-					}
-				case 7:
-					if(thang == comboThang.getSelectedIndex()) {
-						return true;
-					}
-				case 8:
-					if(thang == comboThang.getSelectedIndex()) {
-						return true;
-					}
-				case 9:
-					if(thang == comboThang.getSelectedIndex()) {
-						return true;
-					}
-				case 10:
-					if(thang == comboThang.getSelectedIndex()) {
-						return true;
-					}
-				case 11:
-					if(thang == comboThang.getSelectedIndex()) {
-						return true;
-					}
-				case 12:
-					if(thang == comboThang.getSelectedIndex()) {
-						return true;
-					}
-				}
-
-				return false;
-			}
-
-
-		};*/
-		RowFilter<Object,Object> filter = new RowFilter<Object,Object>() {
+		RowFilter<Object, Object> filter = new RowFilter<Object, Object>() {
 			@Override
 			public boolean include(Entry<? extends Object, ? extends Object> entry) {
 				String birth = entry.getStringValue(3);
@@ -554,59 +490,151 @@ public class QLNVPanel extends JPanel implements ActionListener, KeyListener, Mo
 				int thang = Integer.parseInt(data[1]);
 				switch (thang) {
 				case 1:
-					if(thang == comboThang.getSelectedIndex()) {
+					if (thang == comboThang.getSelectedIndex()) {
 						return true;
 					}
 				case 2:
-					if(thang == comboThang.getSelectedIndex()) {
+					if (thang == comboThang.getSelectedIndex()) {
 						return true;
 					}
 				case 3:
-					if(thang == comboThang.getSelectedIndex()) {
+					if (thang == comboThang.getSelectedIndex()) {
 						return true;
 					}
 				case 4:
-					if(thang == comboThang.getSelectedIndex()) {
+					if (thang == comboThang.getSelectedIndex()) {
 						return true;
 					}
 				case 5:
-					if(thang == comboThang.getSelectedIndex()) {
+					if (thang == comboThang.getSelectedIndex()) {
 						return true;
 					}
 				case 6:
-					if(thang == comboThang.getSelectedIndex()) {
+					if (thang == comboThang.getSelectedIndex()) {
 						return true;
 					}
 				case 7:
-					if(thang == comboThang.getSelectedIndex()) {
+					if (thang == comboThang.getSelectedIndex()) {
 						return true;
 					}
 				case 8:
-					if(thang == comboThang.getSelectedIndex()) {
+					if (thang == comboThang.getSelectedIndex()) {
 						return true;
 					}
 				case 9:
-					if(thang == comboThang.getSelectedIndex()) {
+					if (thang == comboThang.getSelectedIndex()) {
 						return true;
 					}
 				case 10:
-					if(thang == comboThang.getSelectedIndex()) {
+					if (thang == comboThang.getSelectedIndex()) {
 						return true;
 					}
 				case 11:
-					if(thang == comboThang.getSelectedIndex()) {
+					if (thang == comboThang.getSelectedIndex()) {
 						return true;
 					}
 				case 12:
-					if(thang == comboThang.getSelectedIndex()) {
+					if (thang == comboThang.getSelectedIndex()) {
 						return true;
 					}
 				}
 				return false;
 			}
-			
+
 		};
-		
+
+		/*
+		 * switch(comboThang.getSelectedIndex()) { case 9:
+		 * tr.setRowFilter(RowFilter.regexFilter("\\d{4}-09-\\d{2}", 3));
+		 * System.out.println("WORKING"); }
+		 */
+
+		// RowFilter<NhanVienModel, Integer> between = new RowFilter<NhanVienModel,
+		// Integer>() {
+
+		/*
+		 * @Override public boolean include(Entry<? extends NhanVienModel, ? extends
+		 * Integer> entry) { NhanVienModel model = table.getModel(); nhanvienDTO nvien =
+		 * model.getNV(entry.getIdentifier());
+		 * 
+		 * int luong = Integer.parseInt(nvien.getLuong()); int luongMin =
+		 * Integer.parseInt(luong1.getText()); int luongMax =
+		 * Integer.parseInt(luong2.getText());
+		 * 
+		 * if( (!luong1.getText().isEmpty()) && (!luong2.getText().isEmpty()) ) {
+		 * if(luong >= luongMin && luong <= luongMax) { return true; } }
+		 * 
+		 * return false; }
+		 */
+		/*
+		 * @Override public boolean include(Entry<? extends TableNhanVien, ? extends
+		 * Integer> entry) { TableNhanVien table = entry.getModel(); NhanVienModel model
+		 * = table.getModel(); nhanvienDTO nvien = model.getNV(entry.getIdentifier());
+		 * 
+		 * int luong = Integer.parseInt(nvien.getLuong());
+		 * 
+		 * int luongMin = Integer.parseInt(luong1.getText()); int luongMax =
+		 * Integer.parseInt(luong2.getText());
+		 * 
+		 * if( (!luong1.getText().isEmpty()) && (!luong2.getText().isEmpty()) ) {
+		 * if(luong >= luongMin && luong <= luongMax) { return true; } }
+		 * 
+		 * 
+		 * return false; }
+		 */
+
+		// };
+
+		RowFilter<Object, Object> between = new RowFilter<Object, Object>() {
+
+			@Override
+			public boolean include(Entry<? extends Object, ? extends Object> entry) {
+				int luong = Integer.parseInt(entry.getStringValue(8));
+
+				if ((!luong1.getText().isEmpty()) && (!luong2.getText().isEmpty())) {
+					int luongMin = Integer.parseInt(luong1.getText());
+					int luongMax = Integer.parseInt(luong2.getText());
+					if (luong >= luongMin && luong <= luongMax) {
+						return true;
+					}
+				}
+
+				if (luong1.getText().isEmpty()) {
+					if (luong2.getText().isEmpty()) {
+						return false;
+					} else {
+						int luongMax = Integer.parseInt(luong2.getText());
+						if (luong >= 0 && luong <= luongMax) {
+							return true;
+						}
+					}
+				}
+
+				if (luong2.getText().isEmpty()) {
+					if (luong1.getText().isEmpty()) {
+						return false;
+					} else {
+						int luongMin = Integer.parseInt(luong1.getText());
+						if (luongMin <= luong) {
+							return true;
+						}
+					}
+				}
+
+				return false;
+			}
+
+		};
+
+		/*
+		 * RowFilter<NhanVienModel, Integer> between = new RowFilter<NhanVienModel,
+		 * Integer>() {
+		 * 
+		 * @Override public boolean include(Entry<? extends NhanVienModel, ? extends
+		 * Integer> entry) { NhanVienModel model = return false; }
+		 * 
+		 * };
+		 */
 
 		if (search == null) {
 			tr.setRowFilter(null);
@@ -619,17 +647,29 @@ public class QLNVPanel extends JPanel implements ActionListener, KeyListener, Mo
 			case 2:
 				tr.setRowFilter(RowFilter.regexFilter("(?i)" + search, 2));
 			}
-			
-			if(comboThang.getSelectedIndex() != 0) {
-				TableRowSorter oldSorter = (TableRowSorter)table.getTable().getRowSorter();
-				TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<DefaultTableModel>((DefaultTableModel) table.getTable().getModel());
-				table.setRowSorter( sorter );
-			sorter.setRowFilter( filter );
-			}
-			
-			//tr.setRowFilter(filter);
+
+			/*
+			 * if(comboThang.getSelectedIndex() != 0) { TableRowSorter oldSorter =
+			 * (TableRowSorter)table.getTable().getRowSorter();
+			 * TableRowSorter<DefaultTableModel> sorter = new
+			 * TableRowSorter<DefaultTableModel>((DefaultTableModel)
+			 * table.getTable().getModel()); table.setRowSorter( sorter );
+			 * sorter.setRowFilter( filter ); }
+			 */
+			// tr.setRowFilter(between);
+			// tr.setRowFilter(filter);
 
 		}
+		if (evt.getSource() == comboThang) {
+			if (comboThang.getSelectedIndex() != 0) {
+				TableRowSorter oldSorter = (TableRowSorter) table.getTable().getRowSorter();
+				TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<DefaultTableModel>(
+						(DefaultTableModel) table.getTable().getModel());
+				table.setRowSorter(sorter);
+				sorter.setRowFilter(filter);
+			}
+		}
+		tr.setRowFilter(between);
 	}
 
 	@Override
@@ -640,8 +680,7 @@ public class QLNVPanel extends JPanel implements ActionListener, KeyListener, Mo
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
@@ -665,6 +704,75 @@ public class QLNVPanel extends JPanel implements ActionListener, KeyListener, Mo
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
+		RowFilter<Object, Object> filter = new RowFilter<Object, Object>() {
+			@Override
+			public boolean include(Entry<? extends Object, ? extends Object> entry) {
+				String birth = entry.getStringValue(3);
+				String[] data = birth.split("-");
+				int thang = Integer.parseInt(data[1]);
+				switch (thang) {
+				case 1:
+					if (thang == comboThang.getSelectedIndex()) {
+						return true;
+					}
+				case 2:
+					if (thang == comboThang.getSelectedIndex()) {
+						return true;
+					}
+				case 3:
+					if (thang == comboThang.getSelectedIndex()) {
+						return true;
+					}
+				case 4:
+					if (thang == comboThang.getSelectedIndex()) {
+						return true;
+					}
+				case 5:
+					if (thang == comboThang.getSelectedIndex()) {
+						return true;
+					}
+				case 6:
+					if (thang == comboThang.getSelectedIndex()) {
+						return true;
+					}
+				case 7:
+					if (thang == comboThang.getSelectedIndex()) {
+						return true;
+					}
+				case 8:
+					if (thang == comboThang.getSelectedIndex()) {
+						return true;
+					}
+				case 9:
+					if (thang == comboThang.getSelectedIndex()) {
+						return true;
+					}
+				case 10:
+					if (thang == comboThang.getSelectedIndex()) {
+						return true;
+					}
+				case 11:
+					if (thang == comboThang.getSelectedIndex()) {
+						return true;
+					}
+				case 12:
+					if (thang == comboThang.getSelectedIndex()) {
+						return true;
+					}
+				}
+				return false;
+			}
 
+		};
+		
+		if (e.getSource() == comboThang) {
+			if (comboThang.getSelectedIndex() != 0) {
+				TableRowSorter oldSorter = (TableRowSorter) table.getTable().getRowSorter();
+				TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<DefaultTableModel>(
+						(DefaultTableModel) table.getTable().getModel());
+				table.setRowSorter(sorter);
+				sorter.setRowFilter(filter);
+			}
+		}
 	}
 }

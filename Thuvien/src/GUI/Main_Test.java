@@ -17,5 +17,8 @@ public class Main_Test {
 		
 		System.out.println(list);
 		
+		
+		System.out.println(true && true);
+		
 	}
 }
