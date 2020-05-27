@@ -152,7 +152,8 @@ public class logInForm extends JFrame implements ActionListener, MouseListener, 
 				nguoidung.setManv(txUserName.getText());
 				nguoidung.setMkhau(new String(tpPassword.getPassword()));
 				if (bus.checkAccount(nguoidung.getManv(), nguoidung.getMkhau(), "MQ001") == true) {
-					userID = bus.sayHello(nguoidung.getManv());
+					//userID = bus.sayHello(nguoidung.getManv());
+					userID = nguoidung.getManv();
 					JOptionPane.showMessageDialog(null, "Đăng nhập thành công");
 					try {
 						UserFrame frame = new AdminFrame();

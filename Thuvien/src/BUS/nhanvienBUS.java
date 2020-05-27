@@ -60,6 +60,20 @@ public class nhanvienBUS {
 		return model;
 	}
 
+	public ArrayList<nhanvienDTO> getNVList() {
+		if (dsnv == null) {
+			dsnv = new ArrayList<nhanvienDTO>();
+		}
+		//đọc dữ liệu lên và truyền vào arraylist
+		try {
+			dsnv = nhanvienDAO.docDSNV();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return dsnv;
+	}
+	
 	public void Insert(nhanvienDTO nv) throws Exception {
 		nhanvienDAO.Insert(nv);
 		dsnv.add(nv);

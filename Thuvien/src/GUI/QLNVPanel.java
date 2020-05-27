@@ -33,10 +33,13 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Vector;
+import java.util.regex.Pattern;
 import java.awt.Color;
 import javax.swing.DefaultComboBoxModel;
+import java.awt.event.KeyAdapter;
 
 public class QLNVPanel extends JPanel implements ActionListener, KeyListener, MouseListener {
 	private JTextField txManv;
@@ -46,14 +49,18 @@ public class QLNVPanel extends JPanel implements ActionListener, KeyListener, Mo
 	private JTextField txEmail;
 	private JTextField txSDT;
 	private JTextField txLuong;
-	private JTable tbQLNV;
-	private DefaultTableModel model;
+	// private JTable tbQLNV;
+	// private DefaultTableModel model;
 	private JButton btnThem, btnXoa, btnSua, btnTailai;
 	private JRadioButton rbNu, rbNam;
 	private JDateChooser dateChooser;
 	private JTextField txTimkiem;
-	private ButtonGroup groupGioitinh ;
+	private ButtonGroup groupGioitinh;
 	private JComboBox comboBox;
+	private JComboBox comboThang;
+	private JTextField luong1;
+	private JTextField luong2;
+	private TableNhanVien table;
 
 	public QLNVPanel() throws Exception {
 		// set background cho nó
@@ -203,26 +210,32 @@ public class QLNVPanel extends JPanel implements ActionListener, KeyListener, Mo
 //		header.add("Email");
 //		header.add("Số điện thoại");
 //		header.add("Lương");
-		model = bus.docDSND();
+		// model = bus.docDSND();
 
 //		if (model.getRowCount() == 0) {
 //			model = new DefaultTableModel(header, 0);
 //		}
-		// tbQLNV.setEnabled(true);
-		tbQLNV = new JTable();
-		tbQLNV.setModel(model);
-		tbQLNV.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-		tbQLNV.getColumnModel().getColumn(0).setPreferredWidth(70);
-		tbQLNV.getColumnModel().getColumn(2).setPreferredWidth(30);
-		tbQLNV.getColumnModel().getColumn(3).setPreferredWidth(40);
-		tbQLNV.getColumnModel().getColumn(4).setPreferredWidth(30);
-		tbQLNV.setRowHeight(30);
-		txManv.setEditable(false);
+		/*
+		 * tbQLNV.setEnabled(true); tbQLNV = new JTable(); tbQLNV.setModel(model);
+		 * tbQLNV.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		 * tbQLNV.getColumnModel().getColumn(0).setPreferredWidth(70);
+		 * tbQLNV.getColumnModel().getColumn(2).setPreferredWidth(30);
+		 * tbQLNV.getColumnModel().getColumn(3).setPreferredWidth(40);
+		 * tbQLNV.getColumnModel().getColumn(4).setPreferredWidth(30);
+		 * tbQLNV.setRowHeight(30); txManv.setEditable(false);
+		 */
 
 		// tbQLNV.setFont(new Font("Calibri", Font.PLAIN, 18));
-		JScrollPane scrollPane = new JScrollPane(tbQLNV);
-		scrollPane.setBounds(10, 295, 970, 270);
-		add(scrollPane);
+		/*
+		 * JScrollPane scrollPane = new JScrollPane(tbQLNV); scrollPane.setBounds(10,
+		 * 295, 970, 270); add(scrollPane);
+		 */
+
+		table = new TableNhanVien();
+		table.setData(bus.getNVList());
+		table.setBounds(10, 295, 970, 270);
+		add(table);
+		table.loadData();
 
 		txTimkiem = new JTextField();
 		txTimkiem.setBounds(763, 253, 217, 25);
@@ -234,28 +247,55 @@ public class QLNVPanel extends JPanel implements ActionListener, KeyListener, Mo
 		btnNewButton.setIcon(new ImageIcon("./icon/icons8_Microsoft_Excel_2019_32.png"));
 		btnNewButton.setBounds(726, 204, 150, 25);
 		add(btnNewButton);
-		
-		JComboBox comboThang = new JComboBox();
-		comboThang.setModel(new DefaultComboBoxModel(new String[] {"--Vui lòng chọn--", "Tháng 1", "Tháng 2 ", "Tháng 3"}));
+
+		comboThang = new JComboBox();
+		comboThang.addKeyListener(this);
+		comboThang.setModel(new DefaultComboBoxModel(
+				new String[] { "--Vui lòng chọn--", "Tháng 1", "Tháng 2 ", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6",
+						"Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12" }));
 		comboThang.setBounds(583, 253, 175, 25);
 		add(comboThang);
-		
+
 		JLabel lbThang = new JLabel("Tháng ");
 		lbThang.setBounds(528, 253, 50, 25);
 		add(lbThang);
-		
+
 		comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"--Vui lòng chọn--", "Mã nhân viên", "Tên nhân viên"}));
+		comboBox.setModel(
+				new DefaultComboBoxModel(new String[] { "--Vui lòng chọn--", "Mã nhân viên", "Tên nhân viên" }));
 		comboBox.setBounds(10, 253, 154, 26);
 		add(comboBox);
-		tbQLNV.addMouseListener(new MouseAdapter() {
+
+		luong1 = new JTextField();
+		luong1.setBounds(220, 253, 140, 26);
+		add(luong1);
+		luong1.setColumns(10);
+
+		JLabel lblLng = new JLabel("Lương");
+		lblLng.setBounds(173, 253, 50, 25);
+		add(lblLng);
+
+		JLabel label = new JLabel("-");
+		label.setBounds(370, 260, 56, 16);
+		add(label);
+
+		luong2 = new JTextField();
+		luong2.setBounds(380, 253, 140, 26);
+		add(luong2);
+
+		luong1.addKeyListener(this);
+		luong2.addKeyListener(this);
+
+		luong2.setColumns(10);
+		table.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				int i = tbQLNV.getSelectedRow();
+				int i = table.getSelectedRow();
+				System.out.println(i);
 				if (i >= 0) {
 					nhanvienDTO nv = new nhanvienDTO();
 					nv = nhanvienBUS.dsnv.get(i);
 					txManv.setText(nv.getManv());
-					
+
 					txHo.setText(nv.getHo());
 					txTen.setText(nv.getTen());
 					try {
@@ -287,13 +327,12 @@ public class QLNVPanel extends JPanel implements ActionListener, KeyListener, Mo
 			// đây là mã nhân viên không có null
 			// kiểm tra mã nhân viên có null hay không
 			try {
-				if(bus.count()<10) {
-					nv.setManv("NV00"+String.valueOf(bus.count()+1));
-				}
-				else if(bus.count()>10&&bus.count()<100){
-					nv.setManv("NV0"+String.valueOf(bus.count()+1));
-				}else if(bus.count()>100) {
-					nv.setManv("NV"+String.valueOf(bus.count()+1));
+				if (bus.count() < 10) {
+					nv.setManv("NV00" + String.valueOf(bus.count() + 1));
+				} else if (bus.count() > 10 && bus.count() < 100) {
+					nv.setManv("NV0" + String.valueOf(bus.count() + 1));
+				} else if (bus.count() > 100) {
+					nv.setManv("NV" + String.valueOf(bus.count() + 1));
 				}
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
@@ -328,19 +367,18 @@ public class QLNVPanel extends JPanel implements ActionListener, KeyListener, Mo
 							nv.setSdt(txSDT.getText());
 							if (check.isNumeric(txLuong.getText())) {
 								nv.setLuong(txLuong.getText());
-								JOptionPane.showMessageDialog(null, "Nhân viên vửa thêm có mà là : "+ nv.getManv());
-								Vector<String> row = new Vector<String>();
-								row.add(nv.getManv());
-								row.add(nv.getHo());
-								row.add(nv.getTen());
-								row.add(nv.getNgaysinh());
-								row.add(nv.getGioitinh());
-								row.add(nv.getDiachi());
-								row.add(nv.getEmail());
-								row.add(nv.getSdt());
-								row.add(nv.getLuong());
-								model.addRow(row);
-								tbQLNV.setModel(model);
+								JOptionPane.showMessageDialog(null, "Nhân viên vửa thêm có mà là : " + nv.getManv());
+								/*
+								 * Vector<String> row = new Vector<String>(); row.add(nv.getManv());
+								 * row.add(nv.getHo()); row.add(nv.getTen()); row.add(nv.getNgaysinh());
+								 * row.add(nv.getGioitinh()); row.add(nv.getDiachi()); row.add(nv.getEmail());
+								 * row.add(nv.getSdt()); row.add(nv.getLuong());
+								 */
+
+								table.addData(nv);
+
+								// model.addRow(row);
+								// tbQLNV.setModel(model);
 								nhanvienBUS.dsnv.add(nv);
 								try {
 									bus.Insert(nv);
@@ -378,7 +416,7 @@ public class QLNVPanel extends JPanel implements ActionListener, KeyListener, Mo
 			}
 		} else if (evt.getSource() == btnXoa) {
 			// lấy giá trị hàng đang được ch�?n
-			int i = tbQLNV.getSelectedRow();
+			int i = table.getSelectedRow();
 			if (i >= 0) {
 				nhanvienBUS bus = new nhanvienBUS();
 				nhanvienDTO nv = nhanvienBUS.dsnv.get(i);
@@ -390,8 +428,8 @@ public class QLNVPanel extends JPanel implements ActionListener, KeyListener, Mo
 						e.printStackTrace();
 						JOptionPane.showMessageDialog(null, e);
 					}
-					model.removeRow(i);
-					tbQLNV.setModel(model);
+					// model.removeRow(i);
+					// tbQLNV.setModel(model);
 					txManv.setText(null);
 					txHo.setText(null);
 					txTen.setText(null);
@@ -413,7 +451,7 @@ public class QLNVPanel extends JPanel implements ActionListener, KeyListener, Mo
 		} else if (evt.getSource() == btnSua) {
 
 		} else if (evt.getSource() == btnTailai) {
-			//txManv.setEditable(true);
+			// txManv.setEditable(true);
 			txManv.setText(null);
 			txHo.setText(null);
 			txTen.setText(null);
@@ -435,22 +473,162 @@ public class QLNVPanel extends JPanel implements ActionListener, KeyListener, Mo
 	@Override
 	public void keyReleased(KeyEvent evt) {
 		// TODO Auto-generated method stub
-		DefaultTableModel table = (DefaultTableModel) tbQLNV.getModel();
+
+		DefaultTableModel test = table.getModel();
 		String search = txTimkiem.getText().toLowerCase();
 
-		TableRowSorter<DefaultTableModel> tr = new TableRowSorter<DefaultTableModel>(table);
-		tbQLNV.setRowSorter(tr);
+		TableRowSorter<DefaultTableModel> tr = new TableRowSorter<DefaultTableModel>(test);
+		table.setRowSorter(tr);
+
+		/*RowFilter<NhanVienModel, Integer> filter = new RowFilter<NhanVienModel, Integer>() {
+
+			@Override
+			public boolean include(Entry<? extends NhanVienModel, ? extends Integer> entry) {
+				NhanVienModel nvModel = entry.getModel();
+				nhanvienDTO nvien = nvModel.getNV(entry.getIdentifier());
+				String birth = nvien.getNgaysinh();
+				String[] data = birth.split("-");
+				//int thang = Integer.parseInt(data[1]);
+				int thang = 1;
+				switch (thang) {
+				case 1:
+					if(thang == comboThang.getSelectedIndex()) {
+						return true;
+					}
+				case 2:
+					if(thang == comboThang.getSelectedIndex()) {
+						return true;
+					}
+				case 3:
+					if(thang == comboThang.getSelectedIndex()) {
+						return true;
+					}
+				case 4:
+					if(thang == comboThang.getSelectedIndex()) {
+						return true;
+					}
+				case 5:
+					if(thang == comboThang.getSelectedIndex()) {
+						return true;
+					}
+				case 6:
+					if(thang == comboThang.getSelectedIndex()) {
+						return true;
+					}
+				case 7:
+					if(thang == comboThang.getSelectedIndex()) {
+						return true;
+					}
+				case 8:
+					if(thang == comboThang.getSelectedIndex()) {
+						return true;
+					}
+				case 9:
+					if(thang == comboThang.getSelectedIndex()) {
+						return true;
+					}
+				case 10:
+					if(thang == comboThang.getSelectedIndex()) {
+						return true;
+					}
+				case 11:
+					if(thang == comboThang.getSelectedIndex()) {
+						return true;
+					}
+				case 12:
+					if(thang == comboThang.getSelectedIndex()) {
+						return true;
+					}
+				}
+
+				return false;
+			}
+
+
+		};*/
+		RowFilter<Object,Object> filter = new RowFilter<Object,Object>() {
+			@Override
+			public boolean include(Entry<? extends Object, ? extends Object> entry) {
+				String birth = entry.getStringValue(3);
+				String[] data = birth.split("-");
+				int thang = Integer.parseInt(data[1]);
+				switch (thang) {
+				case 1:
+					if(thang == comboThang.getSelectedIndex()) {
+						return true;
+					}
+				case 2:
+					if(thang == comboThang.getSelectedIndex()) {
+						return true;
+					}
+				case 3:
+					if(thang == comboThang.getSelectedIndex()) {
+						return true;
+					}
+				case 4:
+					if(thang == comboThang.getSelectedIndex()) {
+						return true;
+					}
+				case 5:
+					if(thang == comboThang.getSelectedIndex()) {
+						return true;
+					}
+				case 6:
+					if(thang == comboThang.getSelectedIndex()) {
+						return true;
+					}
+				case 7:
+					if(thang == comboThang.getSelectedIndex()) {
+						return true;
+					}
+				case 8:
+					if(thang == comboThang.getSelectedIndex()) {
+						return true;
+					}
+				case 9:
+					if(thang == comboThang.getSelectedIndex()) {
+						return true;
+					}
+				case 10:
+					if(thang == comboThang.getSelectedIndex()) {
+						return true;
+					}
+				case 11:
+					if(thang == comboThang.getSelectedIndex()) {
+						return true;
+					}
+				case 12:
+					if(thang == comboThang.getSelectedIndex()) {
+						return true;
+					}
+				}
+				return false;
+			}
+			
+		};
+		
+
 		if (search == null) {
 			tr.setRowFilter(null);
 		} else {
-			String select = (String) comboBox.getSelectedItem();
-			if (select.equals("Mã nhân viên"))
+
+			switch (comboBox.getSelectedIndex()) {
+			case 1:
 				tr.setRowFilter(RowFilter.regexFilter("(?i)" + search, 0));
-			else {
-				if (select.equals("Tên nhân viên")) {
-					tr.setRowFilter(RowFilter.regexFilter("(?i)" + search, 2));
-				}
+				break;
+			case 2:
+				tr.setRowFilter(RowFilter.regexFilter("(?i)" + search, 2));
 			}
+			
+			if(comboThang.getSelectedIndex() != 0) {
+				TableRowSorter oldSorter = (TableRowSorter)table.getTable().getRowSorter();
+				TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<DefaultTableModel>((DefaultTableModel) table.getTable().getModel());
+				table.setRowSorter( sorter );
+			sorter.setRowFilter( filter );
+			}
+			
+			//tr.setRowFilter(filter);
+
 		}
 	}
 

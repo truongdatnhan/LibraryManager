@@ -9,6 +9,7 @@ import DTO.nguoidungDTO;
 
 public class nguoidungBUS {
 	public static ArrayList<nguoidungDTO> dsnd;
+	nguoidungDAO data = new nguoidungDAO();
 
 	public void docDSND() throws Exception {
 		nguoidungDAO data = new nguoidungDAO();
@@ -19,7 +20,7 @@ public class nguoidungBUS {
 	}
 
 	void Insert(nguoidungDTO nd) throws Exception {
-		nguoidungDAO data = new nguoidungDAO();
+		//nguoidungDAO data = new nguoidungDAO();
 		data.Insert(nd);
 		dsnd.add(nd);
 		if (dsnd.add(nd) == true) {
@@ -30,7 +31,7 @@ public class nguoidungBUS {
 	}
 
 	void Delete(nguoidungDTO nd) throws Exception {
-		nguoidungDAO data = new nguoidungDAO();
+		//nguoidungDAO data = new nguoidungDAO();
 		data.Delete(nd);
 		dsnd.remove(nd);
 		if (dsnd.remove(nd) == true) {
@@ -60,8 +61,12 @@ public class nguoidungBUS {
 		return userID;
 	}
 
+	
+	// ????? Nếu mà gọi ở đây như vậy để làm gì
+	// ý nghĩa của method này là tạo ra xong tự đóng à ?
+	
 	public void close() throws Exception {
-		nguoidungDAO data = new nguoidungDAO();
+		//nguoidungDAO data = new nguoidungDAO();
 		data.close();
 	}
 }
