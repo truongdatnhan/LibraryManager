@@ -1,6 +1,7 @@
 package BUS;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import javax.swing.JOptionPane;
 
@@ -11,34 +12,32 @@ public class nguoidungBUS {
 	public static ArrayList<nguoidungDTO> dsnd;
 	nguoidungDAO data = new nguoidungDAO();
 
-	public void docDSND() throws Exception {
-		nguoidungDAO data = new nguoidungDAO();
+	public ArrayList<nguoidungDTO> getNDList() {
 		if (dsnd == null) {
 			dsnd = new ArrayList<nguoidungDTO>();
 		}
-		dsnd = data.docDSND();
+		dsnd = data.filteredList();
+		return dsnd;
 	}
 
-	void Insert(nguoidungDTO nd) throws Exception {
-		//nguoidungDAO data = new nguoidungDAO();
+	public void Insert(nguoidungDTO nd) throws Exception {
 		data.Insert(nd);
 		dsnd.add(nd);
-		if (dsnd.add(nd) == true) {
-			JOptionPane.showMessageDialog(null, "Thêm thành công");
-		} else {
-			JOptionPane.showMessageDialog(null, "Thêm thất bại");
-		}
 	}
 
-	void Delete(nguoidungDTO nd) throws Exception {
-		//nguoidungDAO data = new nguoidungDAO();
+	public void Delete(nguoidungDTO nd) throws Exception {
 		data.Delete(nd);
 		dsnd.remove(nd);
-		if (dsnd.remove(nd) == true) {
-			JOptionPane.showMessageDialog(null, "Xóa thành công");
-		} else {
-			JOptionPane.showMessageDialog(null, "Xóa thất bại");
+	}
+	public void Update(nguoidungDTO nd) throws Exception {
+		data.Update(nd);
+		int k = 0;
+		for(int i = 0;i<dsnd.size();i++) {
+			if(dsnd.get(i).getManv().compareTo(nd.getManv())==0) {
+				k = i;
+			}
 		}
+		dsnd.set(k, nd);
 	}
 
 	public boolean checkAccount(String username, String pass, String role) {
@@ -51,22 +50,46 @@ public class nguoidungBUS {
 		return false;
 	}
 	
-	public String sayHello(String username) {
-		String userID = "";
+	public boolean checkPass(String username,String pass) {
 		for(nguoidungDTO nd : dsnd) {
-			if(username.compareTo(nd.getManv())==0) {
-				userID = nd.getManv();
+			if(username.compareTo(nd.getManv())==0&&pass.compareTo(nd.getMkhau())==0) {
+				return true;
 			}
 		}
-		return userID;
+		return false;
 	}
-
 	
-	// ????? Nếu mà gọi ở đây như vậy để làm gì
-	// ý nghĩa của method này là tạo ra xong tự đóng à ?
+	public boolean checkNewPass(String pass) {
+		int ky_tu_in_hoa = 0;
+		int ky_tu_thuong = 0;
+		int so = 0;
+		for(int i = 0;i<pass.length();i++) {
+			if(pass.charAt(i)>=65&&pass.charAt(i)<=90) {
+				ky_tu_in_hoa++;
+			} else if(pass.charAt(i)>=97&&pass.charAt(i)<=122) {
+				ky_tu_thuong++;
+			} else if(pass.charAt(i)>=49&&pass.charAt(i)<=57) {
+				so++;
+			}
+		}
+		System.out.print(ky_tu_in_hoa+" "+ky_tu_thuong+" "+so);
+		if(ky_tu_in_hoa!=0 && ky_tu_thuong!=0 && so!=0 && pass.length()>=6) {
+			return true;
+		}else {
+			return false;
+		}
+	}
 	
-	public void close() throws Exception {
-		//nguoidungDAO data = new nguoidungDAO();
-		data.close();
+	public nguoidungDTO getNDbyID(String manv) {
+		nguoidungDTO nd = new nguoidungDTO();
+		for(nguoidungDTO temp : dsnd) {
+			if(temp.getManv().compareTo(manv)==0) {
+				nd.setManv(temp.getManv());
+				nd.setMkhau(temp.getMkhau());
+				nd.setQuyen(temp.getQuyen());
+				nd.setTrangthai(temp.getTrangthai());
+			}
+		}
+		return nd;
 	}
 }

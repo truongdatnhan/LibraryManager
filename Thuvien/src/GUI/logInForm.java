@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import BUS.nguoidungBUS;
+import BUS.nhanvienBUS;
 import DTO.nguoidungDTO;
 import TOOL.check;
 
@@ -28,7 +29,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class logInForm extends JFrame implements ActionListener, MouseListener, KeyListener {
-	public static String userID = "";
 	private JPanel mainPanel;
 	private JTextField txUserName;
 	private JPasswordField tpPassword;
@@ -65,7 +65,7 @@ public class logInForm extends JFrame implements ActionListener, MouseListener, 
 	 */
 	public logInForm() throws Exception {
 		bus = new nguoidungBUS();
-		bus.docDSND();
+		bus.getNDList();
 		setBackground(Color.WHITE);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 650, 400);
@@ -152,8 +152,7 @@ public class logInForm extends JFrame implements ActionListener, MouseListener, 
 				nguoidung.setManv(txUserName.getText());
 				nguoidung.setMkhau(new String(tpPassword.getPassword()));
 				if (bus.checkAccount(nguoidung.getManv(), nguoidung.getMkhau(), "MQ001") == true) {
-					//userID = bus.sayHello(nguoidung.getManv());
-					userID = nguoidung.getManv();
+					nhanvienBUS.userID = txUserName.getText();
 					JOptionPane.showMessageDialog(null, "Đăng nhập thành công");
 					try {
 						UserFrame frame = new AdminFrame();
@@ -164,7 +163,7 @@ public class logInForm extends JFrame implements ActionListener, MouseListener, 
 						e1.printStackTrace();
 					}
 				} else if (bus.checkAccount(nguoidung.getManv(), nguoidung.getMkhau(), "MQ002") == true) {
-					userID = bus.sayHello(nguoidung.getManv());
+					nhanvienBUS.userID = txUserName.getText();
 					JOptionPane.showMessageDialog(null, "Đăng nhập thành công");
 					try {
 						UserFrame frame = new UserFrame();
@@ -184,9 +183,8 @@ public class logInForm extends JFrame implements ActionListener, MouseListener, 
 			if (JOptionPane.showConfirmDialog(null, "Bạn muốn đóng ứng dụng ?", "Confirmation",
 					JOptionPane.YES_NO_OPTION) == 0) {
 				try {
-					bus.close();
+					//bus.close();
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				logInForm.this.dispose();

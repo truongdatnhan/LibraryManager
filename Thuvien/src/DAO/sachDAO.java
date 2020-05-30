@@ -6,19 +6,20 @@ import java.util.HashMap;
 
 import javax.swing.JOptionPane;
 
-import DTO.nhanvienDTO;
 import DTO.sachDTO;
 
 public class sachDAO {
-	static MyConnectUnit conn = null;
-	static ResultSet rs = null;
+	MyConnectUnit conn;
+	ResultSet rs;
+	private ArrayList<sachDTO> dss;
 
-	public static ArrayList<sachDTO> docDSNV() throws Exception {
-		conn = new MyConnectUnit("localhost", "root", "123456", "Thuvien");
-		ArrayList<sachDTO> dss = new ArrayList<sachDTO>();
+	public sachDAO() {
+		conn = new MyConnectUnit("localhost", "root", "", "Thuvien");
+	}
+
+	public void docDSS() throws Exception {
+		dss = new ArrayList<sachDTO>();
 		rs = conn.Select("sach");
-//		String query = "SELECT * FROM NHANVIEN";
-//		rs = conn.excuteQuery(query);
 		while (rs.next()) {
 			sachDTO s = new sachDTO();
 			s.setMasach(rs.getString(1));
@@ -33,22 +34,22 @@ public class sachDAO {
 			s.setTrangthai(Integer.parseInt(rs.getString(10)));
 			dss.add(s);
 		}
-		return dss;
+		conn.Close();
 	}
 
 	public void Insert(sachDTO s) throws Exception {
 		HashMap<String, Object> insertValue = new HashMap<String, Object>();
-		insertValue.put("masach", s.getMasach());
-		insertValue.put("tensach", s.getTensach());
-		insertValue.put("giasach", s.getGiasach());
-		insertValue.put("matheloai", s.getMatheloai());
-		insertValue.put("matg", s.getMatg());
-		insertValue.put("manxb", s.getMalinhvuc());
-		insertValue.put("malinhvuc", s.getMalinhvuc());
-		insertValue.put("hinhanh", s.getHinhanh());
-		insertValue.put("soluong", s.getSoluong());
-		insertValue.put("trangthai","1");
-		boolean kt = conn.Insert("nhanvien", insertValue);
+		insertValue.put("MASACH", s.getMasach());
+		insertValue.put("TENSACH", s.getTensach());
+		insertValue.put("GIASACH", s.getGiasach());
+		insertValue.put("MATHELOAI", s.getMatheloai());
+		insertValue.put("MATG", s.getMatg());
+		insertValue.put("MANXB", s.getManxb());
+		insertValue.put("MALINHVUC", s.getMalinhvuc());
+		insertValue.put("HINHANH", s.getHinhanh());
+		insertValue.put("SOLUONG", s.getSoluong());
+		insertValue.put("TRANGTHAI", s.getTrangthai());
+		boolean kt = conn.Insert("sach", insertValue);
 		if (kt == true) {
 			JOptionPane.showMessageDialog(null, "Thêm thành công");
 		} else {
@@ -57,25 +58,7 @@ public class sachDAO {
 	}
 
 	public void Delete(sachDTO s) throws Exception {
-////		String quy
-//		boolean kt = conn.Delete("nhanvien", "manv = '" + nv.getManv() + "'");
-//		if (kt == true) {
-//			JOptionPane.showMessageDialog(null, "Xóa thành công");
-//		} else {
-//			JOptionPane.showMessageDialog(null, "Xóa thất bại");
-//		}
-		HashMap<String, Object> updateValue = new HashMap<String, Object>();
-		updateValue.put("masach", s.getMasach());
-		updateValue.put("tensach", s.getTensach());
-		updateValue.put("giasach", s.getGiasach());
-		updateValue.put("matheloai", s.getMatheloai());
-		updateValue.put("matg", s.getMatg());
-		updateValue.put("manxb", s.getMalinhvuc());
-		updateValue.put("malinhvuc", s.getMalinhvuc());
-		updateValue.put("hinhanh", s.getHinhanh());
-		updateValue.put("soluong", s.getSoluong());
-		updateValue.put("trangthai","0");
-		boolean kt = conn.Update("nhanvien", updateValue, "masach = '" + s.getMasach() + "'");
+		boolean kt = conn.Delete("sach", "masach = '" + s.getMasach() + "'");
 		if (kt == true) {
 			JOptionPane.showMessageDialog(null, "Xóa thành công");
 		} else {
@@ -88,21 +71,28 @@ public class sachDAO {
 		updateValue.put("masach", s.getMasach());
 		updateValue.put("tensach", s.getTensach());
 		updateValue.put("giasach", s.getGiasach());
-		updateValue.put("matheloai", s.getMatheloai());
-		updateValue.put("matg", s.getMatg());
-		updateValue.put("manxb", s.getMalinhvuc());
-		updateValue.put("malinhvuc", s.getMalinhvuc());
+		// updateValue.put("matheloai", s.getMatheloai());
+		// updateValue.put("matg", s.getMatg());
+		// updateValue.put("manxb", s.getMalinhvuc());
+		// updateValue.put("malinhvuc", s.getMalinhvuc());
 		updateValue.put("hinhanh", s.getHinhanh());
 		updateValue.put("soluong", s.getSoluong());
-		updateValue.put("trangthai","1");
-		boolean kt = conn.Update("nhanvien", updateValue, "masach = '" + s.getMasach() + "'");
+		updateValue.put("trangthai", "1");
+		boolean kt = conn.Update("sach", updateValue, "masach = '" + s.getMasach() + "'");
 		if (kt == true) {
 			JOptionPane.showMessageDialog(null, "Sửa thành công");
 		} else {
 			JOptionPane.showMessageDialog(null, "Sửa thất bại");
 		}
+	}
 
-		// nên suy xét lại thay đổi thành boolean vì thay đổi phải cho hiển thị thông
-		// báo thành công và thất bại ra màn hình cho người dùng
+	public ArrayList filteredList() throws Exception {
+		docDSS();
+		ArrayList temp = new ArrayList();
+		for (sachDTO sach : dss) {
+			if (sach.getTrangthai() == 1)
+				temp.add(sach);
+		}
+		return temp;
 	}
 }

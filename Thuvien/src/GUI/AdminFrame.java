@@ -1,9 +1,10 @@
 package GUI;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
+import java.awt.Font;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+import javax.swing.UnsupportedLookAndFeelException;
 import TOOL.design;
 import java.awt.Color;
 import javax.swing.JLabel;
@@ -20,27 +21,14 @@ public class AdminFrame extends UserFrame implements ActionListener, MouseListen
 	private QLTKPanel taikhoan;
 	private JPanel pnNhanvien;
 	private JPanel pnTaikhoan;
-
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					UserFrame frame = new AdminFrame();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
+	private suaTT sua;
 	public AdminFrame() throws Exception {
 		super();
 		pnPhieumuon.setLocation(0, 250);
 		pnSach.setLocation(0, 200);
 
 		pnNhanvien = new JPanel();
-		pnNhanvien.setBounds(0, 100, 198, 40);
+		pnNhanvien.setBounds(0, 100, 180, 40);
 		pnNhanvien.setBackground(new Color(45, 118, 232));
 		pnNhanvien.addMouseListener(this);
 		leftPanel.add(pnNhanvien);
@@ -48,14 +36,14 @@ public class AdminFrame extends UserFrame implements ActionListener, MouseListen
 
 		lbNhanvien = new JLabel("        Nhân viên");
 		lbNhanvien.setForeground(Color.WHITE);
-		lbNhanvien.setBounds(0, 0, 198, 40);
+		lbNhanvien.setBounds(0, 0, 180, 40);
 		ImageIcon iconNV = design.resizeIcon("./icon/icons8_Resume_64.png", pnNhanvien.getWidth() / 3,
 				(int) (pnNhanvien.getHeight() * 1.5));
 		lbNhanvien.setIcon(iconNV);
 		pnNhanvien.add(lbNhanvien);
 
 		pnTaikhoan = new JPanel();
-		pnTaikhoan.setBounds(0, 150, 198, 40);
+		pnTaikhoan.setBounds(0, 150, 180, 40);
 		pnTaikhoan.setBackground(new Color(45, 118, 232));
 		pnTaikhoan.addMouseListener(this);
 		leftPanel.add(pnTaikhoan);
@@ -63,20 +51,29 @@ public class AdminFrame extends UserFrame implements ActionListener, MouseListen
 
 		lbTaikhoan = new JLabel("        Tài khoản");
 		lbTaikhoan.setForeground(Color.WHITE);
-		lbTaikhoan.setBounds(0, 0, 198, 40);
+		lbTaikhoan.setBounds(0, 0, 180, 40);
 		ImageIcon iconTK = design.resizeIcon("./icon/icons8_user_64.png", pnTaikhoan.getWidth() / 3,
 				(int) (pnTaikhoan.getHeight() * 1.5));
 		lbTaikhoan.setIcon(iconTK);
 		pnTaikhoan.add(lbTaikhoan);
 
-		pnSach.setBounds(0, 200, 198, 40);
+		pnSach.setBounds(0, 200, 180, 40);
 		pnSach.addMouseListener(this);
 
-		pnPhieumuon.setBounds(0, 250, 198, 40);
+		pnPhieumuon.setBounds(0, 250, 180, 40);
 		pnPhieumuon.addMouseListener(this);
 
 		nhanvien = new QLNVPanel();
 		centerPanel.add(nhanvien, BorderLayout.CENTER);
+		
+		sua = new suaTT();
+		sua.setThongTinLisnter(new ThongTinListener() {
+			@Override
+			public void thongTin(ThongTinEvent evt) {
+				nhanvien.table.getModel().updateRow(evt.getManv(), evt);
+			}
+		});
+		
 	}
 
 	@Override
@@ -110,6 +107,18 @@ public class AdminFrame extends UserFrame implements ActionListener, MouseListen
 				e1.printStackTrace();
 			}
 			centerPanel.add(sach, BorderLayout.CENTER);
+			centerPanel.repaint();
+			centerPanel.revalidate();
+		} else if (evt.getSource() == namePanel || evt.getSource() == lbName) {
+			lbName.setFont(new Font("Tomaho", Font.BOLD, 16));
+			lbName.setForeground(Color.black);
+//CHANGED HERE				sua = new suaTT();
+							sua.setVisible(true);
+							sua.loadData();
+		} else if (evt.getSource() == pnPhieumuon) {
+			centerPanel.removeAll();
+			QLPMPanel phieumuon = new QLPMPanel();
+			centerPanel.add(phieumuon, BorderLayout.CENTER);
 			centerPanel.repaint();
 			centerPanel.revalidate();
 		}

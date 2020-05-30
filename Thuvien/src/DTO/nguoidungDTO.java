@@ -5,18 +5,21 @@ public class nguoidungDTO {
 	private String manv;
 	private String mkhau;
 	private String quyen;
+	private int trangthai;
 
-	public nguoidungDTO(String manv, String mkhau, String quyen) {
+	public nguoidungDTO(String manv, String mkhau, String quyen, int trangthai) {
 
 		this.manv = manv;
 		this.mkhau = mkhau;
 		this.quyen = quyen;
+		this.trangthai = 1;
 	}
 
 	public nguoidungDTO() {
 		manv = null;
 		mkhau = null;
 		quyen = null;
+		trangthai = 1;
 	}
 
 	public String getManv() {
@@ -41,6 +44,14 @@ public class nguoidungDTO {
 
 	public void setQuyen(String quyen) {
 		this.quyen = quyen;
+	}
+
+	public int getTrangthai() {
+		return trangthai;
+	}
+
+	public void setTrangthai(int trangthai) {
+		this.trangthai = trangthai;
 	}
 
 }

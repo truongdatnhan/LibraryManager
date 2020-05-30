@@ -85,6 +85,17 @@ public class check {
 		return s.matches("-?\\d+(\\.\\d+)?");
 	}
 	
+//	public static int checkPass(String pass) {
+//		int k ;
+//		int d;
+//		if(pass.length()<6) {
+//			k = 1;
+//		}else {
+//			for(int i = 0;i<pass.length();i++) {
+//				if(pass.charAt(i)>)
+//			}
+//		}
+//	}
 	
 	public static void main(String[] args) {
 		Scanner input = new Scanner(System.in);

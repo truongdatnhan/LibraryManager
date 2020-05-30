@@ -20,7 +20,6 @@ public class sachDTO {
 		this.hinhanh = hinhanh;
 	}
 
-	
 	public sachDTO() {
 		masach = null;
 		tensach = null;
@@ -46,6 +45,19 @@ public class sachDTO {
 		this.hinhanh = hinhanh;
 		this.soluong = soluong;
 		this.trangthai = trangthai;
+	}
+
+	public sachDTO(sachDTO a) {
+		this.masach = a.getMasach();
+		this.tensach = a.getTensach();
+		this.giasach = a.getGiasach();
+		this.matheloai = a.getMatheloai();
+		this.matg = a.getMatg();
+		this.manxb = a.getManxb();
+		this.malinhvuc = a.getMalinhvuc();
+		this.hinhanh = a.getHinhanh();
+		this.soluong = a.getSoluong();
+		this.trangthai = a.getTrangthai();
 	}
 
 	public String getMasach() {
@@ -119,5 +131,7 @@ public class sachDTO {
 	public void setTrangthai(int trangthai) {
 		this.trangthai = trangthai;
 	}
+
+	// thêm 1 hàm khởi tạo dựa trên DTO cho trước
 
 }

@@ -36,7 +36,8 @@ CREATE TABLE DOCGIA (
     NGAYSINHDG date,
     DIACHIDG NVARCHAR(150),
     NGHENGHIEP NVARCHAR(30),
-    TRINHDO NVARCHAR(50)
+    TRINHDO NVARCHAR(50),
+    TRANGTHAI INT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- table thẻ thư viện
@@ -44,14 +45,16 @@ CREATE TABLE THETHUVIEN (
 	MATHE CHAR(10) NOT NULL,
     MADG CHAR(10) NOT NULL,
     NGAYCAP date,
-    NGAYHETHAN date
+    NGAYHETHAN date,
+    TRANGTHAI INT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- table người dùng
 CREATE TABLE NGUOIDUNG(
 	MANV CHAR(10) NOT NULL,
     MATKHAU NVARCHAR(50) NOT NULL,
-    MAQUYEN CHAR(10) NOT NULL
+    MAQUYEN CHAR(10) NOT NULL,
+    TRANGTHAI INT 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- table phân quyền
@@ -65,19 +68,22 @@ CREATE TABLE NCC(
 	MANCC CHAR(10) NOT NULL,
     TENNCC NVARCHAR(50),
     DIACHINCC NVARCHAR(50),
-    SDTNCC CHAR(10)
+    SDTNCC CHAR(10),
+    TRANGTHAI INT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- table lĩnh vực
 CREATE TABLE LINHVUC(
 	MALINHVUC CHAR(10) NOT NULL,
-    TENLINHVUC NVARCHAR(50) NOT NULL
+    TENLINHVUC NVARCHAR(50) NOT NULL,
+    TRANGTHAI INT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- table thể loại
 CREATE TABLE THELOAI (
 	MATHELOAI CHAR(10) NOT NULL,
-    TENTHELOAI NVARCHAR(50) NOT NULL
+    TENTHELOAI NVARCHAR(50) NOT NULL,
+    TRANGTHAI INT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- table nhà xuất bản
@@ -85,7 +91,8 @@ CREATE TABLE NXB(
 	MANXB CHAR(10) NOT NULL,
     TENNXB NVARCHAR(50) NOT NULL,
     SDTNXB CHAR(10),
-    EMAILNXB NVARCHAR(50)
+    EMAILNXB NVARCHAR(50),
+    TRANGTHAI INT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- table tác giả 
@@ -93,7 +100,8 @@ CREATE TABLE TACGIA(
 	MATG CHAR(10) NOT NULL,
     HOTG NVARCHAR(50) NOT NULL,
     TENTG NVARCHAR(20) NOT NULL,
-    EMAILTG NVARCHAR(50)
+    EMAILTG NVARCHAR(50),
+    TRANGTHAI INT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- table phiếu nhập
@@ -143,7 +151,8 @@ CREATE TABLE PHIEUPHAT(
 CREATE TABLE QUYDINH(
 	MAQD CHAR(10),
     TENQD VARCHAR(20),
-    MUCPHAT INT
+    MUCPHAT INT,
+    TRANGTHAI INT
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 -- Khóa chính 
 ALTER TABLE SACH ADD CONSTRAINT S_PK PRIMARY KEY(MASACH);
@@ -186,37 +195,37 @@ ALTER TABLE NGUOIDUNG ADD CONSTRAINT ND_Q_FK FOREIGN KEY(MAQUYEN) REFERENCES PHA
 ALTER TABLE PHIEUPHAT ADD CONSTRAINT PP_PM_FK FOREIGN KEY(MAPM) REFERENCES PHIEUMUON(MAPM);
 ALTER TABLE PHIEUPHAT ADD CONSTRAINT PP_QD_FK FOREIGN KEY(MAQD) REFERENCES QUYDINH(MAQD);
 
-INSERT INTO TACGIA(MATG,HOTG,TENTG,EMAILTG) VALUES
-('TG001','Nguyễn Nhật','Ánh','anh123@gmail.com'),
-('TG002','Robin','S00harma','S00harma@gmail.com'),
-('TG003','Phạm Thế','Bảo','bao@gmail.com'),
-('TG004','GoSho','Aoyama','aoyama@gmail.com'),
-('TG005','Đồng Thị Bích','Thủy','thuy@gmail.com'),
-('TG006','Walker','Matthew','matthew@gmail.com'),
-('TG007','Carnegie','Dale','dalebg@gmail.com'),
-('TG008','NG','CeleS00te','cel@gmail.com'),
-('TG009','André','Aciman','aciman@gmail.com');
+INSERT INTO TACGIA(MATG,HOTG,TENTG,EMAILTG,TRANGTHAI) VALUES
+('TG001','Nguyễn Nhật','Ánh','anh123@gmail.com',1),
+('TG002','Robin','S00harma','S00harma@gmail.com',1),
+('TG003','Phạm Thế','Bảo','bao@gmail.com',1),
+('TG004','GoSho','Aoyama','aoyama@gmail.com',1),
+('TG005','Đồng Thị Bích','Thủy','thuy@gmail.com',1),
+('TG006','Walker','Matthew','matthew@gmail.com',1),
+('TG007','Carnegie','Dale','dalebg@gmail.com',1),
+('TG008','NG','CeleS00te','cel@gmail.com',1),
+('TG009','André','Aciman','aciman@gmail.com',1);
 
-INSERT INTO THELOAI(MATHELOAI,TENTHELOAI) VALUES
-('TL001','Truyện dài'),
-('TL002','Phát triển bản thân'),
-('TL003','Giáo trình'),
-('TL004','Truyện thiếu nhi'),
-('TL005','Tiểu thuyết');
+INSERT INTO THELOAI(MATHELOAI,TENTHELOAI,TRANGTHAI) VALUES
+('TL001','Truyện dài',1),
+('TL002','Phát triển bản thân',1),
+('TL003','Giáo trình',1),
+('TL004','Truyện thiếu nhi',1),
+('TL005','Tiểu thuyết',1);
 
-INSERT INTO NXB(MANXB,TENNXB,SDTNXB,EMAILNXB) VALUES
-('NXB001','NXB00 Trẻ','0123456987','tre@gamil.com'),
-('NXB002','NXB00 Đại Học Quốc Gia TP Hồ Chí Minh','0937343029','NXB00dhqg@gamil.com'),
-('NXB003','NXB00 Kim Đồng ','0948523716','NXB00kimdong@gmail.com'),
-('NXB004','NXB00 Khoa Học và Kỹ Thuật ','0987412365','ktvacn@gmail.com'),
-('NXB005','NXB00 Lao Động','0948756321','laodonglahanhphuc@gmail.com'),
-('NXB006','NXB00 Văn học','0852369741','vanhoa@gmail.com');
-INSERT INTO LINHVUC(MALINHVUC,TENLINHVUC) VALUES
-('LV001','Văn học'),
-('LV002','Kinh tế'),
-('LV003','Công nghệ thông tin'),
-('LV004','Khoa học'),
-('LV005','Giao tiếp');
+INSERT INTO NXB(MANXB,TENNXB,SDTNXB,EMAILNXB,TRANGTHAI) VALUES
+('NXB001','NXB00 Trẻ','0123456987','tre@gamil.com',1),
+('NXB002','NXB00 Đại Học Quốc Gia TP Hồ Chí Minh','0937343029','NXB00dhqg@gamil.com',1),
+('NXB003','NXB00 Kim Đồng ','0948523716','NXB00kimdong@gmail.com',1),
+('NXB004','NXB00 Khoa Học và Kỹ Thuật ','0987412365','ktvacn@gmail.com',1),
+('NXB005','NXB00 Lao Động','0948756321','laodonglahanhphuc@gmail.com',1),
+('NXB006','NXB00 Văn học','0852369741','vanhoa@gmail.com',1);
+INSERT INTO LINHVUC(MALINHVUC,TENLINHVUC,TRANGTHAI) VALUES
+('LV001','Văn học',1),
+('LV002','Kinh tế',1),
+('LV003','Công nghệ thông tin',1),
+('LV004','Khoa học',1),
+('LV005','Giao tiếp',1);
 INSERT INTO SACH(MASACH,TENSACH,GIASACH,MATHELOAI,MATG,MANXB,MALINHVUC,HINHANH,SOLUONG,TRANGTHAI) VALUES
 ('S001','Mắt Biếc',110000,'TL001','TG001','NXB001','LV001',NULL,3,1),
 ('S002','Nhà lãnh đạo không chức danh ',80000,'TL002','TG002','NXB001','LV002',NULL,5,1),
@@ -229,17 +238,17 @@ INSERT INTO SACH(MASACH,TENSACH,GIASACH,MATHELOAI,MATG,MANXB,MALINHVUC,HINHANH,S
 ('S009','Bao điều không nói',120000,'TL005','TG007','NXB001','LV001',NULL,5,1),
 ('S010','Gọi em bầng tên anh',98000,'TL005','TG008','NXB001','LV001',NULL,3,1);
 
-INSERT INTO DOCGIA(MADG,HODG,TENDG,NGAYSINHDG,DIACHIDG,NGHENGHIEP,TRINHDO) VALUES 
-('DG001','Nguyễn Phương','Nam','2000-9-3','Đồng Nai','Sinh viên','Sinh viên đại học'),
-('DG002','Tất Khánh','Nam','2000-9-7','TP Hồ Chí Minh','Sinh viên','Sinh viên đại học'),
-('DG003','Trần Yến','Nhi','2000-1-1','TP Hồ Chí Minh','Sinh viên','Sinh viên đại học'),
-('DG004','Trương Đạt','Nhân','2000-1-1','Ninh Thuận','Sinh viên','Sinh viên đại học');
+INSERT INTO DOCGIA(MADG,HODG,TENDG,NGAYSINHDG,DIACHIDG,NGHENGHIEP,TRINHDO,TRANGTHAI) VALUES 
+('DG001','Nguyễn Phương','Nam','2000-9-3','Đồng Nai','Sinh viên','Sinh viên đại học',1),
+('DG002','Tất Khánh','Nam','2000-9-7','TP Hồ Chí Minh','Sinh viên','Sinh viên đại học',1),
+('DG003','Trần Yến','Nhi','2000-1-1','TP Hồ Chí Minh','Sinh viên','Sinh viên đại học',1),
+('DG004','Trương Đạt','Nhân','2000-1-1','Ninh Thuận','Sinh viên','Sinh viên đại học',1);
 
-INSERT INTO THETHUVIEN(MATHE,MADG,NGAYCAP,NGAYHETHAN) VALUES
-('TTV001','DG001','2020-4-25','2021-4-25'),
-('TTV002','DG002','2020-4-25','2021-4-25'),
-('TTV003','DG003','2020-4-25','2021-4-25'),
-('TTV004','DG004','2020-4-25','2021-4-25');
+INSERT INTO THETHUVIEN(MATHE,MADG,NGAYCAP,NGAYHETHAN,TRANGTHAI) VALUES
+('TTV001','DG001','2020-4-25','2021-4-25',1),
+('TTV002','DG002','2020-4-25','2021-4-25',1),
+('TTV003','DG003','2020-4-25','2021-4-25',1),
+('TTV004','DG004','2020-4-25','2021-4-25',1);
 
 
 INSERT INTO NHANVIEN(MANV,HONV,TENNV,NGAYSINH,GIOITINH,DIACHINV,EMAILNV,SDTNV,LUONG,TRANGTHAI) VALUES
@@ -251,15 +260,15 @@ INSERT INTO PHANQUYEN(MAQUYEN,TENQUYEN) VALUES
 ('MQ001','Quản lí'),
 ('MQ002','Thủ thư');	
 
-INSERT INTO NGUOIDUNG(MANV,MATKHAU,MAQUYEN) VALUES 
-('NV001','123456','MQ001'),
-('NV002','123456','MQ002'),
-('NV003','123456','MQ002');
+INSERT INTO NGUOIDUNG(MANV,MATKHAU,MAQUYEN,TRANGTHAI) VALUES 
+('NV001','123456','MQ001',1),
+('NV002','123456','MQ002',1),
+('NV003','123456','MQ002',1);
 
-INSERT INTO NCC(MANCC,TENNCC,DIACHINCC,SDTNCC) VALUES 
-('NCC001','NCC Sao Mai','75 Nguyến Thi Minh Khai quân 1 TP Hồ Chí Minh','0853214796'),
-('NCC002','NCC Mặt trời','45 Đinh Tiên Hoàng quân 1 TP Hồ Chí Minh','0853269596'),
-('NCC003','NCC Mặt trăng','15 Điện Biên Phủ quân Bình Thạnh TP Hồ Chí Minh','0882214796');
+INSERT INTO NCC(MANCC,TENNCC,DIACHINCC,SDTNCC,TRANGTHAI) VALUES 
+('NCC001','NCC Sao Mai','75 Nguyến Thi Minh Khai quân 1 TP Hồ Chí Minh','0853214796',1),
+('NCC002','NCC Mặt trời','45 Đinh Tiên Hoàng quân 1 TP Hồ Chí Minh','0853269596',1),
+('NCC003','NCC Mặt trăng','15 Điện Biên Phủ quân Bình Thạnh TP Hồ Chí Minh','0882214796',1);
 
 INSERT INTO PHIEUNHAP(MAPN,MANV,MANCC,NGAYNHAP,TONGTIEN) VALUES
 ('PN001','NV001','NCC001','2020-5-7',470000),

@@ -1,30 +1,9 @@
 package GUI;
 
-import javax.swing.JPanel;
-import javax.swing.ButtonGroup;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.SwingConstants;
-import javax.swing.JTextField;
-import javax.swing.RowFilter;
-import javax.swing.RowFilter.ComparisonType;
-
-import com.toedter.calendar.JDateChooser;
-
-import BUS.nhanvienBUS;
-import DTO.nhanvienDTO;
-import TOOL.check;
-
-import javax.swing.JRadioButton;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.ImageIcon;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableRowSorter;
-
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -34,13 +13,28 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Comparator;
 import java.util.Date;
-import java.util.Vector;
-import java.util.regex.Pattern;
-import java.awt.Color;
+
+import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
-import java.awt.event.KeyAdapter;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
+import javax.swing.RowFilter;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+
+import com.toedter.calendar.JDateChooser;
+
+import BUS.nhanvienBUS;
+import DTO.nhanvienDTO;
+import TOOL.check;
 
 public class QLNVPanel extends JPanel implements ActionListener, KeyListener, MouseListener {
 	private JTextField txManv;
@@ -50,18 +44,17 @@ public class QLNVPanel extends JPanel implements ActionListener, KeyListener, Mo
 	private JTextField txEmail;
 	private JTextField txSDT;
 	private JTextField txLuong;
-	// private JTable tbQLNV;
-	// private DefaultTableModel model;
-	private JButton btnThem, btnXoa, btnSua, btnTailai;
+	private JButton btnThem, btnXoa, btnSua, btnTailai,btnIn;
 	private JRadioButton rbNu, rbNam;
 	private JDateChooser dateChooser;
 	private JTextField txTimkiem;
 	private ButtonGroup groupGioitinh;
-	private JComboBox comboBox;
-	private JComboBox comboThang;
+	private JComboBox<String> comboBox;
+	private JComboBox<String> comboThang;
 	private JTextField luong1;
 	private JTextField luong2;
-	private TableNhanVien table;
+	private suaTT suaTT;
+	public TableNhanVien table;
 
 	public QLNVPanel() throws Exception {
 		// set background cho nó
@@ -78,6 +71,7 @@ public class QLNVPanel extends JPanel implements ActionListener, KeyListener, Mo
 		add(lbManv);
 
 		txManv = new JTextField();
+		txManv.setEditable(false);
 		txManv.setBounds(175, 30, 268, 25);
 		add(txManv);
 		txManv.setColumns(10);
@@ -176,82 +170,53 @@ public class QLNVPanel extends JPanel implements ActionListener, KeyListener, Mo
 		btnThem = new JButton("Thêm");
 		btnThem.setFont(new Font("Calibri", Font.PLAIN, 17));
 		btnThem.setIcon(new ImageIcon("./icon/icons8_add_32.png"));
-		btnThem.setBounds(60, 206, 150, 25);
+		btnThem.setBounds(5, 206, 150, 25);
 		btnThem.addActionListener(this);
 		add(btnThem);
 
 		btnXoa = new JButton("Xóa");
 		btnXoa.setFont(new Font("Calibri", Font.PLAIN, 18));
 		btnXoa.setIcon(new ImageIcon("./icon/icons8_delete_sign_32.png"));
-		btnXoa.setBounds(231, 205, 150, 25);
+		btnXoa.setBounds(175, 205, 150, 25);
 		btnXoa.addActionListener(this);
 		add(btnXoa);
 
 		btnTailai = new JButton("Tải lại");
 		btnTailai.setFont(new Font("Calibri", Font.PLAIN, 18));
 		btnTailai.setIcon(new ImageIcon("./icon/icons8_synchronize_32.png"));
-		btnTailai.setBounds(561, 205, 150, 25);
+		btnTailai.setBounds(505, 205, 150, 25);
 		btnTailai.addActionListener(this);
 		add(btnTailai);
 
 		btnSua = new JButton("Sửa");
 		btnSua.setFont(new Font("Calibri", Font.PLAIN, 18));
 		btnSua.setIcon(new ImageIcon("./icon/icons8_change_32.png"));
-		btnSua.setBounds(396, 205, 150, 25);
+		btnSua.setBounds(340, 205, 150, 25);
 		btnSua.addActionListener(this);
 		add(btnSua);
 
-//		Vector<String> header = new Vector<String>();
-//		header.add("Mã nhân viên");
-//		header.add("H�?");
-//		header.add("Tên");
-//		header.add("Ngày sinh");
-//		header.add("Giới tính");
-//		header.add("�?ịa chỉ");
-//		header.add("Email");
-//		header.add("Số điện thoại");
-//		header.add("Lương");
-		// model = bus.docDSND();
-
-//		if (model.getRowCount() == 0) {
-//			model = new DefaultTableModel(header, 0);
-//		}
-		/*
-		 * tbQLNV.setEnabled(true); tbQLNV = new JTable(); tbQLNV.setModel(model);
-		 * tbQLNV.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-		 * tbQLNV.getColumnModel().getColumn(0).setPreferredWidth(70);
-		 * tbQLNV.getColumnModel().getColumn(2).setPreferredWidth(30);
-		 * tbQLNV.getColumnModel().getColumn(3).setPreferredWidth(40);
-		 * tbQLNV.getColumnModel().getColumn(4).setPreferredWidth(30);
-		 * tbQLNV.setRowHeight(30); txManv.setEditable(false);
-		 */
-
-		// tbQLNV.setFont(new Font("Calibri", Font.PLAIN, 18));
-		/*
-		 * JScrollPane scrollPane = new JScrollPane(tbQLNV); scrollPane.setBounds(10,
-		 * 295, 970, 270); add(scrollPane);
-		 */
-
 		table = new TableNhanVien();
 		table.setData(bus.getNVList());
-		table.setBounds(10, 295, 970, 270);
+		Dimension dm = new Dimension();
+		dm = Toolkit.getDefaultToolkit().getScreenSize();
+		table.setBounds(5, 295,dm.width-230 , 300);
 		add(table);
 		table.loadData();
+		//table.reloadData();
 
 		txTimkiem = new JTextField();
-		txTimkiem.setBounds(763, 253, 217, 25);
+		txTimkiem.setBounds(763, 253, 212, 25);
 		txTimkiem.addKeyListener(this);
 		add(txTimkiem);
 		txTimkiem.setColumns(10);
 
 		JButton btnNewButton = new JButton("Xuất Excel");
 		btnNewButton.setIcon(new ImageIcon("./icon/icons8_Microsoft_Excel_2019_32.png"));
-		btnNewButton.setBounds(726, 204, 150, 25);
+		btnNewButton.setBounds(670, 204, 150, 25);
 		add(btnNewButton);
 
 		comboThang = new JComboBox();
 		comboThang.addKeyListener(this);
-		comboThang.addMouseListener(this);
 		comboThang.setModel(new DefaultComboBoxModel(
 				new String[] { "--Vui lòng chọn--", "Tháng 1", "Tháng 2 ", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6",
 						"Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12" }));
@@ -289,13 +254,28 @@ public class QLNVPanel extends JPanel implements ActionListener, KeyListener, Mo
 		luong2.addKeyListener(this);
 
 		luong2.setColumns(10);
-		table.addMouseListener(new MouseAdapter() {
+		
+		suaTT = new suaTT();
+		suaTT.setThongTinLisnter(new ThongTinListener() {
+			@Override
+			public void thongTin(ThongTinEvent evt) {
+				System.out.println("AAAAAAAAA");
+			}
+			
+		});
+		
+		
+		btnIn = new JButton("In");
+		btnIn.setIcon(new ImageIcon("./icon/icons8_print_32.png"));
+		btnIn.setBounds(831, 204, 150, 25);
+		add(btnIn);
+		table.getTable().addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				int i = table.getSelectedRow();
-				System.out.println(i);
 				if (i >= 0) {
 					nhanvienDTO nv = new nhanvienDTO();
-					nv = nhanvienBUS.dsnv.get(i);
+					nv = table.getModel().getNV(i);
+					txManv.setEditable(true);
 					txManv.setText(nv.getManv());
 
 					txHo.setText(nv.getHo());
@@ -328,18 +308,7 @@ public class QLNVPanel extends JPanel implements ActionListener, KeyListener, Mo
 			nhanvienDTO nv = new nhanvienDTO();
 			// đây là mã nhân viên không có null
 			// kiểm tra mã nhân viên có null hay không
-			try {
-				if (bus.count() < 10) {
-					nv.setManv("NV00" + String.valueOf(bus.count() + 1));
-				} else if (bus.count() > 10 && bus.count() < 100) {
-					nv.setManv("NV0" + String.valueOf(bus.count() + 1));
-				} else if (bus.count() > 100) {
-					nv.setManv("NV" + String.valueOf(bus.count() + 1));
-				}
-			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+			nv.setManv(bus.autoCreateID());
 			// kiểm tra h�? nhân viên, h�? nhân viên không được b�? trống
 			if (!check.checkNull(txHo.getText())) {
 				// nếu đúng thực hiện gán giá tri
@@ -370,17 +339,7 @@ public class QLNVPanel extends JPanel implements ActionListener, KeyListener, Mo
 							if (check.isNumeric(txLuong.getText())) {
 								nv.setLuong(txLuong.getText());
 								JOptionPane.showMessageDialog(null, "Nhân viên vửa thêm có mà là : " + nv.getManv());
-								/*
-								 * Vector<String> row = new Vector<String>(); row.add(nv.getManv());
-								 * row.add(nv.getHo()); row.add(nv.getTen()); row.add(nv.getNgaysinh());
-								 * row.add(nv.getGioitinh()); row.add(nv.getDiachi()); row.add(nv.getEmail());
-								 * row.add(nv.getSdt()); row.add(nv.getLuong());
-								 */
-
 								table.addData(nv);
-
-								// model.addRow(row);
-								// tbQLNV.setModel(model);
 								nhanvienBUS.dsnv.add(nv);
 								try {
 									bus.Insert(nv);
@@ -418,9 +377,9 @@ public class QLNVPanel extends JPanel implements ActionListener, KeyListener, Mo
 			}
 		} else if (evt.getSource() == btnXoa) {
 			// lấy giá trị hàng đang được ch�?n
+			nhanvienBUS bus = new nhanvienBUS();
 			int i = table.getSelectedRow();
 			if (i >= 0) {
-				nhanvienBUS bus = new nhanvienBUS();
 				nhanvienDTO nv = nhanvienBUS.dsnv.get(i);
 				if (JOptionPane.showConfirmDialog(null, "Bạn muốn xóa nhân viên ?", "Confirmation",
 						JOptionPane.YES_NO_OPTION) == 0) {
@@ -430,8 +389,8 @@ public class QLNVPanel extends JPanel implements ActionListener, KeyListener, Mo
 						e.printStackTrace();
 						JOptionPane.showMessageDialog(null, e);
 					}
-					// model.removeRow(i);
-					// tbQLNV.setModel(model);
+					table.deleteData(nv, i);
+					nhanvienBUS.dsnv.remove(nv);
 					txManv.setText(null);
 					txHo.setText(null);
 					txTen.setText(null);
@@ -451,7 +410,67 @@ public class QLNVPanel extends JPanel implements ActionListener, KeyListener, Mo
 				JOptionPane.showMessageDialog(null, "Bạn chưa ch�?n nhân viên");
 			}
 		} else if (evt.getSource() == btnSua) {
-
+			int i = table.getSelectedRow();
+			nhanvienBUS bus = new nhanvienBUS();
+			if (i >= 0) {
+				nhanvienDTO nv = nhanvienBUS.dsnv.get(i);
+				if (!check.checkNull(txHo.getText())) {
+					// nếu đúng thực hiện gán giá tri
+					nv.setHo(txHo.getText());
+					// kiểm tra tên nhân viên
+					if (!check.checkNull(txTen.getText())) {
+						// gán giá trị cho tên nhân viên
+						nv.setTen(txTen.getText());
+						// định dạng cấu trúc hiển thị co ngày
+						SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+						String date = sdf.format(dateChooser.getDate());
+						JOptionPane.showMessageDialog(null, date);
+						// gán giá trị ngày sinh cho nhân viên
+						nv.setNgaysinh(date);
+						// gán giá trị giới tính cho nhân viên
+						if (rbNam.isSelected()) {
+							nv.setGioitinh("Nam");
+						} else {
+							nv.setGioitinh("Nữ");
+						}
+						// gán giá trị địa chỉ cho nhân viên
+						nv.setDiachi(txDiachi.getText());
+						// thực hiện kiểm tra tính hợp lệ của email
+						if (check.checkEmail(txEmail.getText())) {
+							nv.setEmail(txEmail.getText());
+							if (check.checkPhone(txSDT.getText())) {
+								nv.setSdt(txSDT.getText());
+								if (check.isNumeric(txLuong.getText())) {
+									nv.setLuong(txLuong.getText());
+									try {
+										bus.Update(nv);
+									} catch (Exception e) {
+										e.printStackTrace();
+									}
+									table.updateData(nv, i);
+									nhanvienBUS.dsnv.set(i, nv);
+								} else {
+									JOptionPane.showMessageDialog(null, "Lương là số");
+								}
+							} else {
+								JOptionPane.showMessageDialog(null, "Số điệnt hoại này không hợp lệ");
+							}
+						} else {
+							// báo lỗi nếu email không đúng định dạng
+							JOptionPane.showMessageDialog(null, "Email này không hợp lệ");
+						}
+					} else {
+						// báo lỗi tên nhân viên
+						JOptionPane.showMessageDialog(null, "Tên nhân viên không được bỏ trống");
+					}
+				} else {
+					// báo lỗi học nhân viên
+					JOptionPane.showMessageDialog(null, "Họ nhân viên không được bỏ trống");
+					txManv.requestFocus();
+				}
+			} else {
+				JOptionPane.showMessageDialog(null, "Hãy chọn nhân viên muốn sửa");
+			}
 		} else if (evt.getSource() == btnTailai) {
 			// txManv.setEditable(true);
 			txManv.setText(null);
@@ -543,48 +562,6 @@ public class QLNVPanel extends JPanel implements ActionListener, KeyListener, Mo
 
 		};
 
-		/*
-		 * switch(comboThang.getSelectedIndex()) { case 9:
-		 * tr.setRowFilter(RowFilter.regexFilter("\\d{4}-09-\\d{2}", 3));
-		 * System.out.println("WORKING"); }
-		 */
-
-		// RowFilter<NhanVienModel, Integer> between = new RowFilter<NhanVienModel,
-		// Integer>() {
-
-		/*
-		 * @Override public boolean include(Entry<? extends NhanVienModel, ? extends
-		 * Integer> entry) { NhanVienModel model = table.getModel(); nhanvienDTO nvien =
-		 * model.getNV(entry.getIdentifier());
-		 * 
-		 * int luong = Integer.parseInt(nvien.getLuong()); int luongMin =
-		 * Integer.parseInt(luong1.getText()); int luongMax =
-		 * Integer.parseInt(luong2.getText());
-		 * 
-		 * if( (!luong1.getText().isEmpty()) && (!luong2.getText().isEmpty()) ) {
-		 * if(luong >= luongMin && luong <= luongMax) { return true; } }
-		 * 
-		 * return false; }
-		 */
-		/*
-		 * @Override public boolean include(Entry<? extends TableNhanVien, ? extends
-		 * Integer> entry) { TableNhanVien table = entry.getModel(); NhanVienModel model
-		 * = table.getModel(); nhanvienDTO nvien = model.getNV(entry.getIdentifier());
-		 * 
-		 * int luong = Integer.parseInt(nvien.getLuong());
-		 * 
-		 * int luongMin = Integer.parseInt(luong1.getText()); int luongMax =
-		 * Integer.parseInt(luong2.getText());
-		 * 
-		 * if( (!luong1.getText().isEmpty()) && (!luong2.getText().isEmpty()) ) {
-		 * if(luong >= luongMin && luong <= luongMax) { return true; } }
-		 * 
-		 * 
-		 * return false; }
-		 */
-
-		// };
-
 		RowFilter<Object, Object> between = new RowFilter<Object, Object>() {
 
 			@Override
@@ -626,20 +603,9 @@ public class QLNVPanel extends JPanel implements ActionListener, KeyListener, Mo
 
 		};
 
-		/*
-		 * RowFilter<NhanVienModel, Integer> between = new RowFilter<NhanVienModel,
-		 * Integer>() {
-		 * 
-		 * @Override public boolean include(Entry<? extends NhanVienModel, ? extends
-		 * Integer> entry) { NhanVienModel model = return false; }
-		 * 
-		 * };
-		 */
-
 		if (search == null) {
 			tr.setRowFilter(null);
 		} else {
-
 			switch (comboBox.getSelectedIndex()) {
 			case 1:
 				tr.setRowFilter(RowFilter.regexFilter("(?i)" + search, 0));
@@ -647,18 +613,6 @@ public class QLNVPanel extends JPanel implements ActionListener, KeyListener, Mo
 			case 2:
 				tr.setRowFilter(RowFilter.regexFilter("(?i)" + search, 2));
 			}
-
-			/*
-			 * if(comboThang.getSelectedIndex() != 0) { TableRowSorter oldSorter =
-			 * (TableRowSorter)table.getTable().getRowSorter();
-			 * TableRowSorter<DefaultTableModel> sorter = new
-			 * TableRowSorter<DefaultTableModel>((DefaultTableModel)
-			 * table.getTable().getModel()); table.setRowSorter( sorter );
-			 * sorter.setRowFilter( filter ); }
-			 */
-			// tr.setRowFilter(between);
-			// tr.setRowFilter(filter);
-
 		}
 		if (evt.getSource() == comboThang) {
 			if (comboThang.getSelectedIndex() != 0) {
@@ -674,105 +628,31 @@ public class QLNVPanel extends JPanel implements ActionListener, KeyListener, Mo
 
 	@Override
 	public void keyTyped(KeyEvent arg0) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		
+
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stubQLNV.
 
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		RowFilter<Object, Object> filter = new RowFilter<Object, Object>() {
-			@Override
-			public boolean include(Entry<? extends Object, ? extends Object> entry) {
-				String birth = entry.getStringValue(3);
-				String[] data = birth.split("-");
-				int thang = Integer.parseInt(data[1]);
-				switch (thang) {
-				case 1:
-					if (thang == comboThang.getSelectedIndex()) {
-						return true;
-					}
-				case 2:
-					if (thang == comboThang.getSelectedIndex()) {
-						return true;
-					}
-				case 3:
-					if (thang == comboThang.getSelectedIndex()) {
-						return true;
-					}
-				case 4:
-					if (thang == comboThang.getSelectedIndex()) {
-						return true;
-					}
-				case 5:
-					if (thang == comboThang.getSelectedIndex()) {
-						return true;
-					}
-				case 6:
-					if (thang == comboThang.getSelectedIndex()) {
-						return true;
-					}
-				case 7:
-					if (thang == comboThang.getSelectedIndex()) {
-						return true;
-					}
-				case 8:
-					if (thang == comboThang.getSelectedIndex()) {
-						return true;
-					}
-				case 9:
-					if (thang == comboThang.getSelectedIndex()) {
-						return true;
-					}
-				case 10:
-					if (thang == comboThang.getSelectedIndex()) {
-						return true;
-					}
-				case 11:
-					if (thang == comboThang.getSelectedIndex()) {
-						return true;
-					}
-				case 12:
-					if (thang == comboThang.getSelectedIndex()) {
-						return true;
-					}
-				}
-				return false;
-			}
 
-		};
-		
-		if (e.getSource() == comboThang) {
-			if (comboThang.getSelectedIndex() != 0) {
-				TableRowSorter oldSorter = (TableRowSorter) table.getTable().getRowSorter();
-				TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<DefaultTableModel>(
-						(DefaultTableModel) table.getTable().getModel());
-				table.setRowSorter(sorter);
-				sorter.setRowFilter(filter);
-			}
-		}
 	}
 }

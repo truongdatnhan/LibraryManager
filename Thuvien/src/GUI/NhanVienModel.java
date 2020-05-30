@@ -11,7 +11,7 @@ import DTO.nhanvienDTO;
 public class NhanVienModel extends DefaultTableModel {
 
 	private ArrayList<nhanvienDTO> nvList;
-	private static String[] colName = {"Mã nhân viên","Họ","Tên","Ngày sinh","Giới tính","Địa chỉ","Email","Số điện thoại","Lương"};
+	private static String[] colName = {"MNV","Họ","Tên","Ngày sinh","Giới tính","Địa chỉ","Email","Số điện thoại","Lương"};
 	
 	public NhanVienModel() {
 		super(colName,0);
@@ -36,6 +36,9 @@ public class NhanVienModel extends DefaultTableModel {
 			super.addRow(row);
 		}
 	}
+	
+	
+	
 	public void addRow(nhanvienDTO nv) {
         if (nv == null) {
             throw new IllegalArgumentException("NULL");
@@ -52,11 +55,40 @@ public class NhanVienModel extends DefaultTableModel {
         rowVector.add(nv.getLuong());
         super.addRow(rowVector);
     }
+	
+	public void deleteData(nhanvienDTO nv,int i) {
+		super.removeRow(i);
+	}
+	
+	public void updateRow(String maNV, ThongTinEvent evt) {
+	    for (int i = 0; i < super.getRowCount(); i++)
+	        if (super.getValueAt(i, 0).equals(maNV)) {
+	        	super.setValueAt((String)evt.getHo(),i, 1);
+	        	super.setValueAt((String)evt.getTen(),i, 2);
+	        	super.setValueAt((String)evt.getNgaysinh(),i, 3);
+	        	super.setValueAt((String)evt.getGioitinh(),i, 4);
+	        	super.setValueAt((String)evt.getDiachi(),i, 5);
+	        	super.setValueAt((String)evt.getEmail(),i, 6);
+	        	super.setValueAt((String)evt.getSdt(),i, 7);
+	        	super.setValueAt((String)evt.getLuong(),i, 8);
+	        }
+	           
+	}
+	
+	public void updateData(nhanvienDTO nv ,int i) {
+		String[] temp = new String[] { nv.getHo(), nv.getTen(), nv.getNgaysinh(),
+				nv.getGioitinh(), nv.getDiachi(), nv.getEmail(), nv.getSdt(),
+				nv.getLuong() };
+		for (int j = 0; j < colName.length-2; j++) {
+			super.setValueAt(temp[j], i, j + 1);
+		}
+	}
+	
 	/*@Override
 	public String getColumnName(int col) {
 		return colName[col];
 	}
-
+	
 	@Override
 	public int getColumnCount() {
 		if(null != colName) {

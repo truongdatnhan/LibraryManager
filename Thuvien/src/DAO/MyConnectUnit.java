@@ -3,10 +3,6 @@ package DAO;
 import java.sql.ResultSet;
 import java.util.HashMap;
 
-import javax.swing.JOptionPane;
-
-
-
 public class MyConnectUnit {
 	private MyConnectToMySQL connect;
 
@@ -70,32 +66,36 @@ public class MyConnectUnit {
 	}
 
 	public boolean Update(String tableName, HashMap<String, Object> ColumnValues, String Condition) throws Exception {
-		// Khai báo bieesn StringBuilder để tạo chuỗi
-		StringBuilder query = new StringBuilder("UPDATE " + tableName + " SET ");
 
+		StringBuilder query = new StringBuilder("UPDATE " + tableName + " SET ");
 		for (String key : ColumnValues.keySet()) {
 			query.append(key + " = '" + ColumnValues.get(key).toString() + "',");
-
 		}
 		query = query.delete(query.length() - 1, query.length());
 		this.AddCondition(query, Condition);
 		query.append(";");
 		return this.connect.executeUpdate(query.toString()) > 0;
 	}
-	
-	public boolean Delete(String tableName,String condition) throws Exception {
-		//khai báo biến StringBuilder để tạo chuỗi 
-		StringBuilder query = new StringBuilder("DELETE FROM "+tableName+" ");
+
+//	public boolean Delete(String tableName,String condition) throws Exception {
+//		//khai báo biến StringBuilder để tạo chuỗi 
+//		StringBuilder query = new StringBuilder("DELETE FROM "+tableName+" ");
+//		this.AddCondition(query, condition);
+//		query.append(";");
+//		return this.connect.executeUpdate(query.toString()) > 0;
+//	}
+
+	public boolean Delete(String tableName, String condition) throws Exception {
+		// khai báo biến StringBuilder để tạo chuỗi
+		StringBuilder query = new StringBuilder("UPDATE  " + tableName + " SET ");
+		query.append("trangthai='0' ");
 		this.AddCondition(query, condition);
 		query.append(";");
 		return this.connect.executeUpdate(query.toString()) > 0;
 	}
-	
-	
-	
+
 	public void Close() throws Exception {
 		connect.Close();
 	}
-	
-	
+
 }
