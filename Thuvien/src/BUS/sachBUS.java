@@ -12,7 +12,6 @@ public class sachBUS {
 		if (dss == null) {
 			dss = new ArrayList<sachDTO>();
 		}
-		// Ä‘á»c dá»¯ liá»‡u lĂªn vĂ  truyá»n vĂ o arraylist
 		try {
 			sachDAO dao = new sachDAO();
 			dss = dao.filteredList();

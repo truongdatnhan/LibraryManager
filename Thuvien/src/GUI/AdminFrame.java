@@ -1,17 +1,21 @@
 package GUI;
 
 import java.awt.BorderLayout;
-import java.awt.Font;
-import javax.swing.ImageIcon;
-import javax.swing.JPanel;
-import javax.swing.UnsupportedLookAndFeelException;
-import TOOL.design;
 import java.awt.Color;
-import javax.swing.JLabel;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+import BUS.nhanvienBUS;
+import TOOL.ThongTinEvent;
+import TOOL.ThongTinListener;
+import TOOL.design;
 
 public class AdminFrame extends UserFrame implements ActionListener, MouseListener {
 
@@ -22,6 +26,7 @@ public class AdminFrame extends UserFrame implements ActionListener, MouseListen
 	private JPanel pnNhanvien;
 	private JPanel pnTaikhoan;
 	private suaTT sua;
+	
 	public AdminFrame() throws Exception {
 		super();
 		pnPhieumuon.setLocation(0, 250);
@@ -71,6 +76,9 @@ public class AdminFrame extends UserFrame implements ActionListener, MouseListen
 			@Override
 			public void thongTin(ThongTinEvent evt) {
 				nhanvien.table.getModel().updateRow(evt.getManv(), evt);
+				nhanvienBUS bus = new nhanvienBUS();
+				bus.updateThongTinEvent(evt);
+				nhanvien.table.setData(bus.getNVList());
 			}
 		});
 		
@@ -112,16 +120,22 @@ public class AdminFrame extends UserFrame implements ActionListener, MouseListen
 		} else if (evt.getSource() == namePanel || evt.getSource() == lbName) {
 			lbName.setFont(new Font("Tomaho", Font.BOLD, 16));
 			lbName.setForeground(Color.black);
-//CHANGED HERE				sua = new suaTT();
-							sua.setVisible(true);
-							sua.loadData();
+			sua.setVisible(true);
+			sua.loadData();
 		} else if (evt.getSource() == pnPhieumuon) {
 			centerPanel.removeAll();
 			QLPMPanel phieumuon = new QLPMPanel();
 			centerPanel.add(phieumuon, BorderLayout.CENTER);
 			centerPanel.repaint();
 			centerPanel.revalidate();
+		} else if(evt.getSource()==panelPhat) {
+			/*centerPanel.removeAll();
+			thongkePanel thongke = new thongkePanel();
+			centerPanel.add(thongke,BorderLayout.CENTER);
+			centerPanel.repaint();
+			centerPanel.revalidate();*/
 		}
+		
 	}
 
 	@Override

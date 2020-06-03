@@ -10,7 +10,7 @@ public class linhvucDAO {
 	static ResultSet rs = null;
 
 	public static ArrayList<linhvucDTO> docDSLV() throws Exception {
-		conn = new MyConnectUnit("localhost", "root", "123456", "Thuvien");
+		conn = new MyConnectUnit("localhost", "root", "", "Thuvien");
 		ArrayList<linhvucDTO> dslv = new ArrayList<linhvucDTO>();
 		rs = conn.Select("linhvuc", "trangthai = 1");
 

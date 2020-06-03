@@ -12,6 +12,7 @@ public class nhanvienDAO {
 	ArrayList<nhanvienDTO> dsnv = null;
 
 	public nhanvienDAO() {
+
 		conn = new MyConnectUnit("localhost", "root", "", "Thuvien");
 	}
 
@@ -56,7 +57,7 @@ public class nhanvienDAO {
 		}
 		conn.Close();
 	}
-
+	
 	public void Delete(nhanvienDTO nv) throws Exception {
 		boolean kt = conn.Delete("nhanvien", "manv = '" + nv.getManv() + "'");
 		if (kt == true) {

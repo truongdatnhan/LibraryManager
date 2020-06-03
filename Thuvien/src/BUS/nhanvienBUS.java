@@ -1,11 +1,12 @@
 package BUS;
 
 import java.util.ArrayList;
-import java.util.Vector;
+
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
+
 import DAO.nhanvienDAO;
 import DTO.nhanvienDTO;
+import TOOL.ThongTinEvent;
 
 public class nhanvienBUS {
 	public static ArrayList<nhanvienDTO> dsnv;
@@ -29,6 +30,18 @@ public class nhanvienBUS {
 	public void Insert(nhanvienDTO nv) throws Exception {
 		data.Insert(nv);
 		dsnv.add(nv);
+	}
+	
+	public void updateThongTinEvent(ThongTinEvent e) {
+		nhanvienDTO nhanvien = new nhanvienDTO(e.getManv(),e.getHo(),
+				e.getTen(),e.getNgaysinh(),e.getGioitinh(),
+				e.getDiachi(),e.getEmail(),e.getSdt(),e.getLuong());
+		try {
+			Update(nhanvien);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 
 	public void Delete(nhanvienDTO nv) throws Exception {

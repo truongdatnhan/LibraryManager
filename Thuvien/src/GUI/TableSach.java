@@ -3,10 +3,13 @@ package GUI;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.util.ArrayList;
+
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+
 import DTO.sachDTO;
 
 
@@ -14,11 +17,14 @@ public class TableSach extends JPanel {
 
 	private JTable table;
 	private SachModel nvModel;
+	TableRowSorter<DefaultTableModel> tr;
 
 	public TableSach() {
 
 		nvModel = new SachModel();
 		table = new JTable(nvModel);
+		tr = new TableRowSorter<DefaultTableModel>(nvModel);
+		table.setRowSorter(tr);
 
 		table.setEnabled(true);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
@@ -72,5 +78,13 @@ public class TableSach extends JPanel {
 
 	public void Update(int row, sachDTO a) {
 		nvModel.set(row, a);
+	}
+
+	public TableRowSorter<DefaultTableModel> getTr() {
+		return tr;
+	}
+
+	public void setTr(TableRowSorter<DefaultTableModel> tr) {
+		this.tr = tr;
 	}
 }

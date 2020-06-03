@@ -11,7 +11,7 @@ public class loaiDAO {
 	static ResultSet rs = null;
 	
 	public static ArrayList<loaiDTO> docDSL() throws Exception{
-		conn = new MyConnectUnit("localhost","root","123456","Thuvien");
+		conn = new MyConnectUnit("localhost","root","","Thuvien");
 		ArrayList<loaiDTO> dsl = new ArrayList<loaiDTO>();
 		rs = conn.Select("theloai","trangthai = 1");
 		

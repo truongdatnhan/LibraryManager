@@ -10,7 +10,7 @@ public class nxbDAO {
 	static ResultSet rs = null;
 	
 	public static ArrayList<nxbDTO> docNXB() throws Exception{
-		conn = new MyConnectUnit("localhost","root","123456","thuvien");
+		conn = new MyConnectUnit("localhost","root","","thuvien");
 		ArrayList<nxbDTO> dsnxb = new ArrayList<nxbDTO>();
 		rs = conn.Select("nxb","trangthai=1");
 		while(rs.next()) {

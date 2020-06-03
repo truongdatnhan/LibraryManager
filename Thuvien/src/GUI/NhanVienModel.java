@@ -7,6 +7,7 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 
 import DTO.nhanvienDTO;
+import TOOL.ThongTinEvent;
 
 public class NhanVienModel extends DefaultTableModel {
 

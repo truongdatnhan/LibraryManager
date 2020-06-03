@@ -1,33 +1,41 @@
 package GUI;
 
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JLabel;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.Vector;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.RowFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+
 import BUS.sachBUS;
 import DTO.sachDTO;
 import TOOL.check;
 
-import javax.swing.SwingConstants;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.JTextField;
-import java.awt.Color;
-import java.awt.Button;
-import java.awt.Choice;
-import java.awt.event.MouseAdapter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
-
-public class QLSPanel extends JPanel implements MouseListener, ActionListener {
+public class QLSPanel extends JPanel implements MouseListener, ActionListener, KeyListener {
 	private JTextField txMasach;
 	private JTextField txTensach;
 	private JTextField txGia;
@@ -41,6 +49,18 @@ public class QLSPanel extends JPanel implements MouseListener, ActionListener {
 	private JButton btnTL, btnTG;
 	private JButton btnLV;
 	private TableSach table;
+	//private ImagePanel img;
+	private JFileChooser fileChooser;
+	private JButton btn;
+	private JLabel hinhanh;
+	private JTextField txTen;
+	private JTextField txTL;
+	private JLabel lblTG;
+	private JTextField txTG;
+	private JLabel lbNXBID;
+	private JTextField txNXBID;
+	private JLabel lbLV;
+	private JTextField txLV;
 
 	/**
 	 * Create the panel.
@@ -183,9 +203,77 @@ public class QLSPanel extends JPanel implements MouseListener, ActionListener {
 		btnLV.setBounds(636, 149, 25, 25);
 		add(btnLV);
 
-		JLabel lbHinhanh = new JLabel("");
-		lbHinhanh.setBounds(754, 30, 173, 158);
-		add(lbHinhanh);
+		hinhanh = new JLabel();
+		hinhanh.setBounds(754, 30, 173, 158);
+		//img = new ImagePanel();
+		add(hinhanh);
+
+		FileNameExtensionFilter jpg = new FileNameExtensionFilter("JPG File", "jpg");
+		FileNameExtensionFilter jpeg = new FileNameExtensionFilter("JPEG File", "jpeg");
+		FileNameExtensionFilter png = new FileNameExtensionFilter("PNG File", "PNG");
+
+		btn = new JButton("Chọn ảnh");
+		btn.setFont(new Font("Calibri", Font.PLAIN, 18));
+		btn.setIcon(new ImageIcon("./icon/icons8_synchronize_32.png"));
+		btn.setBounds(730, 205, 150, 25);
+		btn.addActionListener(this);
+		add(btn);
+
+		txTen = new JTextField();
+		txTen.setBounds(92, 253, 134, 25);
+		add(txTen);
+		txTen.setColumns(10);
+
+		JLabel lbTen = new JLabel("Tên sách :");
+		lbTen.setBounds(24, 257, 67, 16);
+		add(lbTen);
+
+		JLabel lbTL = new JLabel("Thể loại :");
+		lbTL.setBounds(235, 257, 56, 16);
+		add(lbTL);
+
+		txTL = new JTextField();
+		txTL.setBounds(296, 253, 90, 25);
+		add(txTL);
+		txTL.setColumns(10);
+
+		lblTG = new JLabel("Tác giả :");
+		lblTG.setBounds(395, 257, 56, 16);
+		add(lblTG);
+
+		txTG = new JTextField();
+		txTG.setBounds(450, 253, 90, 25);
+		add(txTG);
+		txTG.setColumns(10);
+
+		lbNXBID = new JLabel("Nhà xuất bản :");
+		lbNXBID.setBounds(547, 257, 88, 16);
+		add(lbNXBID);
+
+		txNXBID = new JTextField();
+		txNXBID.setBounds(638, 253, 90, 25);
+		add(txNXBID);
+		txNXBID.setColumns(10);
+
+		lbLV = new JLabel("Lĩnh vực :");
+		lbLV.setBounds(737, 257, 56, 16);
+		add(lbLV);
+
+		txLV = new JTextField();
+		txLV.setBounds(797, 254, 90, 25);
+		add(txLV);
+		txLV.setColumns(10);
+
+		txTen.addKeyListener(this);
+		txTL.addKeyListener(this);
+		txTG.addKeyListener(this);
+		txNXBID.addKeyListener(this);
+		txLV.addKeyListener(this);
+
+		fileChooser = new JFileChooser();
+		fileChooser.setFileFilter(jpg);
+		fileChooser.setFileFilter(jpeg);
+		fileChooser.setFileFilter(png);
 
 		table.getTable().addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
@@ -201,6 +289,7 @@ public class QLSPanel extends JPanel implements MouseListener, ActionListener {
 					txMaNXB.setText(nv.getManxb());
 					txLinhvuc.setText(nv.getMalinhvuc());
 					txSoluong.setText(String.valueOf(nv.getSoluong()));
+					// img.setImage(nv.getHinhanh(), hinhanh);
 				}
 			}
 		});
@@ -277,6 +366,8 @@ public class QLSPanel extends JPanel implements MouseListener, ActionListener {
 			Delete();
 		} else if (e.getSource() == btnSua) {
 			Update();
+		} else if (e.getSource() == btn) {
+			JOptionPane.showMessageDialog(null, "Bạn không thể chọn chức năng này(Chỉ khi thêm hoặc sửa)");
 		}
 	}
 
@@ -301,7 +392,7 @@ public class QLSPanel extends JPanel implements MouseListener, ActionListener {
 										sach.setManxb(txMaNXB.getText());
 										if (!check.checkNull(txLinhvuc.getText()) == true) {
 											sach.setMalinhvuc(txLinhvuc.getText());
-											sach.setHinhanh("");
+											sach.setHinhanh(Image());
 											// code phần hình
 											sach.setTrangthai(1);
 											switch (k) {
@@ -319,7 +410,6 @@ public class QLSPanel extends JPanel implements MouseListener, ActionListener {
 												bus.Update(sach);
 												table.Update(i, sach);
 											}
-												break;
 											}
 
 										} else
@@ -373,5 +463,130 @@ public class QLSPanel extends JPanel implements MouseListener, ActionListener {
 			return;
 		}
 		Insert(i, "Update");
+	}
+
+	public String Image() throws IOException {
+		int result = fileChooser.showOpenDialog(QLSPanel.this);
+
+		if (result == JFileChooser.APPROVE_OPTION) {
+			File input = fileChooser.getSelectedFile();
+			File output = new File("./imgsach/" + input.getName());
+			copyFileUsingStream(input, output); // TODO Auto-generated catch block
+			//img.setImage(output.getAbsolutePath(), hinhanh);
+			return output.toString();
+		}
+		return "";
+	}
+
+	private static void copyFileUsingStream(File source, File dest) throws IOException {
+
+		try (InputStream is = new FileInputStream(source); OutputStream os = new FileOutputStream(dest);) {
+			byte[] buffer = new byte[1024];
+			int length;
+			while ((length = is.read(buffer)) > 0) {
+				os.write(buffer, 0, length);
+			}
+		}
+	}
+
+	@Override
+	public void keyPressed(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		RowFilter<Object, Object> bookName = new RowFilter<Object, Object>() {
+			@Override
+			public boolean include(Entry<? extends Object, ? extends Object> entry) {
+				String find = txTen.getText().toLowerCase();
+				String name = entry.getStringValue(1).toLowerCase();
+
+				//System.out.println(name);
+				//System.out.println(find);
+
+				if (name.contains(find)) {
+					return true;
+				}
+				return false;
+			}
+
+		};
+		
+		ArrayList<RowFilter<Object,Object>> filters = new ArrayList<RowFilter<Object,Object>>();
+		filters.add(bookName);
+		filters.add(RowFilter.regexFilter("(?i)" + txTL.getText().toLowerCase(), 3));
+		filters.add(RowFilter.regexFilter("(?i)" + txTG.getText().toLowerCase(), 4));
+		filters.add(RowFilter.regexFilter("(?i)" + txNXBID.getText().toLowerCase(), 5));
+		filters.add(RowFilter.regexFilter("(?i)" + txLV.getText().toLowerCase(), 6));
+		RowFilter rf = RowFilter.andFilter(filters);
+		
+		/*if(e.getSource() == txTen) {
+			System.out.println("Tên");
+		}
+		
+		if(e.getSource() == txTL) {
+			System.out.println("Thể loại");
+		}
+		
+		if(e.getSource() == txTG) {
+			System.out.println("Tác giả");
+		}
+		
+		if(e.getSource() == txNXBID) {
+			System.out.println("NXB");
+		}
+		
+		if(e.getSource() == txLV) {
+			System.out.println("Lĩnh vực");
+		}*/
+		
+		if (txTen.getText().isEmpty() && txTL.getText().isEmpty() && txTG.getText().isEmpty()
+				&& txNXBID.getText().isEmpty() && txLV.getText().isEmpty()) {
+			table.getTr().setRowFilter(null);
+		} else {
+			table.getTr().setRowFilter(rf);
+		/*	if (!txTen.getText().isEmpty()) {
+				table.getTr().setRowFilter(bookName);
+			}
+			if(!txTL.getText().isEmpty()) {
+				TableRowSorter oldSorter = (TableRowSorter) table.getTr();
+				TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<DefaultTableModel>(
+						(DefaultTableModel) table.getTable().getModel());
+				table.setTr(sorter);
+				sorter.setRowFilter(RowFilter.regexFilter("(?i)" + txTL.getText().toLowerCase(), 3));
+			}
+			if(!txTG.getText().isEmpty()) {
+				TableRowSorter oldSorter = (TableRowSorter) table.getTable().getRowSorter();
+				TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<DefaultTableModel>(
+						(DefaultTableModel) table.getTable().getModel());
+				table.setTr(sorter);
+				table.getTr().setRowFilter(RowFilter.regexFilter("(?i)" + txTG.getText().toLowerCase(), 4));
+				System.out.println("nhập tác giả");
+			}
+			if(!txNXBID.getText().isEmpty()) {
+				TableRowSorter oldSorter = (TableRowSorter) table.getTable().getRowSorter();
+				TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<DefaultTableModel>(
+						(DefaultTableModel) table.getTable().getModel());
+				table.setTr(sorter);
+				table.getTr().setRowFilter(RowFilter.regexFilter("(?i)" + txNXBID.getText().toLowerCase(), 5));
+				System.out.println("nhập nxb");
+			}
+			if(!txLV.getText().isEmpty()) {
+				TableRowSorter oldSorter = (TableRowSorter) table.getTable().getRowSorter();
+				TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<DefaultTableModel>(
+						(DefaultTableModel) table.getTable().getModel());
+				table.setTr(sorter);
+				table.getTr().setRowFilter(RowFilter.regexFilter("(?i)" + txLV.getText().toLowerCase(), 6));
+				System.out.println("nhập lĩnh vực");
+			}*/
+		}
+	}
+
+	@Override
+	public void keyTyped(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+
 	}
 }

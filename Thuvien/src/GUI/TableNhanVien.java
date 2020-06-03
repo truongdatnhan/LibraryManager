@@ -51,10 +51,6 @@ public class TableNhanVien extends JPanel {
 		nvModel.loadData();
 	}
 	
-	public void reloadData(nhanvienDTO nv,int i) {
-		nvModel.reloadData(nv,i);
-	}
-
 	public void addData(nhanvienDTO nv) {
 		nvModel.addRow(nv);
 	}

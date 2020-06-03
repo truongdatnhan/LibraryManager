@@ -34,6 +34,7 @@ import com.toedter.calendar.JDateChooser;
 
 import BUS.nhanvienBUS;
 import DTO.nhanvienDTO;
+import TOOL.ThongTinEvent;
 import TOOL.check;
 
 public class QLNVPanel extends JPanel implements ActionListener, KeyListener, MouseListener {
@@ -72,7 +73,7 @@ public class QLNVPanel extends JPanel implements ActionListener, KeyListener, Mo
 
 		txManv = new JTextField();
 		txManv.setEditable(false);
-		txManv.setBounds(175, 30, 268, 25);
+		txManv.setBounds(175, 30, 372, 25);
 		add(txManv);
 		txManv.setColumns(10);
 
@@ -82,17 +83,17 @@ public class QLNVPanel extends JPanel implements ActionListener, KeyListener, Mo
 		add(lbHo);
 
 		txHo = new JTextField();
-		txHo.setBounds(175, 70, 92, 25);
+		txHo.setBounds(175, 70, 185, 25);
 		add(txHo);
 		txHo.setColumns(10);
 
 		JLabel lbTen = new JLabel("Tên :");
 		lbTen.setHorizontalAlignment(SwingConstants.CENTER);
-		lbTen.setBounds(270, 71, 50, 25);
+		lbTen.setBounds(368, 69, 50, 25);
 		add(lbTen);
 
 		txTen = new JTextField();
-		txTen.setBounds(316, 69, 127, 26);
+		txTen.setBounds(420, 71, 127, 26);
 		add(txTen);
 		txTen.setColumns(10);
 
@@ -103,7 +104,7 @@ public class QLNVPanel extends JPanel implements ActionListener, KeyListener, Mo
 
 		dateChooser = new JDateChooser();
 		dateChooser.setDateFormatString("yyyy-MM-dd");
-		dateChooser.setBounds(175, 110, 268, 25);
+		dateChooser.setBounds(175, 110, 372, 25);
 		add(dateChooser);
 
 		JLabel lbGioitinh = new JLabel("Giới tính :");
@@ -120,7 +121,7 @@ public class QLNVPanel extends JPanel implements ActionListener, KeyListener, Mo
 		rbNu = new JRadioButton("Nữ");
 		rbNu.setFont(new Font("Calibri", Font.PLAIN, 18));
 		rbNu.setHorizontalAlignment(SwingConstants.CENTER);
-		rbNu.setBounds(304, 150, 114, 25);
+		rbNu.setBounds(356, 150, 114, 25);
 		add(rbNu);
 
 		groupGioitinh = new ButtonGroup();
@@ -129,69 +130,69 @@ public class QLNVPanel extends JPanel implements ActionListener, KeyListener, Mo
 
 		JLabel lbDiachi = new JLabel("Địa chỉ :");
 		lbDiachi.setFont(new Font("Calibri", Font.PLAIN, 18));
-		lbDiachi.setBounds(561, 30, 70, 25);
+		lbDiachi.setBounds(624, 30, 70, 25);
 		add(lbDiachi);
 
 		txDiachi = new JTextField();
-		txDiachi.setBounds(716, 28, 213, 25);
+		txDiachi.setBounds(746, 28, 284, 25);
 		add(txDiachi);
 		txDiachi.setColumns(10);
 
 		JLabel lbEmail = new JLabel("Email :");
 		lbEmail.setFont(new Font("Calibri", Font.PLAIN, 18));
-		lbEmail.setBounds(561, 70, 70, 25);
+		lbEmail.setBounds(624, 70, 70, 25);
 		add(lbEmail);
 
 		txEmail = new JTextField();
-		txEmail.setBounds(716, 68, 213, 25);
+		txEmail.setBounds(746, 68, 284, 25);
 		add(txEmail);
 		txEmail.setColumns(10);
 
 		JLabel lbSDT = new JLabel("Số điện thoại :");
 		lbSDT.setFont(new Font("Calibri", Font.PLAIN, 18));
-		lbSDT.setBounds(561, 110, 120, 25);
+		lbSDT.setBounds(624, 110, 120, 25);
 		add(lbSDT);
 
 		txSDT = new JTextField();
-		txSDT.setBounds(716, 108, 213, 26);
+		txSDT.setBounds(746, 108, 284, 26);
 		add(txSDT);
 		txSDT.setColumns(10);
 
 		JLabel lbLuong = new JLabel("Lương :");
 		lbLuong.setFont(new Font("Calibri", Font.PLAIN, 18));
-		lbLuong.setBounds(561, 150, 70, 25);
+		lbLuong.setBounds(624, 150, 70, 25);
 		add(lbLuong);
 
 		txLuong = new JTextField();
-		txLuong.setBounds(716, 148, 213, 25);
+		txLuong.setBounds(746, 148, 284, 25);
 		add(txLuong);
 		txLuong.setColumns(10);
 
 		btnThem = new JButton("Thêm");
 		btnThem.setFont(new Font("Calibri", Font.PLAIN, 17));
 		btnThem.setIcon(new ImageIcon("./icon/icons8_add_32.png"));
-		btnThem.setBounds(5, 206, 150, 25);
+		btnThem.setBounds(30, 206, 150, 25);
 		btnThem.addActionListener(this);
 		add(btnThem);
 
 		btnXoa = new JButton("Xóa");
 		btnXoa.setFont(new Font("Calibri", Font.PLAIN, 18));
 		btnXoa.setIcon(new ImageIcon("./icon/icons8_delete_sign_32.png"));
-		btnXoa.setBounds(175, 205, 150, 25);
+		btnXoa.setBounds(210, 205, 150, 25);
 		btnXoa.addActionListener(this);
 		add(btnXoa);
 
 		btnTailai = new JButton("Tải lại");
 		btnTailai.setFont(new Font("Calibri", Font.PLAIN, 18));
 		btnTailai.setIcon(new ImageIcon("./icon/icons8_synchronize_32.png"));
-		btnTailai.setBounds(505, 205, 150, 25);
+		btnTailai.setBounds(544, 205, 150, 25);
 		btnTailai.addActionListener(this);
 		add(btnTailai);
 
 		btnSua = new JButton("Sửa");
 		btnSua.setFont(new Font("Calibri", Font.PLAIN, 18));
 		btnSua.setIcon(new ImageIcon("./icon/icons8_change_32.png"));
-		btnSua.setBounds(340, 205, 150, 25);
+		btnSua.setBounds(379, 205, 150, 25);
 		btnSua.addActionListener(this);
 		add(btnSua);
 
@@ -199,10 +200,9 @@ public class QLNVPanel extends JPanel implements ActionListener, KeyListener, Mo
 		table.setData(bus.getNVList());
 		Dimension dm = new Dimension();
 		dm = Toolkit.getDefaultToolkit().getScreenSize();
-		table.setBounds(5, 295,dm.width-230 , 300);
+		table.setBounds(5, 295,1050 , 300);
 		add(table);
 		table.loadData();
-		//table.reloadData();
 
 		txTimkiem = new JTextField();
 		txTimkiem.setBounds(763, 253, 212, 25);
@@ -212,7 +212,7 @@ public class QLNVPanel extends JPanel implements ActionListener, KeyListener, Mo
 
 		JButton btnNewButton = new JButton("Xuất Excel");
 		btnNewButton.setIcon(new ImageIcon("./icon/icons8_Microsoft_Excel_2019_32.png"));
-		btnNewButton.setBounds(670, 204, 150, 25);
+		btnNewButton.setBounds(715, 204, 150, 25);
 		add(btnNewButton);
 
 		comboThang = new JComboBox();
@@ -255,19 +255,10 @@ public class QLNVPanel extends JPanel implements ActionListener, KeyListener, Mo
 
 		luong2.setColumns(10);
 		
-		suaTT = new suaTT();
-		suaTT.setThongTinLisnter(new ThongTinListener() {
-			@Override
-			public void thongTin(ThongTinEvent evt) {
-				System.out.println("AAAAAAAAA");
-			}
-			
-		});
-		
 		
 		btnIn = new JButton("In");
 		btnIn.setIcon(new ImageIcon("./icon/icons8_print_32.png"));
-		btnIn.setBounds(831, 204, 150, 25);
+		btnIn.setBounds(880, 204, 150, 25);
 		add(btnIn);
 		table.getTable().addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {

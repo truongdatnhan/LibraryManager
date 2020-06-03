@@ -3,9 +3,7 @@ package DAO;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import javax.swing.JOptionPane;
-
 import DTO.sachDTO;
 
 public class sachDAO {
@@ -55,6 +53,7 @@ public class sachDAO {
 		} else {
 			JOptionPane.showMessageDialog(null, "Thêm thất bại");
 		}
+		conn.Close();
 	}
 
 	public void Delete(sachDTO s) throws Exception {
@@ -64,6 +63,7 @@ public class sachDAO {
 		} else {
 			JOptionPane.showMessageDialog(null, "Xóa thất bại");
 		}
+		conn.Close();
 	}
 
 	public void Update(sachDTO s) throws Exception {
@@ -84,15 +84,17 @@ public class sachDAO {
 		} else {
 			JOptionPane.showMessageDialog(null, "Sửa thất bại");
 		}
+		conn.Close();
 	}
 
-	public ArrayList filteredList() throws Exception {
+	public ArrayList<sachDTO> filteredList() throws Exception {
 		docDSS();
-		ArrayList temp = new ArrayList();
+		ArrayList<sachDTO> temp = new ArrayList<sachDTO>();
 		for (sachDTO sach : dss) {
 			if (sach.getTrangthai() == 1)
 				temp.add(sach);
 		}
+		conn.Close();
 		return temp;
 	}
 }

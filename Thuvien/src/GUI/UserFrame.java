@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -16,7 +17,10 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.LineBorder;
+
 import BUS.nhanvienBUS;
+import TOOL.ThongTinEvent;
+import TOOL.ThongTinListener;
 import TOOL.design;
 
 public class UserFrame extends JFrame implements MouseListener {
@@ -33,14 +37,18 @@ public class UserFrame extends JFrame implements MouseListener {
 	private JPanel logOutPanel;
 	private ImageIcon imgLogout;
 	private JLabel lbLogo;
+	protected JPanel panelPhat;
+	private suaTT sua;
 
 	public UserFrame() throws UnsupportedLookAndFeelException {
 		UIManager.setLookAndFeel(new com.jtattoo.plaf.luna.LunaLookAndFeel());
 		setBackground(Color.WHITE);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
 		Dimension dm = new Dimension();
 		dm = Toolkit.getDefaultToolkit().getScreenSize();
-		setSize(dm.width , dm.height);
+		setSize(dm.width, dm.height);
+
 		setLocationRelativeTo(null);
 		setTitle("Quản lí nhân viên");
 		mainPanel = new JPanel();
@@ -95,6 +103,16 @@ public class UserFrame extends JFrame implements MouseListener {
 		ImageIcon logo = design.resizeIcon("./icon/book1.png", lbLogo.getWidth(), lbLogo.getHeight());
 		lbLogo.setIcon(logo);
 
+		panelPhat = new JPanel();
+		panelPhat.setBounds(0, 453, 200, 58);
+		panelPhat.addMouseListener(this);
+		leftPanel.add(panelPhat);
+		panelPhat.setLayout(null);
+
+		JLabel lblNewLabel = new JLabel("Thống kê");
+		lblNewLabel.setBounds(65, 5, 69, 20);
+		panelPhat.add(lblNewLabel);
+
 		header = new JPanel();
 		header.setPreferredSize(new Dimension(1200, 40));
 		header.setBackground(new Color(45, 118, 232));
@@ -143,8 +161,16 @@ public class UserFrame extends JFrame implements MouseListener {
 
 		sach = new QLSPanel();
 		centerPanel.add(sach, BorderLayout.CENTER);
-		
-		//pack();
+
+		sua = new suaTT();
+		sua.setThongTinLisnter(new ThongTinListener() {
+			@Override
+			public void thongTin(ThongTinEvent evt) {
+				bus.updateThongTinEvent(evt);
+			}
+		});
+
+		// pack();
 	}
 
 	@Override
@@ -162,15 +188,9 @@ public class UserFrame extends JFrame implements MouseListener {
 		} else if (e.getSource() == namePanel || e.getSource() == lbName) {
 			lbName.setFont(new Font("Tomaho", Font.ITALIC, 10));
 			lbName.setForeground(Color.black);
-			suaTT sua;
-			try {
-				sua = new suaTT();
-				sua.setVisible(true);
-				sua.loadData();
-				;
-			} catch (UnsupportedLookAndFeelException e1) {
-				e1.printStackTrace();
-			}
+			// CHANGED HERE sua = new suaTT();
+			sua.setVisible(true);
+			sua.loadData();
 		} else if (e.getSource() == lbLogOut || e.getSource() == logOutPanel) {
 			try {
 				logInForm login = new logInForm();

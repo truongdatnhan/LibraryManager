@@ -3,10 +3,7 @@ package DAO;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import javax.swing.JOptionPane;
-
-import DTO.nhanvienDTO;
 import DTO.phieumuonDTO;
 
 public class phieumuonDAO {
@@ -15,7 +12,7 @@ public class phieumuonDAO {
 	ArrayList<phieumuonDTO> dspm = null;
 
 	public phieumuonDAO() {
-		conn = new MyConnectUnit("localhost", "root", "123456", "Thuvien");
+		conn = new MyConnectUnit("localhost", "root", "", "Thuvien");
 	}
 
 	public ArrayList<phieumuonDTO> docDSPM() throws Exception {

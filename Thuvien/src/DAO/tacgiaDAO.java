@@ -11,7 +11,7 @@ public class tacgiaDAO {
 	static ResultSet rs = null;
 
 	public static ArrayList<tacgiaDTO> docDSTG() throws Exception {
-		conn = new MyConnectUnit("localhost", "root", "123456", "Thuvien");
+		conn = new MyConnectUnit("localhost", "root", "", "Thuvien");
 		ArrayList<tacgiaDTO> dstg = new ArrayList<tacgiaDTO>();
 		rs = conn.Select("tacgia", "trangthai = 1");
 
