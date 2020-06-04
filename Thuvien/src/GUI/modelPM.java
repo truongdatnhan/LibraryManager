@@ -47,12 +47,12 @@ public class modelPM extends DefaultTableModel {
 		super.addRow(row);
 	}
 
-	public void deleteData(phieumuonDTO pm, int i) {
+	public void deleteData (int i) {
 		super.removeRow(i);
 	}
 
 	public void updateData(phieumuonDTO pm, int i) {
-		String[] temp = new String[] { pm.getMapm(), pm.getManv(), pm.getMathe(), pm.getNgaymuon(),
+		String[] temp = new String[] { pm.getManv(), pm.getMathe(), pm.getNgaymuon(),
 				pm.getNgayquidinhtra() };
 		for (int j = 0; j < colName.length - 2; j++) {
 			super.setValueAt(temp[j], i, j + 1);

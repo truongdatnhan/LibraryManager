@@ -36,8 +36,8 @@ public class TablePhieuMuon extends JPanel{
 		model.addRow(pm);
 	}
 	
-	public void  deleteData(phieumuonDTO pm,int i) {
-		model.deleteData(pm, i);
+	public void  deleteData(int i) {
+		model.deleteData(i);
 	}
 	
 	public void updateData(phieumuonDTO pm,int i ) {

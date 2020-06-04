@@ -9,8 +9,10 @@ import java.awt.event.MouseListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
@@ -21,25 +23,33 @@ import BUS.ctpmBUS;
 import BUS.phieumuonBUS;
 import DTO.ctpmDTO;
 import DTO.phieumuonDTO;
+import TOOL.check;
 
-public class QLPMPanel extends JPanel {
+public class QLPMPanel extends JPanel implements ActionListener {
 	private JTextField txMapm;
 	private JTextField txManv;
 	private JTextField txMathe;
 	private JTextField txMsach;
 	private JTextField txSoluong;
 	private TablePhieuMuon table;
+	private JButton btnThemPM, btnXoaPM, btnSuaPM, btnTaiLaiPM;
+	private JDateChooser dateNgaymuon, dateNgayquydinhtra;
 	private tableCTPM tableCTP;
+	private final ButtonGroup buttonGroup = new ButtonGroup();
+	private check check;
 
 	public QLPMPanel() {
 		setBackground(Color.WHITE);
 		setLayout(null);
+
+		check = new check();
 
 		JLabel lbMaHD = new JLabel("Mã phiếu mượn");
 		lbMaHD.setBounds(541, 30, 99, 25);
 		add(lbMaHD);
 
 		txMapm = new JTextField();
+		txMapm.setEditable(false);
 		txMapm.setBounds(675, 29, 191, 25);
 		add(txMapm);
 		txMapm.setColumns(10);
@@ -74,7 +84,7 @@ public class QLPMPanel extends JPanel {
 		lbPhieumuon.setBounds(541, 151, 99, 25);
 		add(lbPhieumuon);
 
-		JDateChooser dateNgaymuon = new JDateChooser();
+		dateNgaymuon = new JDateChooser();
 		dateNgaymuon.setDateFormatString("yyyy-MM-dd");
 		dateNgaymuon.getCalendarButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -87,7 +97,7 @@ public class QLPMPanel extends JPanel {
 		lbNgayquydinhtra.setBounds(541, 194, 143, 25);
 		add(lbNgayquydinhtra);
 
-		JDateChooser dateNgayquydinhtra = new JDateChooser();
+		dateNgayquydinhtra = new JDateChooser();
 		dateNgayquydinhtra.setDateFormatString("yyyy-MM-dd");
 		dateNgayquydinhtra.setBounds(675, 193, 191, 26);
 		add(dateNgayquydinhtra);
@@ -139,10 +149,12 @@ public class QLPMPanel extends JPanel {
 		add(lbTinhTrang);
 
 		JRadioButton rdDaTra = new JRadioButton("Đã trả");
+		buttonGroup.add(rdDaTra);
 		rdDaTra.setBounds(180, 381, 84, 29);
 		add(rdDaTra);
 
 		JRadioButton rdChuaTra = new JRadioButton("Chưa trả");
+		buttonGroup.add(rdChuaTra);
 		rdChuaTra.setBounds(331, 378, 99, 29);
 		add(rdChuaTra);
 
@@ -177,12 +189,34 @@ public class QLPMPanel extends JPanel {
 		JButton btnNewButton_3 = new JButton("New button");
 		btnNewButton_3.setBounds(238, 557, 192, 29);
 		add(btnNewButton_3);
+
+		btnThemPM = new JButton("Thêm");
+		btnThemPM.setBounds(886, 30, 97, 25);
+		add(btnThemPM);
+
+		btnXoaPM = new JButton("Xoá");
+		btnXoaPM.setBounds(886, 71, 97, 25);
+		add(btnXoaPM);
+
+		btnSuaPM = new JButton("Sửa");
+		btnSuaPM.setBounds(886, 112, 97, 25);
+		add(btnSuaPM);
+
+		btnTaiLaiPM = new JButton("Tải lại");
+		btnTaiLaiPM.setBounds(886, 151, 97, 25);
+		add(btnTaiLaiPM);
+
+		btnThemPM.addActionListener(this);
+		btnXoaPM.addActionListener(this);
+		btnSuaPM.addActionListener(this);
+		btnTaiLaiPM.addActionListener(this);
+
 		table.loadData();
 		table.getTable().addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				int i = table.getTable().getSelectedRow();
 				phieumuonDTO pm = phieumuonBUS.dspm.get(i);
-				
+
 				txMapm.setText(pm.getMapm());
 				txManv.setText(pm.getManv());
 				txMathe.setText(pm.getMathe());
@@ -193,7 +227,7 @@ public class QLPMPanel extends JPanel {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				
+
 				ctpmBUS bus = new ctpmBUS();
 
 				if (i >= 0) {
@@ -203,57 +237,135 @@ public class QLPMPanel extends JPanel {
 
 			}
 		});
-		
+
 		tableCTP.getTable().addMouseListener(new MouseListener() {
-			
+
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mousePressed(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				int i = tableCTP.getTable().getSelectedRow();
 				ctpmBUS bus = new ctpmBUS();
 				ctpmDTO ct = bus.getNVList(txMapm.getText()).get(i);
-				
+
 				txMsach.setText(ct.getMasach());
 				txSoluong.setText(String.valueOf(ct.getSoluong()));
-				if("Đã trả".equals(ct.getTinhtrang())) {
+				if ("Đã trả".equals(ct.getTinhtrang())) {
 					rdDaTra.setSelected(true);
 				} else {
 					rdChuaTra.setSelected(true);
 				}
 				try {
-					if(!ct.getNgaythuctra().isEmpty()) {
-					dateNgaytra.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(ct.getNgaythuctra()));
+					if (!(ct.getNgaythuctra() == null)) {
+						dateNgaytra.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(ct.getNgaythuctra()));
+					} else {
+						dateNgaytra.setDate(null);
 					}
 				} catch (ParseException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				
+
 			}
 		});
+
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent evt) {
+		if (evt.getSource() == btnThemPM) {
+			if (check.checkID(txManv.getText(), "NV")) {
+				if (check.checkID(txMathe.getText(), "TTV")) {
+					if (check.checkDate((String) new SimpleDateFormat("dd-MM-yyyy").format(dateNgaymuon.getDate()))) {
+						String dateMuon = (String) new SimpleDateFormat("yyyy-MM-dd").format(dateNgaymuon.getDate());
+						if (check.checkDate(
+								(String) new SimpleDateFormat("dd-MM-yyyy").format(dateNgayquydinhtra.getDate()))) {
+							String dateTra = (String) new SimpleDateFormat("yyyy-MM-dd")
+									.format(dateNgayquydinhtra.getDate());
+							phieumuonBUS busPM = new phieumuonBUS();
+
+							phieumuonDTO pm = null;
+							try {
+								pm = new phieumuonDTO(busPM.autoCreateID(), txManv.getText(), txMathe.getText(),
+										dateMuon, dateTra);
+							} catch (Exception e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+
+							try {
+								if (pm == null) {
+									System.out.println("Lỗi quá trình thêm");
+								}
+								busPM.Insert(pm);
+								table.addData(pm);
+								table.setData(busPM.getPMList());
+							} catch (Exception e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+					}
+				}
+			}
+
+		}
+
+		if (evt.getSource() == btnSuaPM) {
+			int i = table.getTable().getSelectedRow();
+			if (i >= 0) {
+				phieumuonBUS busPM = new phieumuonBUS();
+				if (check.checkID(txManv.getText(), "NV")) {
+					if (check.checkID(txMathe.getText(), "TTV")) {
+						if (check.checkDate((String) new SimpleDateFormat("dd-MM-yyyy").format(dateNgaymuon.getDate()))) {
+							String dateMuon = (String) new SimpleDateFormat("yyyy-MM-dd").format(dateNgaymuon.getDate());
+							if (check.checkDate((String) new SimpleDateFormat("dd-MM-yyyy").format(dateNgayquydinhtra.getDate()))) {
+								String dateTra = (String) new SimpleDateFormat("yyyy-MM-dd").format(dateNgayquydinhtra.getDate());
+								phieumuonDTO pm = new phieumuonDTO(txMapm.getText(), txManv.getText(), txMathe.getText(),
+										dateMuon, dateTra);
+								
+								try {
+									busPM.Update(pm);
+								} catch (Exception e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+								table.updateData(pm, i);
+								try {
+									table.setData(busPM.getPMList());
+								} catch (Exception e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+							}
+						}
+					}
+				}
+
+			}
+		}
 
 	}
 }
