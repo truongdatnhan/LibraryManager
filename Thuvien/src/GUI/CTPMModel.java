@@ -11,17 +11,18 @@ public class CTPMModel extends DefaultTableModel {
 	public ArrayList<ctpmDTO> ctpmList;
 	private static String[] colName = { "Mã phiếu mượn", "Mã sách", "Số lượng", "Tình trạng",
 			"Ngày thực trả" };
-	
+
 	public CTPMModel() {
 		super(colName, 0);
 	}
-	
+
 	public void setData(ArrayList<ctpmDTO> list) {
 		this.ctpmList = list;
 	}
-	
+
 	public void loadData() {
-		for(ctpmDTO ctp : ctpmList) {
+		deleteAll();
+		for (ctpmDTO ctp : ctpmList) {
 			Vector<String> row = new Vector<String>();
 			row.add(ctp.getMapm());
 			row.add(ctp.getMasach());
@@ -31,4 +32,13 @@ public class CTPMModel extends DefaultTableModel {
 			super.addRow(row);
 		}
 	}
+
+	public void deleteAll() {
+		if (super.getRowCount() > 0) {
+			for (int i = super.getRowCount() - 1; i > -1; i--) {
+				super.removeRow(i);
+			}
+		}
+	}
+
 }

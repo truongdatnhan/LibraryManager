@@ -31,5 +31,9 @@ public class tableCTPM extends JPanel{
 	public void loadData() {
 		model.loadData();
 	}
+
+	public JTable getTable() {
+		return table;
+	}
 	
 }

@@ -1,25 +1,26 @@
 package GUI;
 
-import javax.swing.JPanel;
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
-import javax.swing.JLabel;
-import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
+
 import com.toedter.calendar.JDateChooser;
 
 import BUS.ctpmBUS;
 import BUS.phieumuonBUS;
+import DTO.ctpmDTO;
 import DTO.phieumuonDTO;
-
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.ActionEvent;
-import javax.swing.JRadioButton;
-import javax.swing.JTable;
 
 public class QLPMPanel extends JPanel {
 	private JTextField txMapm;
@@ -74,6 +75,7 @@ public class QLPMPanel extends JPanel {
 		add(lbPhieumuon);
 
 		JDateChooser dateNgaymuon = new JDateChooser();
+		dateNgaymuon.setDateFormatString("yyyy-MM-dd");
 		dateNgaymuon.getCalendarButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -85,9 +87,10 @@ public class QLPMPanel extends JPanel {
 		lbNgayquydinhtra.setBounds(541, 194, 143, 25);
 		add(lbNgayquydinhtra);
 
-		JDateChooser dateNgayquyidinhtra = new JDateChooser();
-		dateNgayquyidinhtra.setBounds(675, 193, 191, 26);
-		add(dateNgayquyidinhtra);
+		JDateChooser dateNgayquydinhtra = new JDateChooser();
+		dateNgayquydinhtra.setDateFormatString("yyyy-MM-dd");
+		dateNgayquydinhtra.setBounds(675, 193, 191, 26);
+		add(dateNgayquydinhtra);
 
 		JLabel lbMasach = new JLabel("Mã sách ");
 		lbMasach.setBounds(40, 305, 99, 25);
@@ -135,28 +138,28 @@ public class QLPMPanel extends JPanel {
 		lbTinhTrang.setBounds(40, 382, 79, 20);
 		add(lbTinhTrang);
 
-		JRadioButton rdbtnNewRadioButton = new JRadioButton("Đã trả");
-		rdbtnNewRadioButton.setBounds(180, 381, 84, 29);
-		add(rdbtnNewRadioButton);
+		JRadioButton rdDaTra = new JRadioButton("Đã trả");
+		rdDaTra.setBounds(180, 381, 84, 29);
+		add(rdDaTra);
 
-		JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("Chưa trả");
-		rdbtnNewRadioButton_1.setBounds(331, 378, 99, 29);
-		add(rdbtnNewRadioButton_1);
+		JRadioButton rdChuaTra = new JRadioButton("Chưa trả");
+		rdChuaTra.setBounds(331, 378, 99, 29);
+		add(rdChuaTra);
 
 		JLabel lbNgaythuctra = new JLabel("Ngày thực trả");
 		lbNgaythuctra.setBounds(40, 418, 99, 20);
 		add(lbNgaythuctra);
 
 		JDateChooser dateNgaytra = new JDateChooser();
+		dateNgaytra.setDateFormatString("yyyy-MM-dd");
 		dateNgaytra.setBounds(180, 419, 250, 26);
 		add(dateNgaytra);
 		phieumuonBUS bus = new phieumuonBUS();
-		
+
 		tableCTP = new tableCTPM();
 		tableCTP.setBounds(477, 290, 555, 302);
 
 		add(tableCTP);
-
 
 		table = new TablePhieuMuon();
 		table.setBounds(15, 16, 511, 258);
@@ -166,30 +169,91 @@ public class QLPMPanel extends JPanel {
 			e1.printStackTrace();
 		}
 		add(table);
-		
+
 		JButton btnNewButton_2 = new JButton("New button");
 		btnNewButton_2.setBounds(40, 557, 183, 29);
 		add(btnNewButton_2);
-		
+
 		JButton btnNewButton_3 = new JButton("New button");
 		btnNewButton_3.setBounds(238, 557, 192, 29);
 		add(btnNewButton_3);
 		table.loadData();
 		table.getTable().addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-//				int i = table.getTable().getSelectedRow();
-//				phieumuonDTO pm = phieumuonBUS.dspm.get(i);
-//				ctpmBUS bus = new ctpmBUS();
-//				
-//				if (i >= 0) {	
-//					tableCTP.setData(bus.getNVList(pm.getMapm()));
-//					tableCTP.loadData();
-//					
-//				}
-//			
+				int i = table.getTable().getSelectedRow();
+				phieumuonDTO pm = phieumuonBUS.dspm.get(i);
+				
+				txMapm.setText(pm.getMapm());
+				txManv.setText(pm.getManv());
+				txMathe.setText(pm.getMathe());
+				try {
+					dateNgaymuon.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(pm.getNgaymuon()));
+					dateNgayquydinhtra.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(pm.getNgayquidinhtra()));
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				ctpmBUS bus = new ctpmBUS();
+
+				if (i >= 0) {
+					tableCTP.setData(bus.getNVList(pm.getMapm()));
+					tableCTP.loadData();
+				}
+
+			}
+		});
+		
+		tableCTP.getTable().addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int i = tableCTP.getTable().getSelectedRow();
+				ctpmBUS bus = new ctpmBUS();
+				ctpmDTO ct = bus.getNVList(txMapm.getText()).get(i);
+				
+				txMsach.setText(ct.getMasach());
+				txSoluong.setText(String.valueOf(ct.getSoluong()));
+				if("Đã trả".equals(ct.getTinhtrang())) {
+					rdDaTra.setSelected(true);
+				} else {
+					rdChuaTra.setSelected(true);
+				}
+				try {
+					if(!ct.getNgaythuctra().isEmpty()) {
+					dateNgaytra.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(ct.getNgaythuctra()));
+					}
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
 			}
 		});
 
-		
 	}
 }

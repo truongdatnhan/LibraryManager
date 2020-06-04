@@ -12,6 +12,7 @@ public class ctpmDAO {
 	MyConnectUnit conn = null;
 	ResultSet rs = null;
 	ArrayList<ctpmDTO> dsctm = null;
+	HashMap<String, ArrayList<ctpmDTO>> map = null;
 	
 	public ctpmDAO() {
 		conn = new MyConnectUnit("localhost", "root", "", "Thuvien");
@@ -54,4 +55,22 @@ public class ctpmDAO {
 		}
 		return edited;
 	}
+	
+	
+	//Sẽ optimal bằng hashmap sau nếu có thời gian 
+	public HashMap<String, ArrayList<ctpmDTO>> getMap() throws Exception {
+		dsctm = docCTPM();
+		
+			for(ctpmDTO c: dsctm) {
+				if(map.containsKey(c.getMapm())) {
+					map.get(c.getMapm()).add(c);
+				} else {
+					map.put(c.getMapm(), new ArrayList<ctpmDTO>());
+					map.get(c.getMapm()).add(c);
+				}
+			}
+			
+		return map;
+	}
+	
 }
