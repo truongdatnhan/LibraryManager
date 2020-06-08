@@ -45,6 +45,42 @@ public class ctpmDAO {
 		conn.Close();
 	}
 	
+	public void Update(ctpmDTO ctpm) throws Exception {
+		HashMap<String, Object> updateValue = new HashMap<String, Object>();
+		//updateValue.put("mapm", ctpm.getMapm());
+		//updateValue.put("masach", ctpm.getMasach());
+		updateValue.put("soluong", ctpm.getSoluong());
+		updateValue.put("tinhtrang", ctpm.getTinhtrang());
+		updateValue.put("ngaythuctra", ctpm.getNgaythuctra());
+		boolean kt = conn.Update("ctphieumuon", updateValue, "mapm = '" + ctpm.getMapm() + "'" + " AND " + "masach = '"
+		+ ctpm.getMasach() + "'");
+		if (kt == true) {
+			JOptionPane.showMessageDialog(null, "Sửa thành công");
+		} else {
+			JOptionPane.showMessageDialog(null, "Sửa thất bại");
+		}
+		conn.Close();
+	}
+	
+	public void Delete(ctpmDTO ctpm) throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("mapm = '")
+		.append(ctpm.getMapm())
+		.append("'")
+		.append(" AND ")
+		.append("masach = '")
+		.append(ctpm.getMasach())
+		.append("'");
+		System.out.println(query.toString());
+		boolean kt = conn.DeleteReal("ctphieumuon", query.toString());
+		if (kt == true) {
+			JOptionPane.showMessageDialog(null, "Xoá thành công");
+		} else {
+			JOptionPane.showMessageDialog(null, "Xoá thất bại");
+		}
+		conn.Close();
+	}
+	
 	public ArrayList<ctpmDTO> filteredList(String ID) throws Exception{
 		dsctm = docCTPM();
 		ArrayList<ctpmDTO> edited = new ArrayList<ctpmDTO>();

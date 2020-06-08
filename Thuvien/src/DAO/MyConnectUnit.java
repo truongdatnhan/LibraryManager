@@ -77,13 +77,14 @@ public class MyConnectUnit {
 		return this.connect.executeUpdate(query.toString()) > 0;
 	}
 
-//	public boolean Delete(String tableName,String condition) throws Exception {
-//		//khai báo biến StringBuilder để tạo chuỗi 
-//		StringBuilder query = new StringBuilder("DELETE FROM "+tableName+" ");
-//		this.AddCondition(query, condition);
-//		query.append(";");
-//		return this.connect.executeUpdate(query.toString()) > 0;
-//	}
+	
+	public boolean DeleteReal(String tableName,String condition) throws Exception {
+		//khai báo biến StringBuilder để tạo chuỗi 
+		StringBuilder query = new StringBuilder("DELETE FROM "+tableName+" ");
+		this.AddCondition(query, condition);
+		query.append(";");
+		return this.connect.executeUpdate(query.toString()) > 0;
+	}
 
 	public boolean Delete(String tableName, String condition) throws Exception {
 		// khai báo biến StringBuilder để tạo chuỗi

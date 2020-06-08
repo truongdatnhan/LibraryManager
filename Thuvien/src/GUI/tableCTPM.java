@@ -31,7 +31,19 @@ public class tableCTPM extends JPanel{
 	public void loadData() {
 		model.loadData();
 	}
+	
+	public void addData(ctpmDTO ctpm) {
+		model.addRow(ctpm);
+	}
 
+	public void deleteRow(int i) {
+		model.deleteRow(i);
+	}
+	
+	public void updateData(ctpmDTO ctpm) {
+		model.updateRow(ctpm);
+	}
+	
 	public JTable getTable() {
 		return table;
 	}

@@ -522,65 +522,11 @@ public class QLSPanel extends JPanel implements MouseListener, ActionListener, K
 		filters.add(RowFilter.regexFilter("(?i)" + txLV.getText().toLowerCase(), 6));
 		RowFilter rf = RowFilter.andFilter(filters);
 		
-		/*if(e.getSource() == txTen) {
-			System.out.println("Tên");
-		}
-		
-		if(e.getSource() == txTL) {
-			System.out.println("Thể loại");
-		}
-		
-		if(e.getSource() == txTG) {
-			System.out.println("Tác giả");
-		}
-		
-		if(e.getSource() == txNXBID) {
-			System.out.println("NXB");
-		}
-		
-		if(e.getSource() == txLV) {
-			System.out.println("Lĩnh vực");
-		}*/
-		
 		if (txTen.getText().isEmpty() && txTL.getText().isEmpty() && txTG.getText().isEmpty()
 				&& txNXBID.getText().isEmpty() && txLV.getText().isEmpty()) {
 			table.getTr().setRowFilter(null);
 		} else {
 			table.getTr().setRowFilter(rf);
-		/*	if (!txTen.getText().isEmpty()) {
-				table.getTr().setRowFilter(bookName);
-			}
-			if(!txTL.getText().isEmpty()) {
-				TableRowSorter oldSorter = (TableRowSorter) table.getTr();
-				TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<DefaultTableModel>(
-						(DefaultTableModel) table.getTable().getModel());
-				table.setTr(sorter);
-				sorter.setRowFilter(RowFilter.regexFilter("(?i)" + txTL.getText().toLowerCase(), 3));
-			}
-			if(!txTG.getText().isEmpty()) {
-				TableRowSorter oldSorter = (TableRowSorter) table.getTable().getRowSorter();
-				TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<DefaultTableModel>(
-						(DefaultTableModel) table.getTable().getModel());
-				table.setTr(sorter);
-				table.getTr().setRowFilter(RowFilter.regexFilter("(?i)" + txTG.getText().toLowerCase(), 4));
-				System.out.println("nhập tác giả");
-			}
-			if(!txNXBID.getText().isEmpty()) {
-				TableRowSorter oldSorter = (TableRowSorter) table.getTable().getRowSorter();
-				TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<DefaultTableModel>(
-						(DefaultTableModel) table.getTable().getModel());
-				table.setTr(sorter);
-				table.getTr().setRowFilter(RowFilter.regexFilter("(?i)" + txNXBID.getText().toLowerCase(), 5));
-				System.out.println("nhập nxb");
-			}
-			if(!txLV.getText().isEmpty()) {
-				TableRowSorter oldSorter = (TableRowSorter) table.getTable().getRowSorter();
-				TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<DefaultTableModel>(
-						(DefaultTableModel) table.getTable().getModel());
-				table.setTr(sorter);
-				table.getTr().setRowFilter(RowFilter.regexFilter("(?i)" + txLV.getText().toLowerCase(), 6));
-				System.out.println("nhập lĩnh vực");
-			}*/
 		}
 	}
 

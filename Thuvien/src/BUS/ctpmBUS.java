@@ -31,4 +31,35 @@ public class ctpmBUS {
 			dsctpm.remove(i);
 		}
 	}
+	
+	public void insert(ctpmDTO ctpm) {
+		try {
+			data.Insert(ctpm);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		dsctpm.add(ctpm);
+	}
+	
+	public void delete(ctpmDTO ctpm) throws Exception {
+		data.Delete(ctpm);
+		for (int i = 0; i < dsctpm.size(); i++) {
+			if ( dsctpm.get(i).getMapm().equals(ctpm.getMapm()) && dsctpm.get(i).getMasach().equals(ctpm.getMasach()) ) {
+				dsctpm.remove(i);
+			}
+		}
+	}
+	
+	public void update(ctpmDTO ctpm) throws Exception {
+		data.Update(ctpm);
+		// phần thêm
+		int k = 0;
+		for (int i = 0; i < dsctpm.size(); i++) {
+			if ((dsctpm.get(i)).getMapm().equals(ctpm.getMapm())) {
+				k = i;
+			}
+		}
+		dsctpm.set(k, ctpm);
+	}
+	
 }

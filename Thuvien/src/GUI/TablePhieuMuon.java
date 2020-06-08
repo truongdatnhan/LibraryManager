@@ -6,14 +6,20 @@ import DTO.phieumuonDTO;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 public class TablePhieuMuon extends JPanel{
 	public JTable table ;
 	private modelPM model;
+	TableRowSorter<DefaultTableModel> tr;
 	
 	public TablePhieuMuon() {
 		model = new modelPM();
 		table = new JTable(model);
+		tr = new TableRowSorter<DefaultTableModel>(model);
+		table.setRowSorter(tr);
+		
 		table.setEnabled(true);
 		setLayout(new BorderLayout());
 		setLayout(new BorderLayout());
@@ -51,5 +57,12 @@ public class TablePhieuMuon extends JPanel{
 	public JTable getTable() {
 		return table;
 	}
-	
+
+	public TableRowSorter<DefaultTableModel> getTr() {
+		return tr;
+	}
+
+	public void setTr(TableRowSorter<DefaultTableModel> tr) {
+		this.tr = tr;
+	}
 }

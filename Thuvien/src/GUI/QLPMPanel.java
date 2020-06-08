@@ -3,19 +3,25 @@ package GUI;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+import javax.swing.RowFilter;
 
 import com.toedter.calendar.JDateChooser;
 
@@ -25,18 +31,22 @@ import DTO.ctpmDTO;
 import DTO.phieumuonDTO;
 import TOOL.check;
 
-public class QLPMPanel extends JPanel implements ActionListener {
+public class QLPMPanel extends JPanel implements ActionListener,KeyListener {
 	private JTextField txMapm;
 	private JTextField txManv;
 	private JTextField txMathe;
 	private JTextField txMsach;
 	private JTextField txSoluong;
 	private TablePhieuMuon table;
-	private JButton btnThemPM, btnXoaPM, btnSuaPM, btnTaiLaiPM;
-	private JDateChooser dateNgaymuon, dateNgayquydinhtra;
+	private JButton btnThemPM, btnXoaPM, btnSuaPM, btnTaiLaiPM, btnThemCTPM, btnXoaCTPM, btnTailaiCTPM, btnSuaCTPM;
+	private JDateChooser dateNgaymuon, dateNgayquydinhtra, dateNgaytra,findStartDate,findEndDate;
 	private tableCTPM tableCTP;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
+	JRadioButton rdDaTra, rdChuaTra;
 	private check check;
+	private JTextField txFindPM;
+	private JTextField txFindNV;
+	private JTextField txFindMT;
 
 	public QLPMPanel() {
 		setBackground(Color.WHITE);
@@ -111,27 +121,24 @@ public class QLPMPanel extends JPanel implements ActionListener {
 		add(txMsach);
 		txMsach.setColumns(10);
 
-		JButton btnThemCTPM = new JButton("Thêm");
+		btnThemCTPM = new JButton("Thêm");
 		btnThemCTPM.setBounds(40, 467, 183, 29);
+		btnThemCTPM.addActionListener(this);
 		add(btnThemCTPM);
 
-		JButton btnXoaCTPM = new JButton("Xóa");
-		btnXoaCTPM.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
+		btnXoaCTPM = new JButton("Xóa");
+		btnXoaCTPM.addActionListener(this);
 		btnXoaCTPM.setBounds(238, 467, 192, 29);
+		btnXoaCTPM.addActionListener(this);
 		add(btnXoaCTPM);
 
-		JButton btnTailaiCTPM = new JButton("Tải lại");
+		btnTailaiCTPM = new JButton("Tải lại");
 		btnTailaiCTPM.setBounds(40, 512, 183, 29);
+		btnTailaiCTPM.addActionListener(this);
 		add(btnTailaiCTPM);
 
-		JButton btnSuaCTPM = new JButton("Sưa");
-		btnSuaCTPM.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+		btnSuaCTPM = new JButton("Sưa");
+		btnSuaCTPM.addActionListener(this);
 		btnSuaCTPM.setBounds(238, 512, 192, 29);
 		add(btnSuaCTPM);
 
@@ -148,21 +155,23 @@ public class QLPMPanel extends JPanel implements ActionListener {
 		lbTinhTrang.setBounds(40, 382, 79, 20);
 		add(lbTinhTrang);
 
-		JRadioButton rdDaTra = new JRadioButton("Đã trả");
+		rdDaTra = new JRadioButton("Đã trả");
 		buttonGroup.add(rdDaTra);
 		rdDaTra.setBounds(180, 381, 84, 29);
+		rdDaTra.setActionCommand("Đã trả");
 		add(rdDaTra);
 
-		JRadioButton rdChuaTra = new JRadioButton("Chưa trả");
+		rdChuaTra = new JRadioButton("Chưa trả");
 		buttonGroup.add(rdChuaTra);
 		rdChuaTra.setBounds(331, 378, 99, 29);
+		rdChuaTra.setActionCommand("Chưa trả");
 		add(rdChuaTra);
 
 		JLabel lbNgaythuctra = new JLabel("Ngày thực trả");
 		lbNgaythuctra.setBounds(40, 418, 99, 20);
 		add(lbNgaythuctra);
 
-		JDateChooser dateNgaytra = new JDateChooser();
+		dateNgaytra = new JDateChooser();
 		dateNgaytra.setDateFormatString("yyyy-MM-dd");
 		dateNgaytra.setBounds(180, 419, 250, 26);
 		add(dateNgaytra);
@@ -210,6 +219,44 @@ public class QLPMPanel extends JPanel implements ActionListener {
 		btnXoaPM.addActionListener(this);
 		btnSuaPM.addActionListener(this);
 		btnTaiLaiPM.addActionListener(this);
+		
+		JLabel lbFindPM = new JLabel("Mã Phiếu mượn :");
+		lbFindPM.setBounds(541, 246, 99, 25);
+		add(lbFindPM);
+		
+		txFindPM = new JTextField();
+		txFindPM.setBounds(652, 245, 69, 26);
+		add(txFindPM);
+		txFindPM.setColumns(10);
+		txFindPM.addKeyListener(this);
+		
+		JLabel lbFindNV = new JLabel("Mã nhân viên :");
+		lbFindNV.setBounds(733, 246, 97, 25);
+		add(lbFindNV);
+		
+		txFindNV = new JTextField();
+		txFindNV.setBounds(825, 245, 67, 26);
+		add(txFindNV);
+		txFindNV.setColumns(10);
+		txFindNV.addKeyListener(this);
+		
+		JLabel lbFindMT = new JLabel("Mã thẻ :");
+		lbFindMT.setBounds(900, 246, 56, 25);
+		add(lbFindMT);
+		
+		txFindMT = new JTextField();
+		txFindMT.setBounds(955, 245, 69, 26);
+		add(txFindMT);
+		txFindMT.setColumns(10);
+		txFindMT.addKeyListener(this);
+		
+		findStartDate = new JDateChooser();
+		findStartDate.setBounds(1083, 246, 100, 22);
+		add(findStartDate);
+		
+		findEndDate = new JDateChooser();
+		findEndDate.setBounds(1083, 305, 100, 22);
+		add(findEndDate);
 
 		table.loadData();
 		table.getTable().addMouseListener(new MouseAdapter() {
@@ -339,13 +386,17 @@ public class QLPMPanel extends JPanel implements ActionListener {
 				phieumuonBUS busPM = new phieumuonBUS();
 				if (check.checkID(txManv.getText(), "NV")) {
 					if (check.checkID(txMathe.getText(), "TTV")) {
-						if (check.checkDate((String) new SimpleDateFormat("dd-MM-yyyy").format(dateNgaymuon.getDate()))) {
-							String dateMuon = (String) new SimpleDateFormat("yyyy-MM-dd").format(dateNgaymuon.getDate());
-							if (check.checkDate((String) new SimpleDateFormat("dd-MM-yyyy").format(dateNgayquydinhtra.getDate()))) {
-								String dateTra = (String) new SimpleDateFormat("yyyy-MM-dd").format(dateNgayquydinhtra.getDate());
-								phieumuonDTO pm = new phieumuonDTO(txMapm.getText(), txManv.getText(), txMathe.getText(),
-										dateMuon, dateTra);
-								
+						if (check.checkDate(
+								(String) new SimpleDateFormat("dd-MM-yyyy").format(dateNgaymuon.getDate()))) {
+							String dateMuon = (String) new SimpleDateFormat("yyyy-MM-dd")
+									.format(dateNgaymuon.getDate());
+							if (check.checkDate(
+									(String) new SimpleDateFormat("dd-MM-yyyy").format(dateNgayquydinhtra.getDate()))) {
+								String dateTra = (String) new SimpleDateFormat("yyyy-MM-dd")
+										.format(dateNgayquydinhtra.getDate());
+								phieumuonDTO pm = new phieumuonDTO(txMapm.getText(), txManv.getText(),
+										txMathe.getText(), dateMuon, dateTra);
+
 								try {
 									busPM.Update(pm);
 								} catch (Exception e) {
@@ -366,6 +417,112 @@ public class QLPMPanel extends JPanel implements ActionListener {
 
 			}
 		}
+		if (evt.getSource() == btnThemCTPM) {
+			int i = table.getTable().getSelectedRow();
+			if (i >= 0) {
+				if (!txMapm.getText().isEmpty()) {
+					ctpmBUS bus = new ctpmBUS();
+					if (check.checkID(txMsach.getText(), "S")) {
+						if (check.isNumeric(txSoluong.getText())) {
+							if (rdChuaTra.isSelected() || rdDaTra.isSelected()) {
+								String dateTra = (String) new SimpleDateFormat("dd-MM-yyyy")
+										.format(dateNgaytra.getDate());
+								if (check.checkDate(dateTra)) {
+									dateTra = (String) new SimpleDateFormat("yyyy-MM-dd").format(dateNgaytra.getDate());
+									ctpmDTO ctpm = new ctpmDTO();
+									ctpm.setMapm(txMapm.getText());
+									ctpm.setMasach(txMsach.getText());
+									ctpm.setNgaythuctra(dateTra);
+									ctpm.setSoluong(Integer.parseInt(txSoluong.getText()));
+									ctpm.setTinhtrang((String) buttonGroup.getSelection().getActionCommand());
 
+									tableCTP.addData(ctpm);
+									bus.insert(ctpm);
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		if (evt.getSource() == btnXoaCTPM) {
+			int i = tableCTP.getTable().getSelectedRow();
+			if (i >= 0) {
+				ctpmBUS bus = new ctpmBUS();
+				String dateTra = (String) new SimpleDateFormat("yyyy-MM-dd").format(dateNgaytra.getDate());
+				ctpmDTO ctpm = new ctpmDTO();
+				ctpm.setMapm(txMapm.getText());
+				ctpm.setMasach(txMsach.getText());
+				ctpm.setNgaythuctra(dateTra);
+				ctpm.setSoluong(Integer.parseInt(txSoluong.getText()));
+				ctpm.setTinhtrang((String) buttonGroup.getSelection().getActionCommand());
+				System.out.println(i);
+				tableCTP.deleteRow(i);
+				try {
+					bus.delete(ctpm);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
+		}
+
+		if (evt.getSource() == btnSuaCTPM) {
+			ctpmBUS bus = new ctpmBUS();
+			String dateTra = (String) new SimpleDateFormat("yyyy-MM-dd").format(dateNgaytra.getDate());
+			ctpmDTO ctpm = new ctpmDTO();
+			ctpm.setMapm(txMapm.getText());
+			ctpm.setMasach(txMsach.getText());
+			ctpm.setNgaythuctra(dateTra);
+			ctpm.setSoluong(Integer.parseInt(txSoluong.getText()));
+			ctpm.setTinhtrang((String) buttonGroup.getSelection().getActionCommand());
+
+			tableCTP.updateData(ctpm);
+			try {
+				bus.update(ctpm);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+	}
+
+	@Override
+	public void keyPressed(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		ArrayList<RowFilter<Object,Object>> filters = new ArrayList<RowFilter<Object,Object>>();
+		filters.add(RowFilter.regexFilter("(?i)" + txFindPM.getText().toLowerCase(), 0));
+		filters.add(RowFilter.regexFilter("(?i)" + txFindNV.getText().toLowerCase(), 1));
+		filters.add(RowFilter.regexFilter("(?i)" + txFindMT.getText().toLowerCase(), 2));
+		RowFilter rf = RowFilter.andFilter(filters);
+		
+		
+		if(txFindPM.getText().isEmpty() && txFindNV.getText().isEmpty() && txFindMT.getText().isEmpty()) {
+			table.getTr().setRowFilter(null);
+		} else {
+			table.getTr().setRowFilter(rf);
+		}
+		
+		LocalDate d1 = LocalDate.parse(new SimpleDateFormat("yyyy-MM-dd").format(findStartDate.getDate()));
+		LocalDate d2 = LocalDate.parse(new SimpleDateFormat("yyyy-MM-dd").format(findEndDate.getDate()));
+		Period period = Period.between(d1, d2);
+		int diff = period.getDays();
+		System.out.println(diff);
+		
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 }
