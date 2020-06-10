@@ -8,6 +8,8 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -30,8 +32,10 @@ import BUS.phieumuonBUS;
 import DTO.ctpmDTO;
 import DTO.phieumuonDTO;
 import TOOL.check;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 
-public class QLPMPanel extends JPanel implements ActionListener,KeyListener {
+public class QLPMPanel extends JPanel implements ActionListener,KeyListener,PropertyChangeListener {
 	private JTextField txMapm;
 	private JTextField txManv;
 	private JTextField txMathe;
@@ -47,6 +51,7 @@ public class QLPMPanel extends JPanel implements ActionListener,KeyListener {
 	private JTextField txFindPM;
 	private JTextField txFindNV;
 	private JTextField txFindMT;
+	private JComboBox comboFindThang;
 
 	public QLPMPanel() {
 		setBackground(Color.WHITE);
@@ -253,10 +258,17 @@ public class QLPMPanel extends JPanel implements ActionListener,KeyListener {
 		findStartDate = new JDateChooser();
 		findStartDate.setBounds(1083, 246, 100, 22);
 		add(findStartDate);
+		findStartDate.addPropertyChangeListener(this);
 		
 		findEndDate = new JDateChooser();
 		findEndDate.setBounds(1083, 305, 100, 22);
 		add(findEndDate);
+		findEndDate.addPropertyChangeListener(this);
+		
+		comboFindThang = new JComboBox();
+		comboFindThang.setModel(new DefaultComboBoxModel(new String[] {"--Vui lòng chọn--", "Ngày mượn", "Ngày quy định trả"}));
+		comboFindThang.setBounds(1031, 207, 143, 22);
+		add(comboFindThang);
 
 		table.loadData();
 		table.getTable().addMouseListener(new MouseAdapter() {
@@ -498,10 +510,48 @@ public class QLPMPanel extends JPanel implements ActionListener,KeyListener {
 
 	@Override
 	public void keyReleased(KeyEvent e) {
+		
+		RowFilter<Object,Object> dateFilter = new RowFilter<Object, Object>() {
+			@Override
+			public boolean include(Entry<? extends Object, ? extends Object> entry) {
+				if(comboFindThang.getSelectedIndex() == 1) {
+					LocalDate d1 = LocalDate.parse(new SimpleDateFormat("yyyy-MM-dd").format(findStartDate.getDate()));
+					LocalDate d2 = LocalDate.parse(new SimpleDateFormat("yyyy-MM-dd").format(findEndDate.getDate()));
+					LocalDate d3 = LocalDate.parse(entry.getStringValue(3));
+					Period period = Period.between(d1, d2);
+					int diff = period.getDays();
+					
+					Period periodActual = Period.between(d3, d2);
+					int diffActual = periodActual.getDays();
+					
+					if(diffActual <= diff) {
+						return true;
+					}
+				}
+				if(comboFindThang.getSelectedIndex() == 2) {
+					LocalDate d1 = LocalDate.parse(new SimpleDateFormat("yyyy-MM-dd").format(findStartDate.getDate()));
+					LocalDate d2 = LocalDate.parse(new SimpleDateFormat("yyyy-MM-dd").format(findEndDate.getDate()));
+					LocalDate d3 = LocalDate.parse(entry.getStringValue(4));
+					Period period = Period.between(d1, d2);
+					int diff = period.getDays();
+					
+					Period periodActual = Period.between(d3, d2);
+					int diffActual = periodActual.getDays();
+					
+					if(diffActual <= diff) {
+						return true;
+					}
+				}
+				return false;
+			}
+			
+		};
+		
 		ArrayList<RowFilter<Object,Object>> filters = new ArrayList<RowFilter<Object,Object>>();
 		filters.add(RowFilter.regexFilter("(?i)" + txFindPM.getText().toLowerCase(), 0));
 		filters.add(RowFilter.regexFilter("(?i)" + txFindNV.getText().toLowerCase(), 1));
 		filters.add(RowFilter.regexFilter("(?i)" + txFindMT.getText().toLowerCase(), 2));
+		//filters.add(dateFilter);
 		RowFilter rf = RowFilter.andFilter(filters);
 		
 		
@@ -510,19 +560,67 @@ public class QLPMPanel extends JPanel implements ActionListener,KeyListener {
 		} else {
 			table.getTr().setRowFilter(rf);
 		}
-		
-		LocalDate d1 = LocalDate.parse(new SimpleDateFormat("yyyy-MM-dd").format(findStartDate.getDate()));
-		LocalDate d2 = LocalDate.parse(new SimpleDateFormat("yyyy-MM-dd").format(findEndDate.getDate()));
-		Period period = Period.between(d1, d2);
-		int diff = period.getDays();
-		System.out.println(diff);
-		
-		
 	}
 
 	@Override
 	public void keyTyped(KeyEvent arg0) {
 		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent arg0) {
+		RowFilter<Object,Object> dateFilter = new RowFilter<Object, Object>() {
+			@Override
+			public boolean include(Entry<? extends Object, ? extends Object> entry) {
+				if(comboFindThang.getSelectedIndex() == 1) {
+					LocalDate d1 = LocalDate.parse(new SimpleDateFormat("yyyy-MM-dd").format(findStartDate.getDate()));
+					LocalDate d2 = LocalDate.parse(new SimpleDateFormat("yyyy-MM-dd").format(findEndDate.getDate()));
+					LocalDate d3 = LocalDate.parse(entry.getStringValue(3));
+					Period period = Period.between(d1, d2);
+					int diff = period.getDays();
+					
+					Period periodActual = Period.between(d3, d2);
+					int diffActual = periodActual.getDays();
+					if(diffActual >=0) {
+						if(diffActual <= diff) {
+							return true;
+						}
+					}
+				}
+				if(comboFindThang.getSelectedIndex() == 2) {
+					LocalDate d1 = LocalDate.parse(new SimpleDateFormat("yyyy-MM-dd").format(findStartDate.getDate()));
+					LocalDate d2 = LocalDate.parse(new SimpleDateFormat("yyyy-MM-dd").format(findEndDate.getDate()));
+					LocalDate d3 = LocalDate.parse(entry.getStringValue(4));
+					Period period = Period.between(d1, d2);
+					int diff = period.getDays();
+					
+					Period periodActual = Period.between(d3, d2);
+					int diffActual = periodActual.getDays();
+					if(diffActual >=0) {
+						if(diffActual <= diff) {
+							return true;
+						}
+					}	
+				}
+				return false;
+			}
+			
+		};
+		
+		ArrayList<RowFilter<Object,Object>> filters = new ArrayList<RowFilter<Object,Object>>();
+		filters.add(RowFilter.regexFilter("(?i)" + txFindPM.getText().toLowerCase(), 0));
+		filters.add(RowFilter.regexFilter("(?i)" + txFindNV.getText().toLowerCase(), 1));
+		filters.add(RowFilter.regexFilter("(?i)" + txFindMT.getText().toLowerCase(), 2));
+		filters.add(dateFilter);
+		RowFilter rf = RowFilter.andFilter(filters);
+		
+		
+		if(txFindPM.getText().isEmpty() && txFindNV.getText().isEmpty() && txFindMT.getText().isEmpty()) {
+			table.getTr().setRowFilter(null);
+		} else {
+			table.getTr().setRowFilter(rf);
+		}
 		
 	}
 }
