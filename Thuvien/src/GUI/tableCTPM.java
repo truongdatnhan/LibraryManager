@@ -12,10 +12,10 @@ import DTO.ctpmDTO;
 
 public class tableCTPM extends JPanel{
 	public JTable table;
-	private CTPMModel model;
+	private modelCTPM model;
 	
 	public tableCTPM() {
-		model = new CTPMModel();
+		model = new modelCTPM();
 		table = new JTable(model);
 		table.setEnabled(true);
 		table.setRowHeight(30);
