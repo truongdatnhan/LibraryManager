@@ -41,7 +41,7 @@ public class QLPMPanel extends JPanel implements ActionListener,KeyListener,Prop
 	private JTextField txMathe;
 	private JTextField txMsach;
 	private JTextField txSoluong;
-	private TablePhieuMuon table;
+	private tablePM table;
 	private JButton btnThemPM, btnXoaPM, btnSuaPM, btnTaiLaiPM, btnThemCTPM, btnXoaCTPM, btnTailaiCTPM, btnSuaCTPM;
 	private JDateChooser dateNgaymuon, dateNgayquydinhtra, dateNgaytra,findStartDate,findEndDate;
 	private tableCTPM tableCTP;
@@ -187,7 +187,7 @@ public class QLPMPanel extends JPanel implements ActionListener,KeyListener,Prop
 
 		add(tableCTP);
 
-		table = new TablePhieuMuon();
+		table = new tablePM();
 		table.setBounds(15, 16, 511, 258);
 		try {
 			table.setData(bus.getPMList());
@@ -195,14 +195,6 @@ public class QLPMPanel extends JPanel implements ActionListener,KeyListener,Prop
 			e1.printStackTrace();
 		}
 		add(table);
-
-		JButton btnNewButton_2 = new JButton("New button");
-		btnNewButton_2.setBounds(40, 557, 183, 29);
-		add(btnNewButton_2);
-
-		JButton btnNewButton_3 = new JButton("New button");
-		btnNewButton_3.setBounds(238, 557, 192, 29);
-		add(btnNewButton_3);
 
 		btnThemPM = new JButton("Thêm");
 		btnThemPM.setBounds(886, 30, 97, 25);
@@ -256,12 +248,12 @@ public class QLPMPanel extends JPanel implements ActionListener,KeyListener,Prop
 		txFindMT.addKeyListener(this);
 		
 		findStartDate = new JDateChooser();
-		findStartDate.setBounds(1083, 246, 100, 22);
+		findStartDate.setBounds(40, 557, 183, 29);
 		add(findStartDate);
 		findStartDate.addPropertyChangeListener(this);
 		
 		findEndDate = new JDateChooser();
-		findEndDate.setBounds(1083, 305, 100, 22);
+		findEndDate.setBounds(238, 557, 192, 29);
 		add(findEndDate);
 		findEndDate.addPropertyChangeListener(this);
 		

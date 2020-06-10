@@ -3,9 +3,7 @@ package GUI;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-
 import BUS.nguoidungBUS;
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;

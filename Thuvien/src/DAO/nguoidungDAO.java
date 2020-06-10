@@ -15,7 +15,7 @@ public class nguoidungDAO {
 
 	public nguoidungDAO() {
 		if (conn == null) {
-			conn = new MyConnectUnit("localhost", "root", "", "Thuvien");
+			conn = new MyConnectUnit("localhost", "root", "", "thuvien");
 		}
 	}
 

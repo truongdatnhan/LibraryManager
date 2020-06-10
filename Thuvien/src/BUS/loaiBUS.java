@@ -5,31 +5,88 @@ import java.util.Vector;
 
 import javax.swing.table.DefaultTableModel;
 
-import DAO.loaiDAO;
-import DTO.loaiDTO;
 
+import DTO.loaiDTO;
+import DAO.loaiDAO;
+
+import javax.swing.JOptionPane;
 
 public class loaiBUS {
-	public static ArrayList<loaiDTO> dsl;
-	public DefaultTableModel docDSL() throws Exception {
-		DefaultTableModel model = new DefaultTableModel();
-		if(dsl==null) {
-			dsl = new ArrayList<loaiDTO>();
+	public static ArrayList<loaiDTO> dstl;
+
+	public void getLoaiList() {
+		if (dstl == null) {
+			dstl = new ArrayList<loaiDTO>();
 		}
-		
-		dsl = loaiDAO.docDSL();
-		Vector<String> header = new Vector<String>();
-		header.add("Mã loại");
-		header.add("Tên loại");
-		if(model.getRowCount()==0) {
-			model = new DefaultTableModel(header, 0);		
+		//Ä‘á»c dá»¯ liá»‡u lĂªn vĂ  truyá»n vĂ o arraylist
+		try {
+                        loaiDAO dao=new loaiDAO();
+			dstl = dao.filteredList();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		for(loaiDTO l : dsl) {
-			Vector<String> row = new Vector<String>();
-			row.add(l.getMaloai());
-			row.add(l.getTenloai());
-			model.addRow(row);
-		}
-		return model;
 	}
+        
+        public void Insert(loaiDTO a) throws Exception
+        {
+            if(sameid(a.getMaloai())==false)
+            {    
+                loaiDAO dao=new loaiDAO();
+                dao.Insert(a);
+                dstl.add(a);
+            }
+            else 
+                JOptionPane.showMessageDialog(null,"Thể loại  đã tồn tại-Không thể thêm");
+        }
+        
+        public void Update(loaiDTO a)
+        {
+            try{
+                loaiDAO dao=new loaiDAO();
+                dao.Update(a);
+                dstl.set(sameid(a), a);
+            }
+            catch(Exception e)
+            {
+                JOptionPane.showMessageDialog(null,"Lỗi sửa");
+            }
+        }
+        
+        public void Delete(loaiDTO a)
+        {
+            try {
+                a.setTrangthai(0);
+                loaiDAO dao=new loaiDAO();
+                dstl.remove(sameid(a));
+                dao.Delete(a);
+                
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null,"Lỗi xóa sách");
+            }
+            
+        }
+        
+        public boolean sameid(String a)
+        {
+            for(int i=0;i<dstl.size();i++)
+            {
+                loaiDTO temp=((loaiDTO) dstl.get(i));
+                if(temp.getMaloai().equals(a))
+                    return true;                                    //true là trùng 
+            }
+            return false;
+        }
+        
+        public int sameid(loaiDTO a)
+        {
+            for(int i=0;i<dstl.size();i++)
+            {
+                loaiDTO temp=((loaiDTO) dstl.get(i));
+//                JOptionPane.showMessageDialog(null, temp.getMasach());
+                if(temp.getMaloai().equals(a.getMaloai()))
+                    return i;
+            }
+            return -1;
+        }
 }

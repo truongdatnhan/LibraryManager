@@ -1,66 +1,67 @@
 package DTO;
 
 public class ctpnDTO {
-	private String mapn;
-	private String masach;
-	private int soluong;
-	private long dongia;
-	private long thanhtien;
 
-	public ctpnDTO() {
-		mapn = null;
-		masach = null;
-		soluong = 0;
-		dongia = 0;
-		thanhtien = 0;
-	}
+    private String mapn;
+    private String masach;
+    private int soluong;
+    private long dongia;
+    private long thanhtien;
 
-	public ctpnDTO(String mapn, String masach, int soluong, long dongia, long thanhtien) {
-		this.mapn = mapn;
-		this.masach = masach;
-		this.soluong = soluong;
-		this.dongia = dongia;
-		this.thanhtien = thanhtien;
-	}
+    public ctpnDTO() {
+        mapn = null;
+        masach = null;
+        soluong = 0;
+        dongia = 0;
+        thanhtien = 0;
+    }
 
-	public String getMapn() {
-		return mapn;
-	}
+    public ctpnDTO(String mapn, String masach, int soluong, long dongia, long thanhtien) {
+        this.mapn = mapn;
+        this.masach = masach;
+        this.soluong = soluong;
+        this.dongia = dongia;
+        this.thanhtien = thanhtien;
+    }
 
-	public void setMapn(String mapn) {
-		this.mapn = mapn;
-	}
+    public String getMapn() {
+        return mapn;
+    }
 
-	public String getMasach() {
-		return masach;
-	}
+    public void setMapn(String mapn) {
+        this.mapn = mapn;
+    }
 
-	public void setMasach(String masach) {
-		this.masach = masach;
-	}
+    public String getMasach() {
+        return masach;
+    }
 
-	public int getSoluong() {
-		return soluong;
-	}
+    public void setMasach(String masach) {
+        this.masach = masach;
+    }
 
-	public void setSoluong(int soluong) {
-		this.soluong = soluong;
-	}
+    public int getSoluong() {
+        return soluong;
+    }
 
-	public long getDongia() {
-		return dongia;
-	}
+    public void setSoluong(int soluong) {
+        this.soluong = soluong;
+    }
 
-	public void setDongia(long dongia) {
-		this.dongia = dongia;
-	}
+    public long getDongia() {
+        return dongia;
+    }
 
-	public long getThanhtien() {
-		return thanhtien;
-	}
+    public void setDongia(long dongia) {
+        this.dongia = dongia;
+    }
 
-	public void setThanhtien(long thanhtien) {
-		this.thanhtien = thanhtien;
-	}
+    public long getThanhtien() {
+        return thanhtien;
+    }
+
+    public void setThanhtien(long thanhtien) {
+        this.thanhtien = thanhtien;
+    }
 
 }

@@ -11,26 +11,19 @@ import javax.swing.table.TableRowSorter;
 
 import DTO.nhanvienDTO;
 import DTO.theTVDTO;
+import java.awt.Color;
 
 public class tableTheThuVien extends JPanel{
 	public JTable table;
 	private modelTTV model;
 
 	public tableTheThuVien() {
-
 		model = new modelTTV();
 		table = new JTable(model);
+               
 		table.setEnabled(true);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-//		table.getColumnModel().getColumn(0).setPreferredWidth(10);
-//		table.getColumnModel().getColumn(2).setPreferredWidth(30);
-//		table.getColumnModel().getColumn(3).setPreferredWidth(40);
-//		table.getColumnModel().getColumn(4).setPreferredWidth(5);
-//		table.getColumnModel().getColumn(5).setPreferredWidth(15);
-//		table.getColumnModel().getColumn(7).setPreferredWidth(15);
-//		table.getColumnModel().getColumn(8).setPreferredWidth(15);
-//		table.setRowHeight(30);
-//		table.setFont(new Font("Calibri", Font.PLAIN, 18));
+		table.setRowHeight(30);
 		setLayout(new BorderLayout());
 		add(new JScrollPane(table), BorderLayout.CENTER);
 

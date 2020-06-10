@@ -9,12 +9,12 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
-public class TablePhieuMuon extends JPanel{
+public class tablePM extends JPanel{
 	public JTable table ;
 	private modelPM model;
 	TableRowSorter<DefaultTableModel> tr;
 	
-	public TablePhieuMuon() {
+	public tablePM() {
 		model = new modelPM();
 		table = new JTable(model);
 		tr = new TableRowSorter<DefaultTableModel>(model);

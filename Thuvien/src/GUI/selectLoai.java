@@ -1,59 +1,68 @@
 package GUI;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
-
 import BUS.loaiBUS;
+import DTO.loaiDTO;
+import java.util.Vector;
+import javax.swing.JTextField;
 
 public class selectLoai extends selectID {
 
-	private JPanel contentPane;
-	private DefaultTableModel model;
-	private JTable tbL;
+    private JPanel contentPane;
+    private DefaultTableModel model;
+    private JTable tbTG;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					selectLoai frame = new selectLoai();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+    public selectLoai() throws Exception {
+        super();
 
-	/**
-	 * Create the frame.
-	 * @throws Exception 
-	 */
-	public selectLoai() throws Exception {
-		super();
-//		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//		setBounds(100, 100, 450, 300);
-//		contentPane = new JPanel();
-//		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-//		contentPane.setLayout(new BorderLayout(0, 0));
-//		setContentPane(contentPane);
-		loaiBUS bus = new loaiBUS();
-		model = bus.docDSL();
-		tbL = new JTable(model);
-		
-		JScrollPane scrollPane = new JScrollPane(tbL);
-		scrollPane.setBounds(12, 98, 404, 126);
-		getContentPane().add(scrollPane);
-	}
+        Vector header = new Vector();
+        header.add("Mã Thể Loại");
+        header.add("Tên Thể Loại");
+
+        model = new DefaultTableModel(header, 0) {
+            @Override
+            public boolean isCellEditable(int row, int col) {
+                return false;
+            }
+        };
+
+        tbTG = new JTable(model);
+
+        JScrollPane scrollPane = new JScrollPane(tbTG);
+        scrollPane.setBounds(12, 98, 404, 126);
+        getContentPane().add(scrollPane);
+
+    }
+
+    public void loaddata() {
+        loaiBUS bus = new loaiBUS();
+        bus.getLoaiList();
+        for (loaiDTO loai : loaiBUS.dstl) {
+            Vector a = new Vector();
+            a.add(loai.getMaloai());
+            a.add(loai.getTenloai());
+            model.addRow(a);
+        }
+        tbTG.setModel(model);
+    }
+
+    @Override
+    public int kiemtra(JTextField a) {
+        super.select(a);
+        int i = tbTG.getSelectedRow();
+        if (i < 0) {
+            a.setText(null);
+            return 0;
+        } else {
+            String temp = (String) tbTG.getValueAt(i, 0);
+            a.setText(temp);
+            return 1;
+        }
+    }
 
 }

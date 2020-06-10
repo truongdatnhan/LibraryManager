@@ -11,36 +11,35 @@ import TOOL.ThongTinEvent;
 
 public class NhanVienModel extends DefaultTableModel {
 
-	private ArrayList<nhanvienDTO> nvList;
-	private static String[] colName = {"MNV","Họ","Tên","Ngày sinh","Giới tính","Địa chỉ","Email","Số điện thoại","Lương"};
-	
-	public NhanVienModel() {
-		super(colName,0);
-	}
-	
-	public void setData(ArrayList<nhanvienDTO> list) {
-		this.nvList = list;
-	}
-	
-	public void loadData() {
-		for (nhanvienDTO nv : nvList) {
-			Vector<String> row = new Vector<String>();
-			row.add(nv.getManv());
-			row.add(nv.getHo());
-			row.add(nv.getTen());
-			row.add(nv.getNgaysinh());
-			row.add(nv.getGioitinh());
-			row.add(nv.getDiachi());
-			row.add(nv.getEmail());
-			row.add(nv.getSdt());
-			row.add(nv.getLuong());
-			super.addRow(row);
-		}
-	}
-	
-	
-	
-	public void addRow(nhanvienDTO nv) {
+    private ArrayList<nhanvienDTO> nvList;
+    private static String[] colName = {"MNV", "Họ", "Tên", "Ngày sinh", "Giới tính", "Địa chỉ", "Email", "Số điện thoại", "Lương"};
+
+    public NhanVienModel() {
+        super(colName, 0);
+
+    }
+
+    public void setData(ArrayList<nhanvienDTO> list) {
+        this.nvList = list;
+    }
+
+    public void loadData() {
+        for (nhanvienDTO nv : nvList) {
+            Vector<String> row = new Vector<String>();
+            row.add(nv.getManv());
+            row.add(nv.getHo());
+            row.add(nv.getTen());
+            row.add(nv.getNgaysinh());
+            row.add(nv.getGioitinh());
+            row.add(nv.getDiachi());
+            row.add(nv.getEmail());
+            row.add(nv.getSdt());
+            row.add(nv.getLuong());
+            super.addRow(row);
+        }
+    }
+
+    public void addRow(nhanvienDTO nv) {
         if (nv == null) {
             throw new IllegalArgumentException("NULL");
         }
@@ -56,36 +55,37 @@ public class NhanVienModel extends DefaultTableModel {
         rowVector.add(nv.getLuong());
         super.addRow(rowVector);
     }
-	
-	public void deleteData(nhanvienDTO nv,int i) {
-		super.removeRow(i);
-	}
-	
-	public void updateRow(String maNV, ThongTinEvent evt) {
-	    for (int i = 0; i < super.getRowCount(); i++)
-	        if (super.getValueAt(i, 0).equals(maNV)) {
-	        	super.setValueAt((String)evt.getHo(),i, 1);
-	        	super.setValueAt((String)evt.getTen(),i, 2);
-	        	super.setValueAt((String)evt.getNgaysinh(),i, 3);
-	        	super.setValueAt((String)evt.getGioitinh(),i, 4);
-	        	super.setValueAt((String)evt.getDiachi(),i, 5);
-	        	super.setValueAt((String)evt.getEmail(),i, 6);
-	        	super.setValueAt((String)evt.getSdt(),i, 7);
-	        	super.setValueAt((String)evt.getLuong(),i, 8);
-	        }
-	           
-	}
-	
-	public void updateData(nhanvienDTO nv ,int i) {
-		String[] temp = new String[] { nv.getHo(), nv.getTen(), nv.getNgaysinh(),
-				nv.getGioitinh(), nv.getDiachi(), nv.getEmail(), nv.getSdt(),
-				nv.getLuong() };
-		for (int j = 0; j < colName.length-2; j++) {
-			super.setValueAt(temp[j], i, j + 1);
-		}
-	}
-	
-	/*@Override
+
+    public void deleteData(nhanvienDTO nv, int i) {
+        super.removeRow(i);
+    }
+
+    public void updateRow(String maNV, ThongTinEvent evt) {
+        for (int i = 0; i < super.getRowCount(); i++) {
+            if (super.getValueAt(i, 0).equals(maNV)) {
+                super.setValueAt((String) evt.getHo(), i, 1);
+                super.setValueAt((String) evt.getTen(), i, 2);
+                super.setValueAt((String) evt.getNgaysinh(), i, 3);
+                super.setValueAt((String) evt.getGioitinh(), i, 4);
+                super.setValueAt((String) evt.getDiachi(), i, 5);
+                super.setValueAt((String) evt.getEmail(), i, 6);
+                super.setValueAt((String) evt.getSdt(), i, 7);
+                super.setValueAt((String) evt.getLuong(), i, 8);
+            }
+        }
+
+    }
+
+    public void updateData(nhanvienDTO nv, int i) {
+        String[] temp = new String[]{nv.getHo(), nv.getTen(), nv.getNgaysinh(),
+            nv.getGioitinh(), nv.getDiachi(), nv.getEmail(), nv.getSdt(),
+            nv.getLuong()};
+        for (int j = 0; j < colName.length - 2; j++) {
+            super.setValueAt(temp[j], i, j + 1);
+        }
+    }
+
+    /*@Override
 	public String getColumnName(int col) {
 		return colName[col];
 	}
@@ -98,20 +98,16 @@ public class NhanVienModel extends DefaultTableModel {
 		    return 0;
 		}
 	}*/
-
-	
-
-	public nhanvienDTO getNV(int index) {
-		return nvList.get(index);
-	}
+    public nhanvienDTO getNV(int index) {
+        return nvList.get(index);
+    }
 
 
-	/*public nhanvienDTO getNV(String identifier) {
+    /*public nhanvienDTO getNV(String identifier) {
 		// TODO Auto-generated method stub
 		return null;
 	}*/
-	
-	/*@Override
+ /*@Override
 	public Object getValueAt(int row, int col) {
 		nhanvienDTO nv = nvList.get(row);
 		switch(col) {
@@ -138,5 +134,4 @@ public class NhanVienModel extends DefaultTableModel {
 		}
 		return null;
 	}*/
-
 }

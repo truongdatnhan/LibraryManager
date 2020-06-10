@@ -13,7 +13,7 @@ public class nhanvienDAO {
 
 	public nhanvienDAO() {
 
-		conn = new MyConnectUnit("localhost", "root", "", "Thuvien");
+		conn = new MyConnectUnit("localhost", "root", "", "thuvien");
 	}
 
 	public ArrayList<nhanvienDTO> docDSNV() throws Exception {
