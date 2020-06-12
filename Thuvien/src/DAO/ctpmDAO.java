@@ -36,28 +36,112 @@ public class ctpmDAO {
 		insertValue.put("soluong", ctpm.getSoluong());
 		insertValue.put("tinhtrang", ctpm.getTinhtrang());
 		insertValue.put("ngaythuctra", ctpm.getNgaythuctra());
-		boolean kt = conn.Insert("ctphieumuon", insertValue);
-		if (kt == true) {
-			JOptionPane.showMessageDialog(null, "Thêm thành công");
+		//boolean kt = conn.Insert("ctphieumuon", insertValue);
+		
+		HashMap<String, Object> sachValue = new HashMap<String, Object>();
+		sachValue.put("soluong", "soluong - " + ctpm.getSoluong());
+		boolean check = conn.UpdateNoComma("sach", sachValue, "masach = '" + ctpm.getMasach() + "'" + " AND " + "(soluong - " +
+		ctpm.getSoluong() + ") >= '0'");
+		
+		if( check == true) {
+			JOptionPane.showMessageDialog(null, "Trừ sách thành công");
+			boolean kt = conn.Insert("ctphieumuon", insertValue);
+			if (kt == true) {
+				JOptionPane.showMessageDialog(null, "Thêm thành công");
+			} else {
+				JOptionPane.showMessageDialog(null, "Thêm thất bại");
+			}
 		} else {
-			JOptionPane.showMessageDialog(null, "Thêm thất bại");
+			JOptionPane.showMessageDialog(null, "Trừ sách thất bại");
 		}
+		
 		conn.Close();
 	}
 	
 	public void Update(ctpmDTO ctpm) throws Exception {
-		HashMap<String, Object> updateValue = new HashMap<String, Object>();
+		/*HashMap<String, Object> updateValue = new HashMap<String, Object>();
 		//updateValue.put("mapm", ctpm.getMapm());
 		//updateValue.put("masach", ctpm.getMasach());
 		updateValue.put("soluong", ctpm.getSoluong());
 		updateValue.put("tinhtrang", ctpm.getTinhtrang());
 		updateValue.put("ngaythuctra", ctpm.getNgaythuctra());
 		boolean kt = conn.Update("ctphieumuon", updateValue, "mapm = '" + ctpm.getMapm() + "'" + " AND " + "masach = '"
-		+ ctpm.getMasach() + "'");
-		if (kt == true) {
-			JOptionPane.showMessageDialog(null, "Sửa thành công");
-		} else {
-			JOptionPane.showMessageDialog(null, "Sửa thất bại");
+		+ ctpm.getMasach() + "'");*/
+		
+		
+		System.out.println(ctpm.getSoluong());
+		for(ctpmDTO phieu: filteredList(ctpm.getMapm())) {
+			System.out.println(phieu.toString());
+			if( phieu.getMasach().equalsIgnoreCase(ctpm.getMasach()) ) {
+				if(ctpm.getSoluong() > phieu.getSoluong() ) {
+					System.out.println("SL CTPM > SL cũ");
+					HashMap<String, Object> updateValue = new HashMap<String, Object>();
+					updateValue.put("soluong", ctpm.getSoluong());
+					updateValue.put("tinhtrang", ctpm.getTinhtrang());
+					updateValue.put("ngaythuctra", ctpm.getNgaythuctra());
+					
+					
+					HashMap<String, Object> sachValue = new HashMap<String, Object>();
+					sachValue.put("soluong", "soluong - " + (ctpm.getSoluong() - phieu.getSoluong()) );
+					boolean check = conn.UpdateNoComma("sach", sachValue, "masach = '" + ctpm.getMasach() + "'" + " AND " + "(soluong - " +
+							(ctpm.getSoluong() - phieu.getSoluong()) + ") >= '0'");
+					
+					if(check == true) {
+						JOptionPane.showMessageDialog(null, "Sửa(trừ) số lượng sách công");
+						boolean kt = conn.Update("ctphieumuon", updateValue, "mapm = '" + ctpm.getMapm() + "'" + " AND " + "masach = '"
+								+ ctpm.getMasach() + "'");
+						if (kt == true) {
+							JOptionPane.showMessageDialog(null, "Sửa thành công");
+						} else {
+							JOptionPane.showMessageDialog(null, "Sửa thất bại");
+						}
+					} else {
+						JOptionPane.showMessageDialog(null, "Sửa số lượng sách thất bại");
+					}
+					break;
+				}
+				if(ctpm.getSoluong() < phieu.getSoluong()) {
+					System.out.println("SL CTPM < SL cũ");
+					HashMap<String, Object> updateValue = new HashMap<String, Object>();
+					updateValue.put("soluong", ctpm.getSoluong());
+					updateValue.put("tinhtrang", ctpm.getTinhtrang());
+					updateValue.put("ngaythuctra", ctpm.getNgaythuctra());
+					
+					
+					HashMap<String, Object> sachValue = new HashMap<String, Object>();
+					sachValue.put("soluong", "soluong + " + (phieu.getSoluong() - ctpm.getSoluong()) );
+					boolean check = conn.UpdateNoComma("sach", sachValue, "masach = '" + ctpm.getMasach() + "'");
+					
+					if(check == true) {
+						JOptionPane.showMessageDialog(null, "Sửa(thêm) số lượng sách công");
+						boolean kt = conn.Update("ctphieumuon", updateValue, "mapm = '" + ctpm.getMapm() + "'" + " AND " + "masach = '"
+								+ ctpm.getMasach() + "'");
+						if (kt == true) {
+							JOptionPane.showMessageDialog(null, "Sửa thành công");
+						} else {
+							JOptionPane.showMessageDialog(null, "Sửa thất bại");
+						}
+					} else {
+						JOptionPane.showMessageDialog(null, "Sửa số lượng sách thất bại");
+					}
+					break;
+				}
+				if(ctpm.getSoluong() == phieu.getSoluong()) {
+					HashMap<String, Object> updateValue = new HashMap<String, Object>();
+					updateValue.put("soluong", ctpm.getSoluong());
+					updateValue.put("tinhtrang", ctpm.getTinhtrang());
+					updateValue.put("ngaythuctra", ctpm.getNgaythuctra());
+					boolean kt = conn.Update("ctphieumuon", updateValue, "mapm = '" + ctpm.getMapm() + "'" + " AND " + "masach = '"
+					+ ctpm.getMasach() + "'");
+					
+					if (kt == true) {
+						JOptionPane.showMessageDialog(null, "Sửa thành công");
+					} else {
+						JOptionPane.showMessageDialog(null, "Sửa thất bại");
+					}
+					break;
+				}
+			}
 		}
 		conn.Close();
 	}
@@ -71,12 +155,23 @@ public class ctpmDAO {
 		.append("masach = '")
 		.append(ctpm.getMasach())
 		.append("'");
-		System.out.println(query.toString());
-		boolean kt = conn.DeleteReal("ctphieumuon", query.toString());
-		if (kt == true) {
-			JOptionPane.showMessageDialog(null, "Xoá thành công");
+		//System.out.println(query.toString());
+		
+		
+		HashMap<String, Object> sachValue = new HashMap<String, Object>();
+		sachValue.put("soluong", "soluong + " + ctpm.getSoluong());
+		boolean check = conn.UpdateNoComma("sach", sachValue, "masach = '" + ctpm.getMasach() + "'");
+		
+		if(check == true) {
+			JOptionPane.showMessageDialog(null, "Thêm số lượng sách(Xoá) thành công");
+			boolean kt = conn.DeleteReal("ctphieumuon", query.toString());
+			if (kt == true) {
+				JOptionPane.showMessageDialog(null, "Xoá thành công");
+			} else {
+				JOptionPane.showMessageDialog(null, "Xoá thất bại");
+			}
 		} else {
-			JOptionPane.showMessageDialog(null, "Xoá thất bại");
+			JOptionPane.showMessageDialog(null, "Thêm số lượng sách(Xoá) thất bại");
 		}
 		conn.Close();
 	}

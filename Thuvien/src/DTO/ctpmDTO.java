@@ -63,4 +63,9 @@ public class ctpmDTO {
 		this.ngaythuctra = ngaythuctra;
 	}
 
+	@Override
+	public String toString() {
+		return "ctpmDTO [mapm=" + mapm + ", masach=" + masach + ", soluong=" + soluong + ", tinhtrang=" + tinhtrang
+				+ ", ngaythuctra=" + ngaythuctra + "]";
+	}
 }

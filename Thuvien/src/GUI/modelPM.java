@@ -22,6 +22,7 @@ public class modelPM extends DefaultTableModel {
 	}
 
 	public void loadData() {
+		deleteAll();
 		phieumuonBUS bus = new phieumuonBUS();
 		for (phieumuonDTO pm : phieumuonList) {
 			Vector<String> row = new Vector<String>();
@@ -59,6 +60,14 @@ public class modelPM extends DefaultTableModel {
 		}
 	}
 
+	public void deleteAll() {
+		if (super.getRowCount() > 0) {
+			for (int i = super.getRowCount() - 1; i > -1; i--) {
+				super.removeRow(i);
+			}
+		}
+	}
+	
 	public phieumuonDTO getPM(int index) {
 		return phieumuonList.get(index);
 	}

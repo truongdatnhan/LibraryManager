@@ -498,7 +498,6 @@ public class QLNVPanel extends JPanel implements ActionListener, KeyListener, Mo
         }
 
         if (evt.getSource() == comboThang) {
-            System.out.println("Da vao comboThang");
             RowFilter<Object, Object> month = new RowFilter<Object, Object>() {
                 @Override
                 public boolean include(RowFilter.Entry<? extends Object, ? extends Object> entry) {
@@ -563,7 +562,7 @@ public class QLNVPanel extends JPanel implements ActionListener, KeyListener, Mo
             RowFilter<Object, Object> between = new RowFilter<Object, Object>() {
 
                 @Override
-                public boolean include(RowFilter.Entry<? extends Object, ? extends Object> entry) {
+                public boolean include(Entry<? extends Object, ? extends Object> entry) {
                     int luong = Integer.parseInt(entry.getStringValue(8));
 
                     if ((!luong1.getText().isEmpty()) && (!luong2.getText().isEmpty()) && check.isNumeric(luong1.getText()) && check.isNumeric(luong2.getText())) {
@@ -574,24 +573,24 @@ public class QLNVPanel extends JPanel implements ActionListener, KeyListener, Mo
                         }
                     }
 
-                    if (luong1.getText().isEmpty() && check.isNumeric(luong1.getText())) {
-                        if (luong2.getText().isEmpty()) {
-                            return false;
-                        } else {
-                            int luongMax = Integer.parseInt(luong2.getText());
+                    if (luong1.getText().isEmpty()) {
+                        if (!luong2.getText().isEmpty() && check.isNumeric(luong2.getText())) {
+                        	int luongMax = Integer.parseInt(luong2.getText());
                             if (luong >= 0 && luong <= luongMax) {
-                                return true;
+                            	return true;
+                        } else {
+                            	return false;
                             }
                         }
                     }
 
-                    if (luong2.getText().isEmpty() && check.isNumeric(luong2.getText())) {
-                        if (luong1.getText().isEmpty()) {
-                            return false;
-                        } else {
-                            int luongMin = Integer.parseInt(luong1.getText());
+                    if (luong2.getText().isEmpty()) {
+                        if (!luong1.getText().isEmpty() && check.isNumeric(luong1.getText())) {
+                        	int luongMin = Integer.parseInt(luong1.getText());
                             if (luongMin <= luong) {
                                 return true;
+                        } else {
+                            	return false;
                             }
                         }
                     }
@@ -611,15 +610,13 @@ public class QLNVPanel extends JPanel implements ActionListener, KeyListener, Mo
             if (comboThang.getSelectedIndex() != 0) {
                 filters.add(month);
             }
-            if(luong1.getText().isEmpty() || luong2.getText().isEmpty()) {
+            if(!luong1.getText().isEmpty() || !luong2.getText().isEmpty()) {
                 filters.add(between);
             }
             RowFilter rf = RowFilter.andFilter(filters);
-            if (txTimkiem.getText().isEmpty() && luong1.getText().isEmpty() && luong2.getText().isEmpty()) {
-                System.out.println("Da set null");
+            if (txTimkiem.getText().isEmpty() && luong1.getText().isEmpty() && luong2.getText().isEmpty() && (comboThang.getSelectedIndex() == 0)) {
                 table.getTr().setRowFilter(null);
             } else {
-               System.out.println("Da set Rowfilter");
                 table.getTr().setRowFilter(rf);
             }
 
@@ -711,24 +708,24 @@ public class QLNVPanel extends JPanel implements ActionListener, KeyListener, Mo
                     }
                 }
 
-                if (luong1.getText().isEmpty() && check.isNumeric(luong1.getText())) {
-                    if (luong2.getText().isEmpty()) {
-                        return false;
-                    } else {
-                        int luongMax = Integer.parseInt(luong2.getText());
+                if (luong1.getText().isEmpty()) {
+                    if (!luong2.getText().isEmpty() && check.isNumeric(luong2.getText())) {
+                    	int luongMax = Integer.parseInt(luong2.getText());
                         if (luong >= 0 && luong <= luongMax) {
-                            return true;
+                        	return true;
+                    } else {
+                        	return false;
                         }
                     }
                 }
 
-                if (luong2.getText().isEmpty() && check.isNumeric(luong2.getText())) {
-                    if (luong1.getText().isEmpty()) {
-                        return false;
-                    } else {
-                        int luongMin = Integer.parseInt(luong1.getText());
+                if (luong2.getText().isEmpty()) {
+                    if (!luong1.getText().isEmpty() && check.isNumeric(luong1.getText())) {
+                    	int luongMin = Integer.parseInt(luong1.getText());
                         if (luongMin <= luong) {
                             return true;
+                    } else {
+                        	return false;
                         }
                     }
                 }
@@ -748,7 +745,7 @@ public class QLNVPanel extends JPanel implements ActionListener, KeyListener, Mo
         if (comboThang.getSelectedIndex() != 0) {
                 filters.add(month);
         }
-        if(luong1.getText().isEmpty() || luong2.getText().isEmpty()) {
+        if(!luong1.getText().isEmpty() || !luong2.getText().isEmpty()) {
             filters.add(between);
         }
         RowFilter rf = RowFilter.andFilter(filters);

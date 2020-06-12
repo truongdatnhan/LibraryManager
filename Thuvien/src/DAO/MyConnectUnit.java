@@ -77,6 +77,17 @@ public class MyConnectUnit {
 		return this.connect.executeUpdate(query.toString()) > 0;
 	}
 
+	public boolean UpdateNoComma(String tableName, HashMap<String, Object> ColumnValues, String Condition) throws Exception {
+
+		StringBuilder query = new StringBuilder("UPDATE " + tableName + " SET ");
+		for (String key : ColumnValues.keySet()) {
+			query.append(key + " = " + ColumnValues.get(key).toString() + ",");
+		}
+		query = query.delete(query.length() - 1, query.length());
+		this.AddCondition(query, Condition);
+		query.append(";");
+		return this.connect.executeUpdate(query.toString()) > 0;
+	}
 	
 	public boolean DeleteReal(String tableName,String condition) throws Exception {
 		//khai báo biến StringBuilder để tạo chuỗi 

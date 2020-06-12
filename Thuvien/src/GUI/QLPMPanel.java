@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
@@ -421,6 +422,19 @@ public class QLPMPanel extends JPanel implements ActionListener,KeyListener,Prop
 
 			}
 		}
+		
+		if(evt.getSource() == btnTaiLaiPM) {
+			phieumuonBUS bus = new phieumuonBUS();
+			try {
+				table.setData(bus.getPMList());
+				table.loadData();
+				JOptionPane.showMessageDialog(this, "Đã tải lại");
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 		if (evt.getSource() == btnThemCTPM) {
 			int i = table.getTable().getSelectedRow();
 			if (i >= 0) {
@@ -440,8 +454,10 @@ public class QLPMPanel extends JPanel implements ActionListener,KeyListener,Prop
 									ctpm.setSoluong(Integer.parseInt(txSoluong.getText()));
 									ctpm.setTinhtrang((String) buttonGroup.getSelection().getActionCommand());
 
-									tableCTP.addData(ctpm);
+									
 									bus.insert(ctpm);
+									tableCTP.setData(bus.getNVList(txMapm.getText()));
+									tableCTP.loadData();
 								}
 							}
 						}
@@ -461,7 +477,6 @@ public class QLPMPanel extends JPanel implements ActionListener,KeyListener,Prop
 				ctpm.setNgaythuctra(dateTra);
 				ctpm.setSoluong(Integer.parseInt(txSoluong.getText()));
 				ctpm.setTinhtrang((String) buttonGroup.getSelection().getActionCommand());
-				System.out.println(i);
 				tableCTP.deleteRow(i);
 				try {
 					bus.delete(ctpm);
@@ -472,7 +487,6 @@ public class QLPMPanel extends JPanel implements ActionListener,KeyListener,Prop
 			}
 
 		}
-
 		if (evt.getSource() == btnSuaCTPM) {
 			ctpmBUS bus = new ctpmBUS();
 			String dateTra = (String) new SimpleDateFormat("yyyy-MM-dd").format(dateNgaytra.getDate());
@@ -490,6 +504,12 @@ public class QLPMPanel extends JPanel implements ActionListener,KeyListener,Prop
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		}
+		if(evt.getSource() == btnTailaiCTPM) {
+			ctpmBUS bus = new ctpmBUS();
+			tableCTP.setData(bus.getNVList(txMapm.getText()));
+			tableCTP.loadData();
+			JOptionPane.showMessageDialog(this, "Đã tải lại");
 		}
 
 	}
