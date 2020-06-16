@@ -31,6 +31,7 @@ import com.toedter.calendar.JDateChooser;
 
 import BUS.ctpmBUS;
 import BUS.phieumuonBUS;
+import BUS.phieuphatBUS;
 import DTO.ctpmDTO;
 import DTO.phieumuonDTO;
 import TOOL.check;
@@ -113,11 +114,16 @@ public class QLPPPanel extends JPanel implements ActionListener,KeyListener,Prop
 		add(dateNgayLap);
 
 
-		//phieuphatBUS bus = new phieuphatBUS();
+		phieuphatBUS bus = new phieuphatBUS();
 
 		table = new tablePP();
-		//table.setData(list);
-        //table.loadData();
+		try {
+			table.setData(bus.getPPList());
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+        table.loadData();
         table.setFont(new Font("Calibri", Font.PLAIN, 18));
         table.setBounds(15, 16, 511, 258);
         add(table);

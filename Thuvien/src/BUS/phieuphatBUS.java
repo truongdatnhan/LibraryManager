@@ -10,7 +10,7 @@ public class phieuphatBUS {
 	public static ArrayList<phieuphatDTO> dspp;
 	phieuphatDAO data = new phieuphatDAO();
 
-	public ArrayList<phieuphatDTO> getPMList() throws Exception{
+	public ArrayList<phieuphatDTO> getPPList() throws Exception{
 		if(dspp==null) {
 			dspp = new ArrayList<phieuphatDTO>();
 		}
