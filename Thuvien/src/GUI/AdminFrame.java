@@ -26,6 +26,7 @@ public class AdminFrame extends UserFrame implements ActionListener, MouseListen
         super();
         pnPhieumuon.setLocation(0, 250);
         pnSach.setLocation(0, 200);
+        pnPhieuphat.setLocation(0, 200);
 
         pnNhanvien = new JPanel();
         pnNhanvien.setBounds(0, 100, 180, 40);
@@ -63,6 +64,9 @@ public class AdminFrame extends UserFrame implements ActionListener, MouseListen
         pnPhieumuon.setBounds(0, 250, 180, 40);
         pnPhieumuon.addMouseListener(this);
 
+        pnPhieuphat.setBounds(0, 300, 180, 40);
+        pnPhieuphat.addMouseListener(this);
+        
         nhanvien = new QLNVPanel();
         centerPanel.add(nhanvien, BorderLayout.CENTER);
     }
@@ -123,6 +127,16 @@ public class AdminFrame extends UserFrame implements ActionListener, MouseListen
             centerPanel.add(thongke, BorderLayout.CENTER);
             centerPanel.repaint();
             centerPanel.revalidate();
+        } else if (evt.getSource() == pnPhieuphat || evt.getSource() == lbPhieuphat) {
+            centerPanel.removeAll();
+            try {
+                phieuphat = new QLPPPanel();
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+            centerPanel.add(phieuphat, BorderLayout.CENTER);
+            centerPanel.repaint();
+            centerPanel.revalidate();
         }
 
     }
@@ -138,6 +152,8 @@ public class AdminFrame extends UserFrame implements ActionListener, MouseListen
             pnPhieumuon.setBackground(new Color(43, 110, 214));
         } else if (e.getSource() == pnTaikhoan) {
             pnTaikhoan.setBackground(new Color(43, 110, 214));
+        } else if (e.getSource() == pnPhieuphat) {
+        	pnPhieuphat.setBackground(new Color(43, 110, 214));
         }
     }
 
@@ -151,6 +167,8 @@ public class AdminFrame extends UserFrame implements ActionListener, MouseListen
             pnPhieumuon.setBackground(new Color(45, 118, 232));
         } else if (e.getSource() == pnTaikhoan) {
             pnTaikhoan.setBackground(new Color(45, 118, 232));
+        } else if (e.getSource() == pnPhieuphat) {
+        	pnPhieuphat.setBackground(new Color(45, 118, 232));
         }
     }
 

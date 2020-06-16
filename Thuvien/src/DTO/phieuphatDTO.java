@@ -6,6 +6,7 @@ public class phieuphatDTO {
 	private String maqd;
 	private long tienphat;
 	private String ngaylap;
+	private long tongtien;
 	
 	public phieuphatDTO() {
 		mapp = null;
@@ -13,15 +14,17 @@ public class phieuphatDTO {
 		maqd = null;
 		tienphat = 0;
 		ngaylap = null;
+		tongtien = 0;
 	}
 
-	public phieuphatDTO(String mapp, String mapm, String maqd, long tienphat, String ngaylap) {
+	public phieuphatDTO(String mapp, String mapm, String maqd, long tienphat, String ngaylap,long tongtien) {
 		super();
 		this.mapp = mapp;
 		this.mapm = mapm;
 		this.maqd = maqd;
 		this.tienphat = tienphat;
 		this.ngaylap = ngaylap;
+		this.tongtien = tongtien;
 	}
 
 	public String getMapp() {
@@ -63,6 +66,13 @@ public class phieuphatDTO {
 	public void setNgaylap(String ngaylap) {
 		this.ngaylap = ngaylap;
 	}
-	
+
+	public long getTongtien() {
+		return tongtien;
+	}
+
+	public void setTongtien(long tongtien) {
+		this.tongtien = tongtien;
+	}
 	
 }

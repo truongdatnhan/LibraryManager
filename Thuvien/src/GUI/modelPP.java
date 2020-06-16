@@ -1,0 +1,70 @@
+package GUI;
+
+import java.util.ArrayList;
+import java.util.Vector;
+
+import javax.swing.table.DefaultTableModel;
+
+import DTO.phieuphatDTO;
+
+
+public class modelPP extends DefaultTableModel {
+	public ArrayList<phieuphatDTO> phieuphatList;
+	private static String[] colName = { "Mã phiếu phạt", "Mã phiếu mượn", "Tổng tiền̉", "Ngày lập"};
+
+	public modelPP() {
+		super(colName, 0);
+	}
+
+	public void setData(ArrayList<phieuphatDTO> list) {
+		this.phieuphatList = list;
+	}
+
+	public void loadData() {
+		deleteAll();
+		//phieumuonBUS bus = new phieumuonBUS();
+		for (phieuphatDTO pp : phieuphatList) {
+			Vector<String> row = new Vector<String>();
+			row.add(pp.getMapp());
+			row.add(pp.getMapm());
+			row.add(null);
+			row.add(pp.getNgaylap());
+			super.addRow(row);
+		}
+	}
+
+	public void addRow(phieuphatDTO pp) {
+		if (pp == null) {
+			throw new IllegalArgumentException("NULL");
+		}
+		Vector<Object> row = new Vector<Object>();
+		row.add(pp.getMapp());
+		row.add(pp.getMapm());
+		row.add(null);
+		row.add(pp.getNgaylap());
+		super.addRow(row);
+	}
+
+	public void deleteData (int i) {
+		super.removeRow(i);
+	}
+
+	public void updateData(phieuphatDTO pp, int i) {
+		String[] temp = new String[] { pp.getMapp(), pp.getMapm(), null,pp.getNgaylap() };
+		for (int j = 0; j < colName.length - 2; j++) {
+			super.setValueAt(temp[j], i, j + 1);
+		}
+	}
+
+	public void deleteAll() {
+		if (super.getRowCount() > 0) {
+			for (int i = super.getRowCount() - 1; i > -1; i--) {
+				super.removeRow(i);
+			}
+		}
+	}
+	
+	public phieuphatDTO getPP(int index) {
+		return phieuphatList.get(index);
+	}
+}

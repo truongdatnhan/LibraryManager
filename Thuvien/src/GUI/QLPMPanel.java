@@ -260,7 +260,7 @@ public class QLPMPanel extends JPanel implements ActionListener,KeyListener,Prop
 		
 		comboFindThang = new JComboBox();
 		comboFindThang.setModel(new DefaultComboBoxModel(new String[] {"--Vui lòng chọn--", "Ngày mượn", "Ngày quy định trả"}));
-		comboFindThang.setBounds(1031, 207, 143, 22);
+		comboFindThang.setBounds(878, 197, 143, 22);
 		add(comboFindThang);
 
 		table.loadData();

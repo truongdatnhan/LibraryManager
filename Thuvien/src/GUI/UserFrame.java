@@ -25,13 +25,15 @@ public class UserFrame extends JFrame implements MouseListener {
     protected JPanel header, centerPanel, namePanel;
     protected JPanel pnSach;
     protected JPanel pnPhieumuon;
-    protected JLabel lbSach, lbPhieumuon;
+    protected JLabel lbSach, lbPhieumuon, lbPhieuphat;
     protected QLSPanel sach;
     protected JLabel lbName, lbLogOut;
     private JPanel logOutPanel;
     private ImageIcon imgLogout;
     private JLabel lbLogo;
     protected JPanel panelPhat;
+    protected JPanel pnPhieuphat;
+    protected QLPPPanel phieuphat;
 
     public UserFrame() throws UnsupportedLookAndFeelException {
         setBackground(Color.WHITE);
@@ -83,10 +85,27 @@ public class UserFrame extends JFrame implements MouseListener {
         lbPhieumuon.setIcon(iconPM);
         pnPhieumuon.add(lbPhieumuon);
 
+        pnPhieuphat = new JPanel();
+        pnPhieuphat.setBounds(0, 200, 200, 40);
+        pnPhieuphat.setBackground(new Color(45, 118, 232));
+        pnPhieuphat.addMouseListener(this);
+        leftPanel.add(pnPhieuphat);
+        
+        lbPhieuphat = new JLabel("        Phiếu phạt");
+        lbPhieuphat.setForeground(Color.WHITE);
+        lbPhieuphat.setBounds(0, 0, 200, 40);
+        ImageIcon iconPP = design.resizeIcon("./icon/icons8_Bill_64.png", pnPhieuphat.getWidth() / 3,
+                (int) (pnPhieuphat.getHeight() * 1.5));
+        pnPhieuphat.setLayout(null);
+        lbPhieuphat.setIcon(iconPM);
+        pnPhieuphat.add(lbPhieuphat);
+        
         lbLogo = new JLabel("");
         lbLogo.setBounds(54, 14, 70, 70);
         leftPanel.add(lbLogo);
 
+        
+        
         ImageIcon logo = design.resizeIcon("./icon/book1.png", lbLogo.getWidth(), lbLogo.getHeight());
         lbLogo.setIcon(logo);
 
@@ -189,6 +208,12 @@ public class UserFrame extends JFrame implements MouseListener {
             centerPanel.add(phieumuon, BorderLayout.CENTER);
             centerPanel.repaint();
             centerPanel.revalidate();
+        } else if (e.getSource() == pnPhieuphat || e.getSource() == lbPhieuphat) {
+            centerPanel.removeAll();
+            QLPPPanel phieuphat = new QLPPPanel();
+            centerPanel.add(phieuphat, BorderLayout.CENTER);
+            centerPanel.repaint();
+            centerPanel.revalidate();
         }
     }
 
@@ -198,6 +223,8 @@ public class UserFrame extends JFrame implements MouseListener {
             pnSach.setBackground(new Color(43, 110, 214));
         } else if (e.getSource() == pnPhieumuon) {
             pnPhieumuon.setBackground(new Color(43, 110, 214));
+        } else if (e.getSource() == pnPhieuphat) {
+        	pnPhieuphat.setBackground(new Color(43, 110, 214));
         }
     }
 
@@ -209,6 +236,8 @@ public class UserFrame extends JFrame implements MouseListener {
             pnPhieumuon.setBackground(new Color(45, 118, 232));
         } else if (e.getSource() == namePanel) {
             lbName.setFont(new Font("Tomaho", Font.PLAIN, 16));
+        } else if (e.getSource() == pnPhieuphat) {
+        	pnPhieuphat.setBackground(new Color(45, 118, 232));
         }
     }
 
