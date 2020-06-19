@@ -63,7 +63,7 @@ public class phieuphatDAO {
         updateValue.put("mapp", pp.getMapp());
         updateValue.put("mapm", pp.getMapm());
         updateValue.put("ngaylap",pp.getNgaylap());
-        updateValue.put("tongtien", String.valueOf(pp.getTongtien()));
+        //updateValue.put("tongtien", String.valueOf(pp.getTongtien()));
         
         boolean kt = conn.Update("phieuphat", updateValue,"mapp = '"+pp.getMapp()+"'");
         if(kt == true){

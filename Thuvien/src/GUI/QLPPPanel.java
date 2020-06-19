@@ -307,9 +307,9 @@ public class QLPPPanel extends JPanel implements ActionListener, KeyListener, Pr
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					table.updateData(pp, i);
 					try {
 						table.setData(busPP.getPPList());
+						table.loadData();
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

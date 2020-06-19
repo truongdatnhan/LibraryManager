@@ -126,7 +126,7 @@ public class ctppDAO {
 					updateValue.put("thanhtien", String.valueOf(ctpp.getThanhtien()));
 
 					HashMap<String, Object> phieuphatValue = new HashMap<>();
-					phieuphatValue.put("tongtien", "tongtien - " + ctpp.getThanhtien());
+					phieuphatValue.put("tongtien", "tongtien - " + priceChange);
 					boolean check = conn.UpdateNoComma("phieuphat", phieuphatValue,
 							"mapp ='" + ctpp.getMapp() + "'" + " AND " + "(tongtien - " + priceChange + ") >= 0");
 

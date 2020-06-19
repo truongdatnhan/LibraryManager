@@ -373,7 +373,7 @@ public class QLPMPanel extends JPanel implements ActionListener,KeyListener,Prop
 							phieumuonDTO pm = null;
 							try {
 								pm = new phieumuonDTO(busPM.autoCreateID(), txManv.getText(), txMathe.getText(),
-										dateMuon, dateTra);
+										dateMuon, dateTra, 0);
 							} catch (Exception e1) {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();
@@ -412,7 +412,7 @@ public class QLPMPanel extends JPanel implements ActionListener,KeyListener,Prop
 								String dateTra = (String) new SimpleDateFormat("yyyy-MM-dd")
 										.format(dateNgayquydinhtra.getDate());
 								phieumuonDTO pm = new phieumuonDTO(txMapm.getText(), txManv.getText(),
-										txMathe.getText(), dateMuon, dateTra);
+										txMathe.getText(), dateMuon, dateTra, tongtien);
 
 								try {
 									busPM.Update(pm);
@@ -465,6 +465,7 @@ public class QLPMPanel extends JPanel implements ActionListener,KeyListener,Prop
 									ctpm.setNgaythuctra(dateTra);
 									ctpm.setSoluong(Integer.parseInt(txSoluong.getText()));
 									ctpm.setTinhtrang((String) buttonGroup.getSelection().getActionCommand());
+									ctpm.setTienthechan(Integer.parseInt(txMoney.getText()));
 
 									
 									bus.insert(ctpm);
@@ -489,6 +490,7 @@ public class QLPMPanel extends JPanel implements ActionListener,KeyListener,Prop
 				ctpm.setNgaythuctra(dateTra);
 				ctpm.setSoluong(Integer.parseInt(txSoluong.getText()));
 				ctpm.setTinhtrang((String) buttonGroup.getSelection().getActionCommand());
+				ctpm.setTienthechan(Integer.parseInt(txMoney.getText()));
 				tableCTP.deleteRow(i);
 				try {
 					bus.delete(ctpm);
@@ -508,6 +510,7 @@ public class QLPMPanel extends JPanel implements ActionListener,KeyListener,Prop
 			ctpm.setNgaythuctra(dateTra);
 			ctpm.setSoluong(Integer.parseInt(txSoluong.getText()));
 			ctpm.setTinhtrang((String) buttonGroup.getSelection().getActionCommand());
+			ctpm.setTienthechan(Integer.parseInt(txMoney.getText()));
 
 			tableCTP.updateData(ctpm);
 			try {

@@ -40,7 +40,7 @@ public class modelPP extends DefaultTableModel {
 		Vector<Object> row = new Vector<Object>();
 		row.add(pp.getMapp());
 		row.add(pp.getMapm());
-		row.add(null);
+		row.add(pp.getTongtien());
 		row.add(pp.getNgaylap());
 		super.addRow(row);
 	}
