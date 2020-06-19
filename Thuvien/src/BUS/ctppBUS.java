@@ -1,6 +1,7 @@
 package BUS;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import DAO.ctppDAO;
 import DTO.ctppDTO;
@@ -10,7 +11,7 @@ public class ctppBUS {
 	//public static String userID;
 	//nhanvienDAO data = new nhanvienDAO();
 	ctppDAO data = new ctppDAO();
-	public ArrayList<ctppDTO> getNVList(String ID) {
+	public ArrayList<ctppDTO> getCTPPList(String ID) {
 		if (dsctpp == null) {
 			dsctpp = new ArrayList<ctppDTO>();
 		}
@@ -60,4 +61,8 @@ public class ctppBUS {
 		dsctpp.set(k, ctpp);
 	}
 
+	public HashMap<String,Integer> getQuyDinhMap() throws Exception {
+		return data.getQuyDinh();
+	}
+	
 }

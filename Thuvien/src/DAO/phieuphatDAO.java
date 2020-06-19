@@ -29,7 +29,7 @@ public class phieuphatDAO {
         dspp = new ArrayList<>();
         rs = conn.Select("phieuphat");
         while (rs.next()) {
-            phieuphatDTO pp = new phieuphatDTO(rs.getString(1), rs.getString(2), rs.getString(3), rs.getLong(4), rs.getString(5) ,rs.getLong(6));
+            phieuphatDTO pp = new phieuphatDTO(rs.getString(1), rs.getString(2), rs.getString(3), rs.getLong(4));
             dspp.add(pp);
         }
         return dspp;
@@ -39,11 +39,9 @@ public class phieuphatDAO {
         HashMap<String,Object> insertValue = new HashMap<>();
         insertValue.put("mapp", pp.getMapp());
         insertValue.put("mapm", pp.getMapm());
-        insertValue.put("maqd",pp.getMaqd());
-        insertValue.put("tienphat", String.valueOf(pp.getTienphat()));
         insertValue.put("ngaylap",pp.getNgaylap());
         insertValue.put("tongtien", String.valueOf(pp.getTongtien()));
-        boolean kt =  conn.Insert("phieunhap", insertValue);
+        boolean kt =  conn.Insert("phieuphat", insertValue);
         if(kt == true){
             JOptionPane.showMessageDialog(null, "Thêm thành công");
         }else{
@@ -64,8 +62,6 @@ public class phieuphatDAO {
         HashMap<String,Object> updateValue = new HashMap<>();
         updateValue.put("mapp", pp.getMapp());
         updateValue.put("mapm", pp.getMapm());
-        updateValue.put("maqd",pp.getMaqd());
-        updateValue.put("tienphat", String.valueOf(pp.getTienphat()));
         updateValue.put("ngaylap",pp.getNgaylap());
         updateValue.put("tongtien", String.valueOf(pp.getTongtien()));
         

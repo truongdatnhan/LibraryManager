@@ -6,6 +6,7 @@ public class ctpmDTO {
 	private int soluong;
 	private String tinhtrang;
 	private String ngaythuctra;
+	private int tienthechan;
 	
 	public ctpmDTO() {
 		mapm = null;
@@ -13,14 +14,16 @@ public class ctpmDTO {
 		soluong = 0;
 		tinhtrang = null;
 		ngaythuctra = null;
+		tienthechan = 0;
 	}
 
-	public ctpmDTO(String mapm, String masach, int soluong, String tinhtrang, String ngaythuctra) {
+	public ctpmDTO(String mapm, String masach, int soluong, String tinhtrang, int tienthechan, String ngaythuctra) {
 		this.mapm = mapm;
 		this.masach = masach;
 		this.soluong = soluong;
 		this.tinhtrang = tinhtrang;
 		this.ngaythuctra = ngaythuctra;
+		this.tienthechan = tienthechan;
 	}
 
 	public String getMapm() {
@@ -61,6 +64,14 @@ public class ctpmDTO {
 
 	public void setNgaythuctra(String ngaythuctra) {
 		this.ngaythuctra = ngaythuctra;
+	}
+
+	public int getTienthechan() {
+		return tienthechan;
+	}
+
+	public void setTienthechan(int tienthechan) {
+		this.tienthechan = tienthechan;
 	}
 
 	@Override

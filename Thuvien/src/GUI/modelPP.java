@@ -27,7 +27,7 @@ public class modelPP extends DefaultTableModel {
 			Vector<String> row = new Vector<String>();
 			row.add(pp.getMapp());
 			row.add(pp.getMapm());
-			row.add(null);
+			row.add(String.valueOf(pp.getTongtien()));
 			row.add(pp.getNgaylap());
 			super.addRow(row);
 		}
@@ -50,8 +50,8 @@ public class modelPP extends DefaultTableModel {
 	}
 
 	public void updateData(phieuphatDTO pp, int i) {
-		String[] temp = new String[] { pp.getMapp(), pp.getMapm(), null,pp.getNgaylap() };
-		for (int j = 0; j < colName.length - 2; j++) {
+		String[] temp = new String[] {  pp.getMapm(), String.valueOf(pp.getTongtien()),pp.getNgaylap() };
+		for (int j = 0; j < colName.length-1; j++) {
 			super.setValueAt(temp[j], i, j + 1);
 		}
 	}

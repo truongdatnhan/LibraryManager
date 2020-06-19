@@ -10,8 +10,8 @@ import DTO.phieumuonDTO;
 
 public class modelPM extends DefaultTableModel {
 	public ArrayList<phieumuonDTO> phieumuonList;
-	private static String[] colName = { "Mã phiếu nhập", "Mã nhân viên", "Mã thẻ", "Ngày mượn",
-			"Ngày quy định trả" };
+	private static String[] colName = { "Mã phiếu mượn", "Mã nhân viên", "Mã thẻ", "Ngày mượn",
+			"Ngày quy định trả","Tổng tiền mượn" };
 
 	public modelPM() {
 		super(colName, 0);

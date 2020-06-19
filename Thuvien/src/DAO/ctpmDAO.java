@@ -22,7 +22,7 @@ public class ctpmDAO {
 		dsctm = new ArrayList<ctpmDTO>();
 		rs = conn.Select("ctphieumuon");
 		while(rs.next()) {
-			ctpmDTO ctpm = new ctpmDTO(rs.getString(1),rs.getString(2),rs.getInt(3),rs.getString(4),rs.getString(5));
+			ctpmDTO ctpm = new ctpmDTO(rs.getString(1),rs.getString(2),rs.getInt(3),rs.getString(4),rs.getInt(5),rs.getString(6));
 			dsctm.add(ctpm);
 		}
 		conn.Close();
@@ -35,6 +35,7 @@ public class ctpmDAO {
 		insertValue.put("masach", ctpm.getMasach());
 		insertValue.put("soluong", ctpm.getSoluong());
 		insertValue.put("tinhtrang", ctpm.getTinhtrang());
+		insertValue.put("tienthechan", ctpm.getTienthechan());
 		insertValue.put("ngaythuctra", ctpm.getNgaythuctra());
 		//boolean kt = conn.Insert("ctphieumuon", insertValue);
 		

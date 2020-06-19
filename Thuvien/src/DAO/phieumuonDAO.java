@@ -25,6 +25,7 @@ public class phieumuonDAO {
 			pm.setMathe(rs.getString(3));
 			pm.setNgaymuon(rs.getString(4));
 			pm.setNgayquidinhtra(rs.getString(5));
+			pm.setTongtienmuon(rs.getLong(6));
 			dspm.add(pm);
 		}
 		return dspm;
@@ -37,6 +38,8 @@ public class phieumuonDAO {
 		insertValue.put("mathe", pm.getMathe());
 		insertValue.put("ngaymuon", pm.getNgaymuon());
 		insertValue.put("ngayquidinhtra", pm.getNgayquidinhtra());
+		insertValue.put("tongtienmuon",String.valueOf(pm.getTongtienmuon()));
+		
 		boolean kt = conn.Insert("phieumuon", insertValue);
 		if (kt == true) {
 			JOptionPane.showMessageDialog(null, "Thêm thành công");
@@ -53,6 +56,7 @@ public class phieumuonDAO {
 		updateValue.put("mathe",pm.getMathe());
 		updateValue.put("ngaymuon",pm.getNgaymuon());
 		updateValue.put("ngayquidinhtra",pm.getNgayquidinhtra());
+		updateValue.put("tongtienmuon",String.valueOf(pm.getTongtienmuon()));
 		boolean kt = conn.Update("phieumuon", updateValue, "mapm = '" +pm.getMapm() + "'");
 		if(kt == true) {
 			JOptionPane.showMessageDialog(null, "Sửa thành công");

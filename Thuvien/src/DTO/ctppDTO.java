@@ -6,6 +6,7 @@ public class ctppDTO {
 	private int soluong;
 	private String maqd;
 	private int thanhtien;
+	
 	public ctppDTO(String mapp, String masach, int soluong, String maqd, int thanhtien) {
 		this.mapp = mapp;
 		this.masach = masach;
@@ -13,6 +14,15 @@ public class ctppDTO {
 		this.maqd = maqd;
 		this.thanhtien = thanhtien;
 	}
+	
+	public ctppDTO(String mapp, String masach, int soluong, String maqd) {
+		super();
+		this.mapp = mapp;
+		this.masach = masach;
+		this.soluong = soluong;
+		this.maqd = maqd;
+	}
+
 	public String getMapp() {
 		return mapp;
 	}
@@ -43,5 +53,9 @@ public class ctppDTO {
 	public void setThanhtien(int thanhtien) {
 		this.thanhtien = thanhtien;
 	}
-	
+	@Override
+	public String toString() {
+		return "ctppDTO [mapp=" + mapp + ", masach=" + masach + ", soluong=" + soluong + ", maqd=" + maqd
+				+ ", thanhtien=" + thanhtien + "]";
+	}
 }

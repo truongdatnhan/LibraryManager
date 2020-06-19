@@ -6,6 +6,7 @@ public class phieumuonDTO {
 	private String mathe;
 	private String ngaymuon;
 	private String ngayquidinhtra;
+	private long tongtienmuon;
 
 	public phieumuonDTO() {
 		mapm = null;
@@ -13,15 +14,17 @@ public class phieumuonDTO {
 		mathe = null;
 		ngaymuon = null;
 		ngayquidinhtra = null;
+		tongtienmuon = 0;
 	}
 
-	public phieumuonDTO(String mapm, String manv, String mathe, String ngaymuon, String ngayquidinhtra) {
+	public phieumuonDTO(String mapm, String manv, String mathe, String ngaymuon, String ngayquidinhtra, long tongtienmuon) {
 
 		this.mapm = mapm;
 		this.manv = manv;
 		this.mathe = mathe;
 		this.ngaymuon = ngaymuon;
 		this.ngayquidinhtra = ngayquidinhtra;
+		this.tongtienmuon = tongtienmuon;
 	}
 
 	public String getMapm() {
@@ -62,6 +65,14 @@ public class phieumuonDTO {
 
 	public void setNgayquidinhtra(String ngayquidinhtra) {
 		this.ngayquidinhtra = ngayquidinhtra;
+	}
+
+	public long getTongtienmuon() {
+		return tongtienmuon;
+	}
+
+	public void setTongtienmuon(long tongtienmuon) {
+		this.tongtienmuon = tongtienmuon;
 	}
 
 }

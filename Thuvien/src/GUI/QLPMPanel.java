@@ -53,6 +53,8 @@ public class QLPMPanel extends JPanel implements ActionListener,KeyListener,Prop
 	private JTextField txFindNV;
 	private JTextField txFindMT;
 	private JComboBox comboFindThang;
+	private JTextField txMoney;
+	private long tongtien;
 
 	public QLPMPanel() {
 		setBackground(Color.WHITE);
@@ -143,7 +145,7 @@ public class QLPMPanel extends JPanel implements ActionListener,KeyListener,Prop
 		btnTailaiCTPM.addActionListener(this);
 		add(btnTailaiCTPM);
 
-		btnSuaCTPM = new JButton("Sưa");
+		btnSuaCTPM = new JButton("Sửa");
 		btnSuaCTPM.addActionListener(this);
 		btnSuaCTPM.setBounds(238, 512, 192, 29);
 		add(btnSuaCTPM);
@@ -262,6 +264,15 @@ public class QLPMPanel extends JPanel implements ActionListener,KeyListener,Prop
 		comboFindThang.setModel(new DefaultComboBoxModel(new String[] {"--Vui lòng chọn--", "Ngày mượn", "Ngày quy định trả"}));
 		comboFindThang.setBounds(878, 197, 143, 22);
 		add(comboFindThang);
+		
+		JLabel lbMoney = new JLabel("Tiền thế chân :");
+		lbMoney.setBounds(40, 606, 90, 25);
+		add(lbMoney);
+		
+		txMoney = new JTextField();
+		txMoney.setBounds(180, 606, 250, 25);
+		add(txMoney);
+		txMoney.setColumns(10);
 
 		table.loadData();
 		table.getTable().addMouseListener(new MouseAdapter() {
@@ -272,6 +283,7 @@ public class QLPMPanel extends JPanel implements ActionListener,KeyListener,Prop
 				txMapm.setText(pm.getMapm());
 				txManv.setText(pm.getManv());
 				txMathe.setText(pm.getMathe());
+				tongtien = pm.getTongtienmuon();
 				try {
 					dateNgaymuon.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(pm.getNgaymuon()));
 					dateNgayquydinhtra.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(pm.getNgayquidinhtra()));
