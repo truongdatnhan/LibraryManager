@@ -31,6 +31,7 @@ public class modelPM extends DefaultTableModel {
 			row.add(pm.getMathe());
 			row.add(pm.getNgaymuon());
 			row.add(pm.getNgayquidinhtra());
+			row.add(String.valueOf(pm.getTongtienmuon()));
 			super.addRow(row);
 		}
 	}
@@ -45,6 +46,7 @@ public class modelPM extends DefaultTableModel {
 		row.add(pm.getMathe());
 		row.add(pm.getNgaymuon());
 		row.add(pm.getNgayquidinhtra());
+		row.add(pm.getTongtienmuon());
 		super.addRow(row);
 	}
 

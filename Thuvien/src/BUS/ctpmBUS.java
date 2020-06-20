@@ -12,7 +12,7 @@ public class ctpmBUS {
 	//public static String userID;
 	//nhanvienDAO data = new nhanvienDAO();
 	ctpmDAO data = new ctpmDAO();
-	public ArrayList<ctpmDTO> getNVList(String ID) {
+	public ArrayList<ctpmDTO> getCTPMList(String ID) {
 		if (dsctpm == null) {
 			dsctpm = new ArrayList<ctpmDTO>();
 		}

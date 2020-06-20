@@ -54,7 +54,6 @@ public class QLPMPanel extends JPanel implements ActionListener,KeyListener,Prop
 	private JTextField txFindMT;
 	private JComboBox comboFindThang;
 	private JTextField txMoney;
-	private long tongtien;
 
 	public QLPMPanel() {
 		setBackground(Color.WHITE);
@@ -283,7 +282,6 @@ public class QLPMPanel extends JPanel implements ActionListener,KeyListener,Prop
 				txMapm.setText(pm.getMapm());
 				txManv.setText(pm.getManv());
 				txMathe.setText(pm.getMathe());
-				tongtien = pm.getTongtienmuon();
 				try {
 					dateNgaymuon.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(pm.getNgaymuon()));
 					dateNgayquydinhtra.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(pm.getNgayquidinhtra()));
@@ -295,7 +293,7 @@ public class QLPMPanel extends JPanel implements ActionListener,KeyListener,Prop
 				ctpmBUS bus = new ctpmBUS();
 
 				if (i >= 0) {
-					tableCTP.setData(bus.getNVList(pm.getMapm()));
+					tableCTP.setData(bus.getCTPMList(pm.getMapm()));
 					tableCTP.loadData();
 				}
 
@@ -332,10 +330,11 @@ public class QLPMPanel extends JPanel implements ActionListener,KeyListener,Prop
 			public void mouseClicked(MouseEvent e) {
 				int i = tableCTP.getTable().getSelectedRow();
 				ctpmBUS bus = new ctpmBUS();
-				ctpmDTO ct = bus.getNVList(txMapm.getText()).get(i);
+				ctpmDTO ct = bus.getCTPMList(txMapm.getText()).get(i);
 
 				txMsach.setText(ct.getMasach());
 				txSoluong.setText(String.valueOf(ct.getSoluong()));
+				txMoney.setText(String.valueOf(ct.getTienthechan()));
 				if ("Đã trả".equals(ct.getTinhtrang())) {
 					rdDaTra.setSelected(true);
 				} else {
@@ -412,7 +411,7 @@ public class QLPMPanel extends JPanel implements ActionListener,KeyListener,Prop
 								String dateTra = (String) new SimpleDateFormat("yyyy-MM-dd")
 										.format(dateNgayquydinhtra.getDate());
 								phieumuonDTO pm = new phieumuonDTO(txMapm.getText(), txManv.getText(),
-										txMathe.getText(), dateMuon, dateTra, tongtien);
+										txMathe.getText(), dateMuon, dateTra);
 
 								try {
 									busPM.Update(pm);
@@ -459,18 +458,20 @@ public class QLPMPanel extends JPanel implements ActionListener,KeyListener,Prop
 										.format(dateNgaytra.getDate());
 								if (check.checkDate(dateTra)) {
 									dateTra = (String) new SimpleDateFormat("yyyy-MM-dd").format(dateNgaytra.getDate());
-									ctpmDTO ctpm = new ctpmDTO();
-									ctpm.setMapm(txMapm.getText());
-									ctpm.setMasach(txMsach.getText());
-									ctpm.setNgaythuctra(dateTra);
-									ctpm.setSoluong(Integer.parseInt(txSoluong.getText()));
-									ctpm.setTinhtrang((String) buttonGroup.getSelection().getActionCommand());
-									ctpm.setTienthechan(Integer.parseInt(txMoney.getText()));
-
+									ctpmDTO ctpm = new ctpmDTO(txMapm.getText(), txMsach.getText(), Integer.parseInt(txSoluong.getText()) 
+											, (String)buttonGroup.getSelection().getActionCommand(), dateTra, Integer.parseInt(txMoney.getText()) );
 									
 									bus.insert(ctpm);
-									tableCTP.setData(bus.getNVList(txMapm.getText()));
+									tableCTP.setData(bus.getCTPMList(txMapm.getText()));
 									tableCTP.loadData();
+									phieumuonBUS pmBUS = new phieumuonBUS();
+									try {
+										table.setData(pmBUS.getPMList());
+										table.loadData();
+									} catch (Exception e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
 								}
 							}
 						}
@@ -484,16 +485,15 @@ public class QLPMPanel extends JPanel implements ActionListener,KeyListener,Prop
 			if (i >= 0) {
 				ctpmBUS bus = new ctpmBUS();
 				String dateTra = (String) new SimpleDateFormat("yyyy-MM-dd").format(dateNgaytra.getDate());
-				ctpmDTO ctpm = new ctpmDTO();
-				ctpm.setMapm(txMapm.getText());
-				ctpm.setMasach(txMsach.getText());
-				ctpm.setNgaythuctra(dateTra);
-				ctpm.setSoluong(Integer.parseInt(txSoluong.getText()));
-				ctpm.setTinhtrang((String) buttonGroup.getSelection().getActionCommand());
-				ctpm.setTienthechan(Integer.parseInt(txMoney.getText()));
+				ctpmDTO ctpm = new ctpmDTO(txMapm.getText(), txMsach.getText(), Integer.parseInt(txSoluong.getText()) 
+						, (String)buttonGroup.getSelection().getActionCommand(), dateTra, Integer.parseInt(txMoney.getText()) );
+				
 				tableCTP.deleteRow(i);
 				try {
 					bus.delete(ctpm);
+					phieumuonBUS pmBUS = new phieumuonBUS();
+					table.setData(pmBUS.getPMList());
+					table.loadData();
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -504,17 +504,16 @@ public class QLPMPanel extends JPanel implements ActionListener,KeyListener,Prop
 		if (evt.getSource() == btnSuaCTPM) {
 			ctpmBUS bus = new ctpmBUS();
 			String dateTra = (String) new SimpleDateFormat("yyyy-MM-dd").format(dateNgaytra.getDate());
-			ctpmDTO ctpm = new ctpmDTO();
-			ctpm.setMapm(txMapm.getText());
-			ctpm.setMasach(txMsach.getText());
-			ctpm.setNgaythuctra(dateTra);
-			ctpm.setSoluong(Integer.parseInt(txSoluong.getText()));
-			ctpm.setTinhtrang((String) buttonGroup.getSelection().getActionCommand());
-			ctpm.setTienthechan(Integer.parseInt(txMoney.getText()));
-
-			tableCTP.updateData(ctpm);
+			ctpmDTO ctpm = new ctpmDTO(txMapm.getText(), txMsach.getText(), Integer.parseInt(txSoluong.getText()) 
+					, (String)buttonGroup.getSelection().getActionCommand(), dateTra, Integer.parseInt(txMoney.getText()) );
+			System.out.println(ctpm.toString());
 			try {
 				bus.update(ctpm);
+				phieumuonBUS pmBUS = new phieumuonBUS();
+				tableCTP.setData(bus.getCTPMList(ctpm.getMapm()));
+				tableCTP.loadData();
+				table.setData(pmBUS.getPMList());
+				table.loadData();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -522,7 +521,7 @@ public class QLPMPanel extends JPanel implements ActionListener,KeyListener,Prop
 		}
 		if(evt.getSource() == btnTailaiCTPM) {
 			ctpmBUS bus = new ctpmBUS();
-			tableCTP.setData(bus.getNVList(txMapm.getText()));
+			tableCTP.setData(bus.getCTPMList(txMapm.getText()));
 			tableCTP.loadData();
 			JOptionPane.showMessageDialog(this, "Đã tải lại");
 		}

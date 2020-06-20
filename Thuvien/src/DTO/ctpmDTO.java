@@ -17,7 +17,7 @@ public class ctpmDTO {
 		tienthechan = 0;
 	}
 
-	public ctpmDTO(String mapm, String masach, int soluong, String tinhtrang, int tienthechan, String ngaythuctra) {
+	public ctpmDTO(String mapm, String masach, int soluong, String tinhtrang, String ngaythuctra, int tienthechan) {
 		this.mapm = mapm;
 		this.masach = masach;
 		this.soluong = soluong;
@@ -73,10 +73,9 @@ public class ctpmDTO {
 	public void setTienthechan(int tienthechan) {
 		this.tienthechan = tienthechan;
 	}
-
 	@Override
 	public String toString() {
 		return "ctpmDTO [mapm=" + mapm + ", masach=" + masach + ", soluong=" + soluong + ", tinhtrang=" + tinhtrang
-				+ ", ngaythuctra=" + ngaythuctra + "]";
+				+ ", ngaythuctra=" + ngaythuctra + ", tienthechan=" + tienthechan + "]";
 	}
 }

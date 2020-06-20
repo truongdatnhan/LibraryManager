@@ -17,6 +17,14 @@ public class phieumuonDTO {
 		tongtienmuon = 0;
 	}
 
+	public phieumuonDTO(String mapm, String manv, String mathe, String ngaymuon, String ngayquidinhtra) {
+		this.mapm = mapm;
+		this.manv = manv;
+		this.mathe = mathe;
+		this.ngaymuon = ngaymuon;
+		this.ngayquidinhtra = ngayquidinhtra;
+	}
+
 	public phieumuonDTO(String mapm, String manv, String mathe, String ngaymuon, String ngayquidinhtra, long tongtienmuon) {
 
 		this.mapm = mapm;

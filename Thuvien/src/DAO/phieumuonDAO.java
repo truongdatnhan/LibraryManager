@@ -56,7 +56,7 @@ public class phieumuonDAO {
 		updateValue.put("mathe",pm.getMathe());
 		updateValue.put("ngaymuon",pm.getNgaymuon());
 		updateValue.put("ngayquidinhtra",pm.getNgayquidinhtra());
-		updateValue.put("tongtienmuon",String.valueOf(pm.getTongtienmuon()));
+		//updateValue.put("tongtienmuon",String.valueOf(pm.getTongtienmuon()));
 		boolean kt = conn.Update("phieumuon", updateValue, "mapm = '" +pm.getMapm() + "'");
 		if(kt == true) {
 			JOptionPane.showMessageDialog(null, "Sửa thành công");
