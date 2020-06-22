@@ -83,4 +83,10 @@ public class phieumuonDTO {
 		this.tongtienmuon = tongtienmuon;
 	}
 
+	@Override
+	public String toString() {
+		return "phieumuonDTO [mapm=" + mapm + ", manv=" + manv + ", mathe=" + mathe + ", ngaymuon=" + ngaymuon
+				+ ", ngayquidinhtra=" + ngayquidinhtra + ", tongtienmuon=" + tongtienmuon + "]";
+	}
+
 }

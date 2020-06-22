@@ -26,7 +26,7 @@ public class MyConnectToMySQL {
 
     public void DriverTest() throws Exception {
         try {
-            Class.forName("org.gjt.mm.mysql.Driver");
+            Class.forName("com.mysql.jdbc.Driver");
         } catch (ClassNotFoundException e) {
             throw new Exception("MySQL Driver JDBC not found");
         }

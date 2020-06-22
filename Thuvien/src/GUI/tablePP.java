@@ -66,4 +66,14 @@ public class tablePP extends JPanel{
 	public void setTr(TableRowSorter<DefaultTableModel> tr) {
 		this.tr = tr;
 	}
+	
+	public phieuphatDTO getPP(int i) {
+		phieuphatDTO pp = new phieuphatDTO();
+		pp.setMapp((String)table.getValueAt(i, 0));
+		pp.setMapm((String)table.getValueAt(i, 1));
+		pp.setTongtien(Long.parseLong((String)table.getValueAt(i, 2)));
+		pp.setNgaylap((String)table.getValueAt(i, 3));
+		return pp;
+	}
+	
 }

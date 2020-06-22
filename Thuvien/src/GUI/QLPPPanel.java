@@ -14,6 +14,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -40,8 +41,8 @@ public class QLPPPanel extends JPanel implements ActionListener, KeyListener, Pr
 	private JButton btnThemCTPP, btnXoaCTPP, btnTailaiCTPP, btnSuaCTPP;
 	private JDateChooser dateNgayLap, findStartDate, findEndDate;
 	private check check;
+	private JTextField txFindPP;
 	private JTextField txFindPM;
-	private JTextField txFindNV;
 	private tableCTPP tableCTPP;
 	private JTextField txMsach, txSoluong;
 	private JTextField txMaqd;
@@ -125,21 +126,21 @@ public class QLPPPanel extends JPanel implements ActionListener, KeyListener, Pr
 		lbFindPP.setBounds(554, 137, 99, 25);
 		add(lbFindPP);
 
-		txFindPM = new JTextField();
-		txFindPM.setBounds(665, 136, 69, 26);
-		add(txFindPM);
-		txFindPM.setColumns(10);
-		txFindPM.addKeyListener(this);
+		txFindPP = new JTextField();
+		txFindPP.setBounds(665, 136, 69, 26);
+		add(txFindPP);
+		txFindPP.setColumns(10);
+		txFindPP.addKeyListener(this);
 
 		JLabel lbFindPM = new JLabel("Mã phiếu mượn :");
 		lbFindPM.setBounds(746, 137, 133, 25);
 		add(lbFindPM);
 
-		txFindNV = new JTextField();
-		txFindNV.setBounds(865, 136, 67, 26);
-		add(txFindNV);
-		txFindNV.setColumns(10);
-		txFindNV.addKeyListener(this);
+		txFindPM = new JTextField();
+		txFindPM.setBounds(865, 136, 67, 26);
+		add(txFindPM);
+		txFindPM.setColumns(10);
+		txFindPM.addKeyListener(this);
 
 		findStartDate = new JDateChooser();
 		findStartDate.setBounds(593, 234, 183, 29);
@@ -224,19 +225,17 @@ public class QLPPPanel extends JPanel implements ActionListener, KeyListener, Pr
 		table.getTable().addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				int i = table.getTable().getSelectedRow();
-				phieuphatDTO pp = phieuphatBUS.dspp.get(i);
+				phieuphatDTO pp = table.getPP(i);
 
 				txMaPP.setText(pp.getMapp());
 				txMaPM.setText(pp.getMapm());
-				ctppBUS bus = new ctppBUS();
-
 				try {
 					dateNgayLap.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(pp.getNgaylap()));
 				} catch (ParseException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-
+				ctppBUS bus = new ctppBUS();
 				if (i >= 0) {
 					tableCTPP.setData(bus.getCTPPList(pp.getMapp()));
 					tableCTPP.loadData();
@@ -283,8 +282,8 @@ public class QLPPPanel extends JPanel implements ActionListener, KeyListener, Pr
 						System.out.println("Lỗi quá trình thêm");
 					}
 					busPP.Insert(pp);
-					table.addData(pp);
 					table.setData(busPP.getPPList());
+					table.loadData();
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -408,55 +407,38 @@ public class QLPPPanel extends JPanel implements ActionListener, KeyListener, Pr
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-
-		/*RowFilter<Object, Object> dateFilter = new RowFilter<Object, Object>() {
+		RowFilter<Object, Object> dateFilter = new RowFilter<Object, Object>() {
 			@Override
 			public boolean include(Entry<? extends Object, ? extends Object> entry) {
-				if (comboFindThang.getSelectedIndex() == 1) {
 					LocalDate d1 = LocalDate.parse(new SimpleDateFormat("yyyy-MM-dd").format(findStartDate.getDate()));
 					LocalDate d2 = LocalDate.parse(new SimpleDateFormat("yyyy-MM-dd").format(findEndDate.getDate()));
 					LocalDate d3 = LocalDate.parse(entry.getStringValue(3));
-					Period period = Period.between(d1, d2);
-					int diff = period.getDays();
-
-					Period periodActual = Period.between(d3, d2);
-					int diffActual = periodActual.getDays();
-
-					if (diffActual <= diff) {
-						return true;
+					long diff = ChronoUnit.DAYS.between(d1, d2);
+					
+					long diffActual = ChronoUnit.DAYS.between(d3, d2);
+					if (diffActual >= 0) {
+						if (diffActual <= diff) {
+							return true;
+						}
 					}
-				}
-				if (comboFindThang.getSelectedIndex() == 2) {
-					LocalDate d1 = LocalDate.parse(new SimpleDateFormat("yyyy-MM-dd").format(findStartDate.getDate()));
-					LocalDate d2 = LocalDate.parse(new SimpleDateFormat("yyyy-MM-dd").format(findEndDate.getDate()));
-					LocalDate d3 = LocalDate.parse(entry.getStringValue(4));
-					Period period = Period.between(d1, d2);
-					int diff = period.getDays();
-
-					Period periodActual = Period.between(d3, d2);
-					int diffActual = periodActual.getDays();
-
-					if (diffActual <= diff) {
-						return true;
-					}
-				}
 				return false;
 			}
 
 		};
 
 		ArrayList<RowFilter<Object, Object>> filters = new ArrayList<RowFilter<Object, Object>>();
-		filters.add(RowFilter.regexFilter("(?i)" + txFindPM.getText().toLowerCase(), 0));
-		filters.add(RowFilter.regexFilter("(?i)" + txFindNV.getText().toLowerCase(), 1));
-		filters.add(RowFilter.regexFilter("(?i)" + txFindMT.getText().toLowerCase(), 2));
-		// filters.add(dateFilter);
+		filters.add(RowFilter.regexFilter("(?i)" + txFindPP.getText().toLowerCase(), 0));
+		filters.add(RowFilter.regexFilter("(?i)" + txFindPM.getText().toLowerCase(), 1));
+		if( findStartDate.getDate() != null && findEndDate.getDate() != null ) {
+			filters.add(dateFilter);
+		}
 		RowFilter rf = RowFilter.andFilter(filters);
 
-		if (txFindPM.getText().isEmpty() && txFindNV.getText().isEmpty() && txFindMT.getText().isEmpty()) {
+		if (txMaPP.getText().isEmpty() && txMaPM.getText().isEmpty() && findStartDate.getDate() == null && findEndDate.getDate() == null ) {
 			table.getTr().setRowFilter(null);
 		} else {
 			table.getTr().setRowFilter(rf);
-		}*/
+		}
 	}
 
 	@Override
@@ -467,45 +449,39 @@ public class QLPPPanel extends JPanel implements ActionListener, KeyListener, Pr
 
 	@Override
 	public void propertyChange(PropertyChangeEvent arg0) {
-		/*
-		 * RowFilter<Object, Object> dateFilter = new RowFilter<Object, Object>() {
-		 * 
-		 * @Override public boolean include(Entry<? extends Object, ? extends Object>
-		 * entry) { if (comboFindThang.getSelectedIndex() == 1) { LocalDate d1 =
-		 * LocalDate.parse(new
-		 * SimpleDateFormat("yyyy-MM-dd").format(findStartDate.getDate())); LocalDate d2
-		 * = LocalDate.parse(new
-		 * SimpleDateFormat("yyyy-MM-dd").format(findEndDate.getDate())); LocalDate d3 =
-		 * LocalDate.parse(entry.getStringValue(3)); Period period = Period.between(d1,
-		 * d2); int diff = period.getDays();
-		 * 
-		 * Period periodActual = Period.between(d3, d2); int diffActual =
-		 * periodActual.getDays(); if (diffActual >= 0) { if (diffActual <= diff) {
-		 * return true; } } } if (comboFindThang.getSelectedIndex() == 2) { LocalDate d1
-		 * = LocalDate.parse(new
-		 * SimpleDateFormat("yyyy-MM-dd").format(findStartDate.getDate())); LocalDate d2
-		 * = LocalDate.parse(new
-		 * SimpleDateFormat("yyyy-MM-dd").format(findEndDate.getDate())); LocalDate d3 =
-		 * LocalDate.parse(entry.getStringValue(4)); Period period = Period.between(d1,
-		 * d2); int diff = period.getDays();
-		 * 
-		 * Period periodActual = Period.between(d3, d2); int diffActual =
-		 * periodActual.getDays(); if (diffActual >= 0) { if (diffActual <= diff) {
-		 * return true; } } } return false; }
-		 * 
-		 * };
-		 * 
-		 * ArrayList<RowFilter<Object, Object>> filters = new
-		 * ArrayList<RowFilter<Object, Object>>();
-		 * filters.add(RowFilter.regexFilter("(?i)" + txFindPM.getText().toLowerCase(),
-		 * 0)); filters.add(RowFilter.regexFilter("(?i)" +
-		 * txFindNV.getText().toLowerCase(), 1));
-		 * filters.add(RowFilter.regexFilter("(?i)" + txFindMT.getText().toLowerCase(),
-		 * 2)); filters.add(dateFilter); RowFilter rf = RowFilter.andFilter(filters);
-		 * 
-		 * if (txFindPM.getText().isEmpty() && txFindNV.getText().isEmpty() &&
-		 * txFindMT.getText().isEmpty()) { table.getTr().setRowFilter(null); } else {
-		 * table.getTr().setRowFilter(rf); }
-		 */
+		RowFilter<Object, Object> dateFilter = new RowFilter<Object, Object>() {
+			@Override
+			public boolean include(Entry<? extends Object, ? extends Object> entry) {
+					LocalDate d1 = LocalDate.parse(new SimpleDateFormat("yyyy-MM-dd").format(findStartDate.getDate()));
+					LocalDate d2 = LocalDate.parse(new SimpleDateFormat("yyyy-MM-dd").format(findEndDate.getDate()));
+					LocalDate d3 = LocalDate.parse(entry.getStringValue(3));
+					long diff = ChronoUnit.DAYS.between(d1, d2);
+					
+					
+					long diffActual = ChronoUnit.DAYS.between(d3, d2);
+
+					if (diffActual >= 0) {
+						if (diffActual <= diff) {
+							return true;
+						}
+					}
+				return false;
+			}
+
+		};
+
+		ArrayList<RowFilter<Object, Object>> filters = new ArrayList<RowFilter<Object, Object>>();
+		filters.add(RowFilter.regexFilter("(?i)" + txFindPP.getText().toLowerCase(), 0));
+		filters.add(RowFilter.regexFilter("(?i)" + txFindPM.getText().toLowerCase(), 1));
+		if( findStartDate.getDate() != null && findEndDate.getDate() != null ) {
+			filters.add(dateFilter);
+		}
+		RowFilter rf = RowFilter.andFilter(filters);
+
+		if (txMaPP.getText().isEmpty() && txMaPM.getText().isEmpty() && findStartDate.getDate() == null && findEndDate.getDate() == null) {
+			table.getTr().setRowFilter(null);
+		} else {
+			table.getTr().setRowFilter(rf);
+		}
 	}
 }

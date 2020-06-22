@@ -59,5 +59,11 @@ public class phieuphatDTO {
 	public void setTongtien(long tongtien) {
 		this.tongtien = tongtien;
 	}
+
+	@Override
+	public String toString() {
+		return "phieuphatDTO [mapp=" + mapp + ", mapm=" + mapm + ", ngaylap=" + ngaylap + ", tongtien=" + tongtien
+				+ "]";
+	}
 	
 }

@@ -70,7 +70,4 @@ public class modelPM extends DefaultTableModel {
 		}
 	}
 	
-	public phieumuonDTO getPM(int index) {
-		return phieumuonList.get(index);
-	}
 }
