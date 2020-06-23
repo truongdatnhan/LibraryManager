@@ -5,5 +5,9 @@
 	<classpathentry kind="lib" path="C:/Users/Gintarou/git/LibraryManager/Thuvien/JavaLib/jcalendar-1.4.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Gintarou/git/LibraryManager/Thuvien/JavaLib/JTattoo-1.6.13.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Gintarou/git/LibraryManager/Thuvien/JavaLib/mysql-connector-java-5.1.48/mysql-connector-java-5.1.48.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Gintarou/git/LibraryManager/Thuvien/JavaLib/fontbox-2.0.20.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Gintarou/git/LibraryManager/Thuvien/JavaLib/itextpdf-5.1.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Gintarou/git/LibraryManager/Thuvien/JavaLib/POI/lib"/>
+	<classpathentry kind="lib" path="C:/Users/Gintarou/git/LibraryManager/Thuvien/JavaLib/POI/ooxml-lib"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
