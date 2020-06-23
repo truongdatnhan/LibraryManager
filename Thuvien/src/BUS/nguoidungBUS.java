@@ -3,6 +3,8 @@ package BUS;
 import java.util.ArrayList;
 import DAO.nguoidungDAO;
 import DTO.nguoidungDTO;
+import TOOL.MD5Hash;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -56,7 +58,7 @@ public class nguoidungBUS {
         dsnd.set(k, nd);
     }
 
-    public boolean checkAccount(String username, String pass, String role,int trangthai) {
+    /* public boolean checkAccount(String username, String pass, String role,int trangthai) {
         for (int i = 0; i < dsnd.size(); i++) {
             if (username.equals(dsnd.get(i).getManv()) && pass.equals(dsnd.get(i).getMkhau())
                     && role.equals(dsnd.get(i).getQuyen())&&trangthai==1) {
@@ -64,8 +66,25 @@ public class nguoidungBUS {
             }
         }
         return false;
-    }
+    } */
 
+    public boolean checkAccount(String username, String pass, String role,int trangthai) throws Exception {
+        for (int i = 0; i < dsnd.size(); i++) {
+            if (username.equals(dsnd.get(i).getManv()) && role.equals(dsnd.get(i).getQuyen())&&trangthai==1) {
+            	System.out.println(MD5Hash.getMd5(pass));
+            	System.out.println(pass);
+                if(pass.equals(dsnd.get(i).getMkhau())) {
+                	if(data.updateHash(username, pass)) {
+                		return true;
+                	}
+                } else if (MD5Hash.getMd5(pass).equals(dsnd.get(i).getMkhau())) {
+                	return true;
+                }
+            }
+        }
+        return false;
+    }
+    
     public boolean checkPass(String username, String pass) {
         for (nguoidungDTO nd : dsnd) {
             if (username.compareTo(nd.getManv()) == 0 && pass.compareTo(nd.getMkhau()) == 0) {

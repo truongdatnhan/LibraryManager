@@ -7,6 +7,7 @@ import java.util.HashMap;
 import javax.swing.JOptionPane;
 
 import DTO.nguoidungDTO;
+import TOOL.MD5Hash;
 
 public class nguoidungDAO {
 	MyConnectUnit conn = null;
@@ -73,6 +74,51 @@ public class nguoidungDAO {
 		
 		conn.Close();
 	}
-
+	
+	public boolean updateHash(String manv, String pass) throws Exception {
+		String hashedPassword = null;
+		rs = conn.Select("nguoidung");
+		while(rs.next()) {
+			if(rs.getString(1).equalsIgnoreCase(manv)) {
+				hashedPassword = rs.getString(2);
+			}
+		}
+		hashedPassword = MD5Hash.getMd5(hashedPassword);
+		
+		HashMap<String, Object> hashValue = new HashMap<>();
+		hashValue.put("matkhau", hashedPassword);
+		boolean hashUpdate = conn.Update("nguoidung", hashValue, "manv= '" + manv + "'");
+		
+		if(hashUpdate == true) {
+			System.out.println("Đã Hash");
+			return true;
+		} else {
+			System.out.println("Hash thất bại");
+			return false;
+		}
+	}
+	
+	public String hashPassword(String manv, String pass) throws Exception {
+		String hashedPassword = null;
+		rs = conn.Select("nguoidung");
+		while(rs.next()) {
+			if(rs.getString(1).equalsIgnoreCase(manv)) {
+				hashedPassword = rs.getString(2);
+			}
+		}
+		hashedPassword = MD5Hash.getMd5(hashedPassword);
+		
+		HashMap<String, Object> hashValue = new HashMap<>();
+		hashValue.put("matkhau", hashedPassword);
+		boolean hashUpdate = conn.UpdateNoComma("nguoidung", hashValue, "manv= '" + manv + "'");
+		
+		if(hashUpdate == true) {
+			System.out.println("Đã Hash");
+		} else {
+			System.out.println("Hash thất bại");
+		}
+		
+		return hashedPassword;
+	}
 	
 }

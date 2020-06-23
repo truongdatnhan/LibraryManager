@@ -152,32 +152,37 @@ public class logInForm extends JFrame implements ActionListener, MouseListener, 
                 nguoidungDTO nguoidung = new nguoidungDTO();
                 nguoidung.setManv(txUserName.getText());
                 nguoidung.setMkhau(new String(tpPassword.getPassword()));
-                if (bus.checkAccount(nguoidung.getManv(), nguoidung.getMkhau(), "MQ001",1) == true) {
-                    nhanvienBUS.userID = txUserName.getText();
-                    JOptionPane.showMessageDialog(null, "Đăng nhập thành công");
-                    try {
-                        UserFrame frame = new AdminFrame();
-                        frame.setVisible(true);
-                        this.dispose();
-                    } catch (Exception e1) {
-                        // TODO Auto-generated catch block
-                        e1.printStackTrace();
-                    }
-                } else if (bus.checkAccount(nguoidung.getManv(), nguoidung.getMkhau(), "MQ002",1) == true) {
-                    nhanvienBUS.userID = txUserName.getText();
-                    JOptionPane.showMessageDialog(null, "Đăng nhập thành công");
-                    try {
-                        UserFrame frame = new UserFrame();
-                        frame.setVisible(true);
-                        setVisible(false);
-                        this.dispose();
-                    } catch (Exception e1) {
-                        // TODO Auto-generated catch block
-                        e1.printStackTrace();
-                    }
-                } else {
-                    JOptionPane.showMessageDialog(null, "Đăng nhập thất bại");
-                }
+                try {
+					if (bus.checkAccount(nguoidung.getManv(), nguoidung.getMkhau(), "MQ001",1) == true) {
+					    nhanvienBUS.userID = txUserName.getText();
+					    JOptionPane.showMessageDialog(null, "Đăng nhập thành công");
+					    try {
+					        UserFrame frame = new AdminFrame();
+					        frame.setVisible(true);
+					        this.dispose();
+					    } catch (Exception e1) {
+					        // TODO Auto-generated catch block
+					        e1.printStackTrace();
+					    }
+					} else if (bus.checkAccount(nguoidung.getManv(), nguoidung.getMkhau(), "MQ002",1) == true) {
+					    nhanvienBUS.userID = txUserName.getText();
+					    JOptionPane.showMessageDialog(null, "Đăng nhập thành công");
+					    try {
+					        UserFrame frame = new UserFrame();
+					        frame.setVisible(true);
+					        setVisible(false);
+					        this.dispose();
+					    } catch (Exception e1) {
+					        // TODO Auto-generated catch block
+					        e1.printStackTrace();
+					    }
+					} else {
+					    JOptionPane.showMessageDialog(null, "Đăng nhập thất bại");
+					}
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
             }
         } else if (e.getSource() == lbClose) {
             if (JOptionPane.showConfirmDialog(null, "Bạn muốn đóng ứng dụng ?", "Confirmation",
