@@ -43,8 +43,7 @@ public class MyConnectToMySQL {
                 throw new Exception("Không thể kết nói MySQL server " + e);
             }
         }
-        if(this.connect != null )
-            System.out.println("Tạo kết nối thành công");
+        
         return this.connect;
     }
 
@@ -100,9 +99,6 @@ public class MyConnectToMySQL {
             this.connect.close();
             this.connect = null;
         }
-        if(this.connect == null)
-        {
-            System.out.println("Đã đóng kết nối hoàn toàn\n");
-        }
+
     }
 }

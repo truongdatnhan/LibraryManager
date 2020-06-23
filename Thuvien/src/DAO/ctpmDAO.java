@@ -1,6 +1,10 @@
 package DAO;
 
+import java.sql.Date;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -23,7 +27,7 @@ public class ctpmDAO {
 		dsctm = new ArrayList<ctpmDTO>();
 		rs = conn.Select("ctphieumuon");
 		while (rs.next()) {
-			ctpmDTO ctpm = new ctpmDTO(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getString(4), rs.getString(6),rs.getInt(5));
+			ctpmDTO ctpm = new ctpmDTO(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getString(4),rs.getInt(5));
 			dsctm.add(ctpm);
 		}
 		conn.Close();
@@ -44,7 +48,6 @@ public class ctpmDAO {
 		insertValue.put("soluong", ctpm.getSoluong());
 		insertValue.put("tinhtrang", ctpm.getTinhtrang());
 		insertValue.put("tienthechan", ctpm.getTienthechan());
-		insertValue.put("ngaythuctra", ctpm.getNgaythuctra());
 		// boolean kt = conn.Insert("ctphieumuon", insertValue);
 
 		HashMap<String, Object> phieumuonValue = new HashMap<>();
@@ -87,10 +90,8 @@ public class ctpmDAO {
 		 */
 
 		for (ctpmDTO phieu : filteredList(ctpm.getMapm())) {
-			// System.out.println(phieu.toString());
 			if (phieu.getMasach().equalsIgnoreCase(ctpm.getMasach())) {
 				int priceChange = Math.abs(phieu.getTienthechan() - ctpm.getTienthechan());
-				// System.out.println(priceChange);
 
 				if (ctpm.getSoluong() > phieu.getSoluong()) {
 					if (ctpm.getTinhtrang().equals("Đã trả")) {
@@ -102,7 +103,6 @@ public class ctpmDAO {
 					HashMap<String, Object> updateValue = new HashMap<String, Object>();
 					updateValue.put("soluong", ctpm.getSoluong());
 					updateValue.put("tinhtrang", ctpm.getTinhtrang());
-					updateValue.put("ngaythuctra", ctpm.getNgaythuctra());
 
 					HashMap<String, Object> sachValue = new HashMap<String, Object>();
 					sachValue.put("soluong", "soluong - " + (ctpm.getSoluong() - phieu.getSoluong()));
@@ -141,7 +141,6 @@ public class ctpmDAO {
 					HashMap<String, Object> updateValue = new HashMap<String, Object>();
 					updateValue.put("soluong", ctpm.getSoluong());
 					updateValue.put("tinhtrang", ctpm.getTinhtrang());
-					updateValue.put("ngaythuctra", ctpm.getNgaythuctra());
 
 					HashMap<String, Object> sachValue = new HashMap<String, Object>();
 					sachValue.put("soluong", "soluong + " + (phieu.getSoluong() - ctpm.getSoluong()));
@@ -180,7 +179,6 @@ public class ctpmDAO {
 							HashMap<String, Object> updateValue = new HashMap<String, Object>();
 							updateValue.put("soluong", ctpm.getSoluong());
 							updateValue.put("tinhtrang", ctpm.getTinhtrang());
-							updateValue.put("ngaythuctra", ctpm.getNgaythuctra());
 
 							HashMap<String, Object> sachValue = new HashMap<String, Object>();
 							sachValue.put("soluong", "soluong + " + ctpm.getSoluong() );
@@ -206,7 +204,6 @@ public class ctpmDAO {
 						HashMap<String, Object> updateValue = new HashMap<String, Object>();
 						updateValue.put("soluong", ctpm.getSoluong());
 						updateValue.put("tinhtrang", ctpm.getTinhtrang());
-						updateValue.put("ngaythuctra", ctpm.getNgaythuctra());
 
 						if (phieu.getTienthechan() < ctpm.getTienthechan()) {
 							updateValue.put("tienthechan", ctpm.getTienthechan());
@@ -228,6 +225,18 @@ public class ctpmDAO {
 					}
 				}
 			}
+		}
+		int flag = 0;
+		
+		for(ctpmDTO ct: filteredList(ctpm.getMapm()) ) {
+			if(ct.getTinhtrang().equals("Chưa trả")) {
+				flag = 1;
+				break;
+			}
+		}
+		
+		if( flag == 0) {
+			updatePhieuPhatDate(ctpm.getMapm());
 		}
 		conn.Close();
 	}
@@ -299,6 +308,21 @@ public class ctpmDAO {
 		}
 	}
 
+	public void updatePhieuPhatDate(String mapm) throws Exception {
+		HashMap<String, Object> ppValue = new HashMap<>();
+		
+		ppValue.put("ngaylap", LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) );
+		
+		boolean ppUpdate = conn.Update("phieuphat", ppValue, "mapm= '" + mapm + "'");
+		
+		if(ppUpdate == true) {
+			System.out.println("Cập nhật Date thành công (PP)");
+		} else {
+			System.out.println("Cập nhật Date thất bại (PP)");
+		}
+		
+	}
+	
 	// Sẽ optimal bằng hashmap sau nếu có thời gian
 	public HashMap<String, ArrayList<ctpmDTO>> getMap() throws Exception {
 		dsctm = docCTPM();

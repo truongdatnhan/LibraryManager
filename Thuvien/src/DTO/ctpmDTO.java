@@ -5,7 +5,6 @@ public class ctpmDTO {
 	private String masach;
 	private int soluong;
 	private String tinhtrang;
-	private String ngaythuctra;
 	private int tienthechan;
 	
 	public ctpmDTO() {
@@ -13,16 +12,14 @@ public class ctpmDTO {
 		masach = null;
 		soluong = 0;
 		tinhtrang = null;
-		ngaythuctra = null;
 		tienthechan = 0;
 	}
 
-	public ctpmDTO(String mapm, String masach, int soluong, String tinhtrang, String ngaythuctra, int tienthechan) {
+	public ctpmDTO(String mapm, String masach, int soluong, String tinhtrang, int tienthechan) {
 		this.mapm = mapm;
 		this.masach = masach;
 		this.soluong = soluong;
 		this.tinhtrang = tinhtrang;
-		this.ngaythuctra = ngaythuctra;
 		this.tienthechan = tienthechan;
 	}
 
@@ -58,14 +55,6 @@ public class ctpmDTO {
 		this.tinhtrang = tinhtrang;
 	}
 
-	public String getNgaythuctra() {
-		return ngaythuctra;
-	}
-
-	public void setNgaythuctra(String ngaythuctra) {
-		this.ngaythuctra = ngaythuctra;
-	}
-
 	public int getTienthechan() {
 		return tienthechan;
 	}
@@ -73,9 +62,25 @@ public class ctpmDTO {
 	public void setTienthechan(int tienthechan) {
 		this.tienthechan = tienthechan;
 	}
+
 	@Override
 	public String toString() {
 		return "ctpmDTO [mapm=" + mapm + ", masach=" + masach + ", soluong=" + soluong + ", tinhtrang=" + tinhtrang
-				+ ", ngaythuctra=" + ngaythuctra + ", tienthechan=" + tienthechan + "]";
+				+ ", tienthechan=" + tienthechan + "]";
 	}
+
+	@Override
+	public boolean equals(Object other) {
+	    if (!(other instanceof phieuphatDTO)) {
+	        return false;
+	    }
+
+	    ctpmDTO pm = (ctpmDTO) other;
+
+	    return this.mapm.equals(pm.getMapm())
+	        && this.masach.equals(pm.getMasach()) && ( this.soluong == pm.getSoluong())
+	        && (this.tienthechan == pm.getTienthechan()) && this.tinhtrang.equals(pm.getTinhtrang());
+	}
+
+	
 }

@@ -10,7 +10,7 @@ import DTO.ctpmDTO;
 public class modelCTPM extends DefaultTableModel {
 
     public ArrayList<ctpmDTO> ctpmList;
-    private static String[] colName = {"Mã sách", "Số lượng", "Tình trạng", "Ngày thực trả", "Tiền thế chân"};
+    private static String[] colName = {"Mã sách", "Số lượng", "Tình trạng", "Tiền thế chân"};
 
     public modelCTPM() {
         super(colName, 0);
@@ -32,7 +32,6 @@ public class modelCTPM extends DefaultTableModel {
             row.add(ctp.getMasach());
             row.add(String.valueOf(ctp.getSoluong()));
             row.add(ctp.getTinhtrang());
-            row.add(ctp.getNgaythuctra());
             row.add(String.valueOf(ctp.getTienthechan()));
             super.addRow(row);
         }
@@ -46,7 +45,6 @@ public class modelCTPM extends DefaultTableModel {
         rowVector.add(ctpm.getMasach());
         rowVector.add(String.valueOf(ctpm.getSoluong()));
         rowVector.add(ctpm.getTinhtrang());
-        rowVector.add(ctpm.getNgaythuctra());
         rowVector.add(String.valueOf(ctpm.getTienthechan()));
         super.addRow(rowVector);
     }
@@ -57,8 +55,7 @@ public class modelCTPM extends DefaultTableModel {
                 super.setValueAt(ctpm.getMasach(), i, 0);
                 super.setValueAt(String.valueOf(ctpm.getSoluong()), i, 1);
                 super.setValueAt(ctpm.getTinhtrang(), i, 2);
-                super.setValueAt(ctpm.getNgaythuctra(), i, 3);
-                super.setValueAt(String.valueOf(ctpm.getTienthechan()), i, 4);
+                super.setValueAt(String.valueOf(ctpm.getTienthechan()), i, 3);
             }
         }
     }

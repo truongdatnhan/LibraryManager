@@ -33,8 +33,10 @@ import com.toedter.calendar.JDateChooser;
 
 import BUS.ctpmBUS;
 import BUS.phieumuonBUS;
+import BUS.sachBUS;
 import DTO.ctpmDTO;
 import DTO.phieumuonDTO;
+import DTO.sachDTO;
 import TOOL.check;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
@@ -56,7 +58,6 @@ public class QLPMPanel extends JPanel implements ActionListener, KeyListener, Pr
 	private JTextField txFindNV;
 	private JTextField txFindMT;
 	private JComboBox comboFindThang;
-	private JTextField txMoney;
 
 	public QLPMPanel() {
 		setBackground(Color.WHITE);
@@ -104,12 +105,16 @@ public class QLPMPanel extends JPanel implements ActionListener, KeyListener, Pr
 		lbPhieumuon.setBounds(541, 151, 99, 25);
 		add(lbPhieumuon);
 
+		
+		Date today = new Date();
 		dateNgaymuon = new JDateChooser();
 		dateNgaymuon.setDateFormatString("yyyy-MM-dd");
+		dateNgaymuon.setDate(today);
 		dateNgaymuon.getCalendarButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
+		dateNgaymuon.addPropertyChangeListener(this);
 		dateNgaymuon.setBounds(675, 151, 191, 26);
 		add(dateNgaymuon);
 
@@ -117,8 +122,16 @@ public class QLPMPanel extends JPanel implements ActionListener, KeyListener, Pr
 		lbNgayquydinhtra.setBounds(541, 194, 143, 25);
 		add(lbNgayquydinhtra);
 
+		
+
 		dateNgayquydinhtra = new JDateChooser();
 		dateNgayquydinhtra.setDateFormatString("yyyy-MM-dd");
+		try {
+			dateNgayquydinhtra.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(LocalDate.now().plusDays(20).toString()) );
+		} catch (ParseException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
 		dateNgayquydinhtra.setBounds(675, 193, 191, 26);
 		add(dateNgayquydinhtra);
 
@@ -132,24 +145,24 @@ public class QLPMPanel extends JPanel implements ActionListener, KeyListener, Pr
 		txMsach.setColumns(10);
 
 		btnThemCTPM = new JButton("Thêm");
-		btnThemCTPM.setBounds(40, 557, 183, 29);
+		btnThemCTPM.setBounds(40, 510, 183, 29);
 		btnThemCTPM.addActionListener(this);
 		add(btnThemCTPM);
 
 		btnXoaCTPM = new JButton("Xóa");
 		btnXoaCTPM.addActionListener(this);
-		btnXoaCTPM.setBounds(238, 557, 192, 29);
+		btnXoaCTPM.setBounds(238, 510, 192, 29);
 		btnXoaCTPM.addActionListener(this);
 		add(btnXoaCTPM);
 
 		btnTailaiCTPM = new JButton("Tải lại");
-		btnTailaiCTPM.setBounds(40, 602, 183, 29);
+		btnTailaiCTPM.setBounds(40, 555, 183, 29);
 		btnTailaiCTPM.addActionListener(this);
 		add(btnTailaiCTPM);
 
 		btnSuaCTPM = new JButton("Sửa");
 		btnSuaCTPM.addActionListener(this);
-		btnSuaCTPM.setBounds(238, 602, 192, 29);
+		btnSuaCTPM.setBounds(238, 555, 192, 29);
 		add(btnSuaCTPM);
 
 		JLabel lbSoluong = new JLabel("Số lượng");
@@ -177,14 +190,6 @@ public class QLPMPanel extends JPanel implements ActionListener, KeyListener, Pr
 		rdChuaTra.setActionCommand("Chưa trả");
 		add(rdChuaTra);
 
-		JLabel lbNgaythuctra = new JLabel("Ngày thực trả");
-		lbNgaythuctra.setBounds(40, 456, 99, 25);
-		add(lbNgaythuctra);
-
-		dateNgaytra = new JDateChooser();
-		dateNgaytra.setDateFormatString("yyyy-MM-dd");
-		dateNgaytra.setBounds(180, 458, 250, 26);
-		add(dateNgaytra);
 		phieumuonBUS bus = new phieumuonBUS();
 
 		tableCTP = new tableCTPM();
@@ -263,15 +268,6 @@ public class QLPMPanel extends JPanel implements ActionListener, KeyListener, Pr
 		comboFindThang.setBounds(481, 290, 143, 25);
 		comboFindThang.addActionListener(this);
 		add(comboFindThang);
-
-		JLabel lbMoney = new JLabel("Tiền thế chân :");
-		lbMoney.setBounds(40, 501, 90, 25);
-		add(lbMoney);
-
-		txMoney = new JTextField();
-		txMoney.setBounds(180, 501, 250, 25);
-		add(txMoney);
-		txMoney.setColumns(10);
 		
 		JLabel lblT = new JLabel("Từ :");
 		lblT.setBounds(638, 290, 56, 25);
@@ -342,23 +338,11 @@ public class QLPMPanel extends JPanel implements ActionListener, KeyListener, Pr
 
 				txMsach.setText(ct.getMasach());
 				txSoluong.setText(String.valueOf(ct.getSoluong()));
-				txMoney.setText(String.valueOf(ct.getTienthechan()));
 				if ("Đã trả".equals(ct.getTinhtrang())) {
 					rdDaTra.setSelected(true);
 				} else {
 					rdChuaTra.setSelected(true);
 				}
-				try {
-					if (!(ct.getNgaythuctra() == null)) {
-						dateNgaytra.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(ct.getNgaythuctra()));
-					} else {
-						dateNgaytra.setDate(null);
-					}
-				} catch (ParseException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-
 			}
 		});
 
@@ -464,14 +448,10 @@ public class QLPMPanel extends JPanel implements ActionListener, KeyListener, Pr
 					if (check.checkID(txMsach.getText(), "S")) {
 						if (check.isNumeric(txSoluong.getText())) {
 							if (rdChuaTra.isSelected() || rdDaTra.isSelected()) {
-								String dateTra = (String) new SimpleDateFormat("dd-MM-yyyy")
-										.format(dateNgaytra.getDate());
-								if (check.checkDate(dateTra)) {
-									dateTra = (String) new SimpleDateFormat("yyyy-MM-dd").format(dateNgaytra.getDate());
 									ctpmDTO ctpm = new ctpmDTO(txMapm.getText(), txMsach.getText(),
 											Integer.parseInt(txSoluong.getText()),
-											(String) buttonGroup.getSelection().getActionCommand(), dateTra,
-											Integer.parseInt(txMoney.getText()));
+											(String) buttonGroup.getSelection().getActionCommand(),
+											(int) tinhTienTheChan(txMsach.getText()));
 
 									bus.insert(ctpm);
 									tableCTP.setData(bus.getCTPMList(txMapm.getText()));
@@ -484,7 +464,6 @@ public class QLPMPanel extends JPanel implements ActionListener, KeyListener, Pr
 										// TODO Auto-generated catch block
 										e.printStackTrace();
 									}
-								}
 							}
 						}
 					}
@@ -496,10 +475,8 @@ public class QLPMPanel extends JPanel implements ActionListener, KeyListener, Pr
 			int i = tableCTP.getTable().getSelectedRow();
 			if (i >= 0) {
 				ctpmBUS bus = new ctpmBUS();
-				String dateTra = (String) new SimpleDateFormat("yyyy-MM-dd").format(dateNgaytra.getDate());
 				ctpmDTO ctpm = new ctpmDTO(txMapm.getText(), txMsach.getText(), Integer.parseInt(txSoluong.getText()),
-						(String) buttonGroup.getSelection().getActionCommand(), dateTra,
-						Integer.parseInt(txMoney.getText()));
+						(String) buttonGroup.getSelection().getActionCommand(), (int) tinhTienTheChan(txMsach.getText()) );
 
 				tableCTP.deleteRow(i);
 				try {
@@ -516,10 +493,8 @@ public class QLPMPanel extends JPanel implements ActionListener, KeyListener, Pr
 		}
 		if (evt.getSource() == btnSuaCTPM) {
 			ctpmBUS bus = new ctpmBUS();
-			String dateTra = (String) new SimpleDateFormat("yyyy-MM-dd").format(dateNgaytra.getDate());
 			ctpmDTO ctpm = new ctpmDTO(txMapm.getText(), txMsach.getText(), Integer.parseInt(txSoluong.getText()),
-					(String) buttonGroup.getSelection().getActionCommand(), dateTra,
-					Integer.parseInt(txMoney.getText()));
+					(String) buttonGroup.getSelection().getActionCommand(), (int)tinhTienTheChan(txMsach.getText()) ) ;
 			System.out.println(ctpm.toString());
 			try {
 				bus.update(ctpm);
@@ -669,8 +644,18 @@ public class QLPMPanel extends JPanel implements ActionListener, KeyListener, Pr
 	}
 
 	@Override
-	public void propertyChange(PropertyChangeEvent arg0) {
+	public void propertyChange(PropertyChangeEvent evt) {
 
+		if(evt.getSource() == dateNgaymuon) {
+			LocalDate dayLater = LocalDate.parse(new SimpleDateFormat("yyyy-MM-dd").format(dateNgaymuon.getDate()));
+			try {
+				dateNgayquydinhtra.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(dayLater.plusDays(20).toString()));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 		RowFilter<Object, Object> dateFilter = new RowFilter<Object, Object>() {
 			@Override
 			public boolean include(Entry<? extends Object, ? extends Object> entry) {
@@ -736,4 +721,18 @@ public class QLPMPanel extends JPanel implements ActionListener, KeyListener, Pr
 		}
 
 	}
+	
+	public long tinhTienTheChan(String maSach) {
+		sachBUS bus = new sachBUS();
+		long tien = 0;
+		for(sachDTO sach: bus.getSachList()) {
+			if(sach.getMasach().equals(maSach)) {
+				tien = sach.getGiasach();
+			}
+		}
+		
+		return (long) (tien * 0.1);
+		
+	}
+	
 }

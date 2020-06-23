@@ -9,7 +9,6 @@ public class MyConnectUnit {
 
     public MyConnectUnit(String host, String userName, String password, String database,String vitri) {
         connect = new MyConnectToMySQL(host, userName, password, database);
-        System.out.println("Lớp "+vitri+" tạo kết nối đến DB");
     }
 
     // SELECT * FROM tableName WHERE codition ORDER BY OrderBy

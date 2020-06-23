@@ -16,6 +16,7 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 import javax.swing.JButton;
@@ -83,8 +84,10 @@ public class QLPPPanel extends JPanel implements ActionListener, KeyListener, Pr
 		lbNgayLap.setBounds(554, 98, 99, 25);
 		add(lbNgayLap);
 
+		Date today = new Date();
 		dateNgayLap = new JDateChooser();
 		dateNgayLap.setDateFormatString("yyyy-MM-dd");
+		dateNgayLap.setDate(today);
 		dateNgayLap.getCalendarButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -193,7 +196,7 @@ public class QLPPPanel extends JPanel implements ActionListener, KeyListener, Pr
 		add(txSoluong);
 
 		JLabel lbMaqd = new JLabel("Mã quy định :");
-		lbMaqd.setBounds(40, 385, 90, 16);
+		lbMaqd.setBounds(40, 385, 90, 25);
 		add(lbMaqd);
 
 		txMaqd = new JTextField();

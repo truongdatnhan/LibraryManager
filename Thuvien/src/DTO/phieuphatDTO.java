@@ -66,4 +66,16 @@ public class phieuphatDTO {
 				+ "]";
 	}
 	
+	@Override
+	public boolean equals(Object other) {
+	    if (!(other instanceof phieuphatDTO)) {
+	        return false;
+	    }
+
+	    phieuphatDTO pp = (phieuphatDTO) other;
+
+	    return this.mapp.equals(pp.getMapp())
+	        && this.mapm.equals(pp.getMapm()) && this.ngaylap.equals(pp.getNgaylap()) && ( this.tongtien == pp.tongtien );
+	}
+
 }
