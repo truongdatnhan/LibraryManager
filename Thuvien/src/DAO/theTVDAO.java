@@ -17,7 +17,7 @@ public class theTVDAO {
     private ArrayList<theTVDTO> dsttv;
 
     public theTVDAO() {
-        conn = new MyConnectUnit("localhost", "root", "", "thuvien");
+        conn = new MyConnectUnit("localhost", "root", "", "thuvien","theTVDAO");
     }
 
     public void docDSTV() throws Exception {
@@ -80,7 +80,6 @@ public class theTVDAO {
                 temp.add(the);
             }
         }
-        conn.Close();
         return temp;
     }
 

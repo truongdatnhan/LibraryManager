@@ -16,7 +16,6 @@ public class NewClass extends JFrame {
     public NewClass() throws Exception{
         setSize(1100,800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
         setLayout(new BorderLayout());
         QLPNPanel nhap = new QLPNPanel();
         add(nhap,BorderLayout.CENTER);

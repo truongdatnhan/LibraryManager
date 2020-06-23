@@ -7,6 +7,7 @@ package BUS;
 
 import DAO.phieunhapDAO;
 import DTO.phieunhapDTO;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
@@ -29,7 +30,7 @@ public class phieunhapBUS {
 
     public void Insert(phieunhapDTO pn) throws Exception {
         dspn.add(pn);
-       // data.Insert(pn);
+        data.Insert(pn);
     }
 
     public void Delete(phieunhapDTO pn) throws Exception {
@@ -46,14 +47,42 @@ public class phieunhapBUS {
         }
         if (k > -1) {
             dspn.set(k, pn);
-           // data.Update(pn);
-        }else{
-            JOptionPane.showMessageDialog(null,"Hãy chọn phiếu nhập cần thay đổi");
+            // data.Update(pn);
+        } else {
+            JOptionPane.showMessageDialog(null, "Hãy chọn phiếu nhập cần thay đổi");
         }
+        data.Update(pn);
     }
-    
-    public void Save(phieunhapDTO pn) throws Exception{
-        data.Insert(pn);
+
+    public String autoCreateID() {
+        String ID = null;
+        if (dspn.size() < 10) {
+            ID = "PN00" + String.valueOf(dspn.size() + 1);
+        } else if (dspn.size() > 10 && dspn.size() < 100) {
+            ID = "PN0" + String.valueOf(dspn.size() + 1);
+        } else if (dspn.size() >= 100) {
+            ID = "PN" + String.valueOf(dspn.size() + 1);
+        }
+        return ID;
+
     }
-    
+
+    public phieunhapDTO getPhieunhap(String ID){
+        for(phieunhapDTO phieunhap : dspn){
+            if(ID.equals(phieunhap.getMapn())){
+                return phieunhap;
+            }
+        }
+        return null;
+    }
+
+    public String getNgayNhap(String ID) {
+        String ngayNhap = null;
+        for (phieunhapDTO phieunhap : dspn) {
+            if (phieunhap.getMapn().compareTo(ID) == 0) {
+                ngayNhap = phieunhap.getNgaynhap();
+            }
+        }
+        return ngayNhap;
+    }
 }

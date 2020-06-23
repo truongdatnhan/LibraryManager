@@ -21,6 +21,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class Excel {
+
     public void ExportExcel(String name, JTable table) {
         TableModel tblData = table.getModel();
         FileOutputStream excelFOS = null;
@@ -75,7 +76,7 @@ public class Excel {
 
     public void InportExcel(JTable table) {
         File excelFile;
-        DefaultTableModel model = (DefaultTableModel)table.getModel();
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0);
         FileInputStream excelFIS = null;
         BufferedInputStream excelBIS = null;
@@ -91,12 +92,11 @@ public class Excel {
                 excelBIS = new BufferedInputStream(excelFIS);
                 XSSFWorkbook excelJTableImport = new XSSFWorkbook(excelBIS);
                 XSSFSheet sheet = excelJTableImport.getSheetAt(0);
-                for(int row = 0 ;row<sheet.getLastRowNum();row++){
-                    XSSFRow excelRow = sheet.getRow(row+1);
+                for (int row = 0; row < sheet.getLastRowNum(); row++) {
+                    XSSFRow excelRow = sheet.getRow(row + 1);
                     ArrayList<Object> temp = new ArrayList<>();
                     Vector rowTemp = new Vector();
-                    
-                    for(int cell = 0;cell<excelRow.getLastCellNum();cell++){
+                    for (int cell = 0; cell < excelRow.getLastCellNum(); cell++) {
                         rowTemp.add(excelRow.getCell(cell));
                     }
                     model.addRow(rowTemp);
@@ -108,4 +108,5 @@ public class Excel {
             }
         }
     }
+
 }

@@ -16,16 +16,21 @@ public class modelTTV extends DefaultTableModel {
         super(colName, 0);
     }
 
-    public void setData(ArrayList<theTVDTO> list) {
-        this.ttvList = list;
-    }
-    
-    public void deleteAll(){
-        if(super.getRowCount()>0){
-            for(int i = super.getRowCount()-1;i>-1;i--){
+    public void deleteAll() {
+        if (super.getRowCount() > 0) {
+            for (int i = super.getRowCount() - 1; i > -1; i--) {
                 super.removeRow(i);
             }
         }
+    }
+
+    @Override
+    public boolean isCellEditable(int row, int col) {
+        return false;
+    }
+
+    public void setData(ArrayList<theTVDTO> list) {
+        this.ttvList = list;
     }
 
     public void loadData() {

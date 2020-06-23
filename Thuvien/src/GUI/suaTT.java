@@ -27,6 +27,7 @@ import DTO.nhanvienDTO;
 import TOOL.ThongTinEvent;
 import TOOL.ThongTinListener;
 import TOOL.check;
+import java.awt.Font;
 
 public class suaTT extends JFrame implements ActionListener {
 
@@ -44,32 +45,10 @@ public class suaTT extends JFrame implements ActionListener {
     private JButton btnSuatt;
     private JLabel lbSDT;
     private JTextField txSDT;
-    private JButton btnSuamk;
+    private JButton btnSuamk, btnThoat;
     private ThongTinListener tl;
 
-    /**
-     * Launch the application.
-     */
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    suaTT frame = new suaTT();
-                    frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
-    /**
-     * Create the frame.
-     *
-     * @throws UnsupportedLookAndFeelException
-     */
     public suaTT() throws UnsupportedLookAndFeelException {
-        UIManager.setLookAndFeel(new com.jtattoo.plaf.luna.LunaLookAndFeel());
         setTitle("Sửa thông tin tài khoản");
         setBounds(100, 100, 500, 350);
         setLocationRelativeTo(null);
@@ -102,6 +81,13 @@ public class suaTT extends JFrame implements ActionListener {
         header.setBounds(0, 0, 490, 40);
         header.setBackground(new Color(45, 118, 232));
         mainPanel.add(header);
+
+        JLabel lblNewLabel = new JLabel("Sửa thông tin");
+        lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        lblNewLabel.setFont(new Font("Calibri", Font.PLAIN, 25));
+        lblNewLabel.setForeground(Color.WHITE);
+        lblNewLabel.setBounds(124, 0, 245, 40);
+        header.add(lblNewLabel);
 
         lbManv = new JLabel("Mã nhân viên");
         lbManv.setHorizontalAlignment(SwingConstants.LEFT);
@@ -159,8 +145,9 @@ public class suaTT extends JFrame implements ActionListener {
         btnSuamk.addActionListener(this);
         mainPanel.add(btnSuamk);
 
-        JButton btnThoat = new JButton("Thoát");
+        btnThoat = new JButton("Thoát");
         btnThoat.setBounds(318, 238, 115, 29);
+        btnThoat.addActionListener(this);
         mainPanel.add(btnThoat);
 
         lbSDT = new JLabel("Số điện thoại");
@@ -263,6 +250,8 @@ public class suaTT extends JFrame implements ActionListener {
         } else if (e.getSource() == btnSuamk) {
             suaMK mk = new suaMK();
             mk.setVisible(true);
+            dispose();
+        } else if (e.getSource() == btnThoat) {
             dispose();
         }
 

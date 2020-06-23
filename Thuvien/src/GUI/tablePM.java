@@ -73,7 +73,7 @@ public class tablePM extends JPanel {
 		pm.setMathe((String) table.getValueAt(index, 2));
 		pm.setNgaymuon((String) table.getValueAt(index, 3));
 		pm.setNgayquidinhtra((String) table.getValueAt(index, 4));
-		pm.setTongtienmuon(Long.parseLong(((String) table.getValueAt(index, 5))));
+		pm.setTongtienmuon(Long.parseLong((String) table.getValueAt(index,5)));
 
 		return pm;
 	}

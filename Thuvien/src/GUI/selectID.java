@@ -22,7 +22,6 @@ public class selectID extends JFrame {
     public JButton btnChon, btnThoat;
 
     public selectID() throws UnsupportedLookAndFeelException {
-        UIManager.setLookAndFeel(new com.jtattoo.plaf.luna.LunaLookAndFeel());
         setBounds(100, 100, 450, 350);
         setLocationRelativeTo(null);
         mainPanel = new JPanel();

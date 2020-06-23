@@ -16,7 +16,7 @@ public class ctppDAO {
 
 	public ctppDAO() {
 		if (conn == null) {
-			conn = new MyConnectUnit("localhost", "root", "", "thuvien");
+			conn = new MyConnectUnit("localhost", "root", "", "thuvien","ctpPDAO");
 		}
 	}
 
@@ -27,6 +27,7 @@ public class ctppDAO {
 			ctppDTO ctpp = new ctppDTO(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getString(4), rs.getInt(5));
 			dsctpp.add(ctpp);
 		}
+                conn.Close();
 		if (dsctpp == null) {
 			return null;
 		} else {
@@ -179,10 +180,10 @@ public class ctppDAO {
 	public HashMap<String, Integer> getQuyDinh() throws Exception {
 		HashMap<String, Integer> newMap = new HashMap<String, Integer>();
 		rs = conn.Select("quydinh");
-
 		while (rs.next()) {
 			newMap.put(rs.getString(1), rs.getInt(3));
 		}
+                conn.Close();
 		return newMap;
 	}
 

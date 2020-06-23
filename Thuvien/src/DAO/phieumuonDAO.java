@@ -12,7 +12,7 @@ public class phieumuonDAO {
 	ArrayList<phieumuonDTO> dspm = null;
 
 	public phieumuonDAO() {
-		conn = new MyConnectUnit("localhost", "root", "", "Thuvien");
+		conn = new MyConnectUnit("localhost", "root", "", "thuvien","phieumuonDAO");
 	}
 
 	public ArrayList<phieumuonDTO> docDSPM() throws Exception {
@@ -28,6 +28,7 @@ public class phieumuonDAO {
 			pm.setTongtienmuon(rs.getLong(6));
 			dspm.add(pm);
 		}
+                conn.Close();
 		return dspm;
 	}
 

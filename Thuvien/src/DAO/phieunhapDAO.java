@@ -23,7 +23,7 @@ public class phieunhapDAO {
 
     public phieunhapDAO() {
         if (conn == null) {
-            conn = new MyConnectUnit("localhost", "root", "0", "thuvien");
+            conn = new MyConnectUnit("localhost", "root", "", "thuvien","phieunhapDAO");
         }
     }
 
@@ -34,6 +34,7 @@ public class phieunhapDAO {
             phieunhapDTO pn = new phieunhapDTO(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getLong(5));
             dspn.add(pn);
         }
+        conn.Close();
         return dspn;
     }
     
@@ -42,7 +43,7 @@ public class phieunhapDAO {
         insertValue.put("mapn", pn.getMapn());
         insertValue.put("manv", pn.getManv());
         insertValue.put("mancc",pn.getMancc());
-        insertValue.put("ngaymuon", pn.getNgaynhap());
+        insertValue.put("ngaynhap", pn.getNgaynhap());
         insertValue.put("tongtien",String.valueOf(pn.getTongtien()));
         boolean kt =  conn.Insert("phieunhap", insertValue);
         if(kt == true){
@@ -51,6 +52,8 @@ public class phieunhapDAO {
             JOptionPane.showMessageDialog(null, "Thêm thất bại");
         }
     }
+    
+ 
     
     public void Delete(phieunhapDTO pn) throws Exception{
         boolean kt = conn.Delete("phieunhap","mapn = '"+pn.getMapn()+"'");
@@ -66,13 +69,8 @@ public class phieunhapDAO {
         updateValue.put("mapn", pn.getMapn());
         updateValue.put("manv", pn.getManv());
         updateValue.put("mancc",pn.getMancc());
-        updateValue.put("ngaymuon", pn.getNgaynhap());
+        updateValue.put("ngaynhap", pn.getNgaynhap());
         updateValue.put("tongtien",String.valueOf(pn.getTongtien()));
         boolean kt = conn.Update("phieunhap", updateValue,"mapn = '"+pn.getMapn()+"'");
-        if(kt == true){
-            JOptionPane.showMessageDialog(null, "Sửa thành công");
-        }else{
-            JOptionPane.showMessageDialog(null, "Sủa thất bại");
-        }
     }
 }

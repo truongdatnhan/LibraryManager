@@ -1,67 +1,72 @@
 package DTO;
 
 public class phieunhapDTO {
-	private String mapn;
-	private String manv;
-	private String mancc;
-	private String ngaynhap;
-	private long tongtien;
-	
-	public phieunhapDTO() {
-		mapn = null;
-		manv = null;
-		mancc = null;
-		ngaynhap = null;
-		tongtien = 0;
-	}
 
-	public phieunhapDTO(String mapn, String manv, String mancc, String ngaynhap, long tongtien) {
-		this.mapn = mapn;
-		this.manv = manv;
-		this.mancc = mancc;
-		this.ngaynhap = ngaynhap;
-		this.tongtien = tongtien;
-	}
+    private String mapn;
+    private String manv;
+    private String mancc;
+    private String ngaynhap;
+    private long tongtien;
 
-	public String getMapn() {
-		return mapn;
-	}
+    public phieunhapDTO() {
+        mapn = null;
+        manv = null;
+        mancc = null;
+        ngaynhap = null;
+        tongtien = 0;
+    }
 
-	public void setMapn(String mapn) {
-		this.mapn = mapn;
-	}
+    public phieunhapDTO(String mapn, String manv, String mancc, String ngaynhap, long tongtien) {
+        this.mapn = mapn;
+        this.manv = manv;
+        this.mancc = mancc;
+        this.ngaynhap = ngaynhap;
+        this.tongtien = tongtien;
+    }
 
-	public String getManv() {
-		return manv;
-	}
+    public String getMapn() {
+        return mapn;
+    }
 
-	public void setManv(String manv) {
-		this.manv = manv;
-	}
+    public void setMapn(String mapn) {
+        this.mapn = mapn;
+    }
 
-	public String getMancc() {
-		return mancc;
-	}
+    public String getManv() {
+        return manv;
+    }
 
-	public void setMancc(String mancc) {
-		this.mancc = mancc;
-	}
+    public void setManv(String manv) {
+        this.manv = manv;
+    }
 
-	public String getNgaynhap() {
-		return ngaynhap;
-	}
+    public String getMancc() {
+        return mancc;
+    }
 
-	public void setNgaynhap(String ngaynhap) {
-		this.ngaynhap = ngaynhap;
-	}
+    public void setMancc(String mancc) {
+        this.mancc = mancc;
+    }
 
-	public long getTongtien() {
-		return tongtien;
-	}
+    public String getNgaynhap() {
+        return ngaynhap;
+    }
 
-	public void setTongtien(long tongtien) {
-		this.tongtien = tongtien;
-	}
-	
-	
+    public void setNgaynhap(String ngaynhap) {
+        this.ngaynhap = ngaynhap;
+    }
+
+    public long getTongtien() {
+        return tongtien;
+    }
+
+    public void setTongtien(long tongtien) {
+        this.tongtien = tongtien;
+    }
+
+    @Override
+    public String toString() {
+        return "phieunhapDTO{" + "mapn=" + mapn + ", manv=" + manv + ", mancc=" + mancc + ", ngaynhap=" + ngaynhap + ", tongtien=" + tongtien + '}';
+    }
+
 }

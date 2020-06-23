@@ -16,6 +16,11 @@ public class ctpnDTO {
         thanhtien = 0;
     }
 
+    @Override
+    public String toString() {
+        return "ctpnDTO{" + "mapn=" + mapn + ", masach=" + masach + ", soluong=" + soluong + ", dongia=" + dongia + ", thanhtien=" + thanhtien + '}';
+    }
+
     public ctpnDTO(String mapn, String masach, int soluong, long dongia, long thanhtien) {
         this.mapn = mapn;
         this.masach = masach;
@@ -23,6 +28,8 @@ public class ctpnDTO {
         this.dongia = dongia;
         this.thanhtien = thanhtien;
     }
+
+    
 
     public String getMapn() {
         return mapn;

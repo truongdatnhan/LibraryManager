@@ -134,4 +134,9 @@ public class sachDTO {
 
 	// thêm 1 hàm khởi tạo dựa trên DTO cho trước
 
+    @Override
+    public String toString() {
+        return "sachDTO{" + "masach=" + masach + ", tensach=" + tensach + ", giasach=" + giasach + ", matheloai=" + matheloai + ", matg=" + matg + ", manxb=" + manxb + ", malinhvuc=" + malinhvuc + ", hinhanh=" + hinhanh + ", soluong=" + soluong + ", trangthai=" + trangthai + '}';
+    }
+
 }

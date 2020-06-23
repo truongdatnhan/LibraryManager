@@ -1,5 +1,6 @@
 package BUS;
 
+import DAO.sachDAO;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -7,11 +8,13 @@ import javax.swing.table.DefaultTableModel;
 
 import DAO.tacgiaDAO;
 import DTO.tacgiaDTO;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class tacgiaBUS {
 	public static ArrayList<tacgiaDTO> dstg;
-
+        
 	public void getTacgiaList() {
 		if (dstg == null) {
 			dstg = new ArrayList<tacgiaDTO>();
@@ -67,6 +70,12 @@ public class tacgiaBUS {
         
         public boolean sameid(String a)
         {
+            try {
+                tacgiaDAO data=new tacgiaDAO();
+                dstg = data.filteredList();
+            } catch (Exception ex) {
+                Logger.getLogger(tacgiaBUS.class.getName()).log(Level.SEVERE, null, ex);
+            }
             for(int i=0;i<dstg.size();i++)
             {
                 tacgiaDTO temp=((tacgiaDTO) dstg.get(i));
@@ -86,5 +95,10 @@ public class tacgiaBUS {
                     return i;
             }
             return -1;
+        }
+        
+        public int getHeader()
+        {
+            return 4;
         }
 }

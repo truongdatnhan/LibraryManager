@@ -25,6 +25,13 @@ public class ctpmBUS {
 		}
 		return dsctpm;
 	}
+        public ArrayList<ctpmDTO> getCTPMList() throws Exception{
+            if(dsctpm==null){
+                dsctpm = new ArrayList<>();
+            }
+            dsctpm = data.docCTPM();
+            return dsctpm;
+        }
 	
 	public void removeList() {
 		for(int i = 0;i< dsctpm.size();i++) {

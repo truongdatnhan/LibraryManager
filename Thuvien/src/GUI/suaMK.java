@@ -27,7 +27,7 @@ public class suaMK extends JFrame implements ActionListener {
     private JPasswordField tpNewPass;
     private JPasswordField tpCfNewPass;
     private JButton btnDoi;
-    private JButton btnNewButton;
+    private JButton btnThoat;
 
     public suaMK() {
         setBounds(100, 100, 500, 350);
@@ -82,9 +82,10 @@ public class suaMK extends JFrame implements ActionListener {
         btnDoi.addActionListener(this);
         mainPanel.add(btnDoi);
 
-        btnNewButton = new JButton("Thoát");
-        btnNewButton.setBounds(248, 234, 132, 29);
-        mainPanel.add(btnNewButton);
+        btnThoat = new JButton("Thoát");
+        btnThoat.setBounds(248, 234, 132, 29);
+        btnThoat.addActionListener(this);
+        mainPanel.add(btnThoat);
     }
 
     @Override
@@ -120,6 +121,8 @@ public class suaMK extends JFrame implements ActionListener {
             } else {
                 JOptionPane.showMessageDialog(null, "Mật khẩu cũ không chính xác");
             }
+        }else if(e.getSource()==btnThoat){
+            dispose();
         }
     }
 }

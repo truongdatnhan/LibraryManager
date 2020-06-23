@@ -15,7 +15,7 @@ public class nxbDAO {
     private ArrayList<nxbDTO> dsnxb;
 
     public nxbDAO() {
-        conn = new MyConnectUnit("localhost", "root", "", "thuvien");
+        conn = new MyConnectUnit("localhost", "root", "", "thuvien","nxbDAO");
     }
 
     public void docDSNXB() throws Exception {

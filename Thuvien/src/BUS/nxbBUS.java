@@ -8,13 +8,15 @@ import javax.swing.table.DefaultTableModel;
 
 import DTO.nxbDTO;
 import DAO.nxbDAO;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
 
 public class nxbBUS {
 	public static ArrayList<nxbDTO> dsnxb;
 
-	public void getLoaiList() {
+	public void getNXBList() {
 		if (dsnxb == null) {
 			dsnxb = new ArrayList<nxbDTO>();
 		}

@@ -24,6 +24,11 @@ public class modelPN extends DefaultTableModel {
         super(colName, 0);
     }
 
+    @Override
+    public boolean isCellEditable(int row, int col) {
+        return false;
+    }
+
     public void setData(ArrayList<phieunhapDTO> list) {
         this.phieunhapList = list;
     }
@@ -38,7 +43,6 @@ public class modelPN extends DefaultTableModel {
 
     public void loadData() {
         deleteAll();
-        phieunhapBUS bus = new phieunhapBUS();
         for (phieunhapDTO pn : phieunhapList) {
             Vector<String> row = new Vector<>();
             row.add(pn.getMapn());

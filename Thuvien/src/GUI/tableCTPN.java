@@ -13,6 +13,22 @@ public class tableCTPN extends JPanel {
     public JTable table;
     private modelCTPN model;
 
+    public JTable getTable() {
+        return table;
+    }
+
+    public void setTable(JTable table) {
+        this.table = table;
+    }
+
+    public modelCTPN getModel() {
+        return model;
+    }
+
+    public void setModel(modelCTPN model) {
+        this.model = model;
+    }
+
     public tableCTPN() {
         model = new modelCTPN();
         table = new JTable(model);
@@ -32,5 +48,9 @@ public class tableCTPN extends JPanel {
     }
     public void addData(ctpnDTO ctpn){
         model.addRow(ctpn);
+    }
+    
+    public void deleteData(int i){
+        model.delete(i);
     }
 }

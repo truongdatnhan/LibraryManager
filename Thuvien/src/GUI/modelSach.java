@@ -12,59 +12,70 @@ import javax.swing.JOptionPane;
 
 public class modelSach extends DefaultTableModel {
 
-	public  ArrayList<sachDTO> sachList;
-	private static String[] colName = {"Mã sách","Tên sách","Gía sách","Mã thể loại","Mã tác giả","Mã NXB","Mã lĩnh vực","Số lượng"};
-	
-	public modelSach() {
-		super(colName,0);
-	}
-	
-        @Override
-        public boolean isCellEditable(int col,int row)
-        {
-            return false;
+    public ArrayList<sachDTO> sachList;
+    private static String[] colName = {"Mã sách", "Tên sách", "Gía sách", "Mã thể loại", "Mã tác giả", "Mã NXB", "Mã lĩnh vực", "Số lượng"};
+
+    public modelSach() {
+        super(colName, 0);
+    }
+
+    @Override
+    public boolean isCellEditable(int col, int row) {
+        return false;
+    }
+
+    public void setData(ArrayList<sachDTO> list) {
+        this.sachList = list;
+    }
+    
+    
+    public void deleteAll() {
+        if (super.getRowCount() > 0) {
+            for (int i = super.getRowCount() - 1; i > -1; i--) {
+                super.removeRow(i);
+            }
         }
-        
-	public void setData(ArrayList<sachDTO> list) {
-		this.sachList = list;
-	}
-	
-	public void loadData() {
-                sachBUS bus=new sachBUS();
-                setData(bus.getSachList());
-		for (sachDTO nv : sachList) {
-			Vector<String> row = new Vector<String>();
-			row.add(nv.getMasach());
-			row.add(nv.getTensach());
-			row.add(String.valueOf(nv.getGiasach()));
-			row.add(nv.getMatheloai());
-			row.add(nv.getMatg());
-			row.add(nv.getManxb());
-			row.add(nv.getMalinhvuc());
-			row.add(String.valueOf(nv.getSoluong()));
-			row.add(nv.getHinhanh());
-                        row.add(String.valueOf(nv.getTrangthai()));
-			super.addRow(row);
-		}
-	}
-	public void addRow(sachDTO nv) {
+    }
+
+    public void loadData() {
+        deleteAll();
+        sachBUS bus = new sachBUS();
+        setData(bus.getSachList());
+        for (sachDTO nv : sachList) {
+            Vector<String> row = new Vector<String>();
+            row.add(nv.getMasach());
+            row.add(nv.getTensach());
+            row.add(String.valueOf(nv.getGiasach()));
+            row.add(nv.getMatheloai());
+            row.add(nv.getMatg());
+            row.add(nv.getManxb());
+            row.add(nv.getMalinhvuc());
+            row.add(String.valueOf(nv.getSoluong()));
+            row.add(nv.getHinhanh());
+            row.add(String.valueOf(nv.getTrangthai()));
+            super.addRow(row);
+        }
+    }
+
+    public void addRow(sachDTO nv) {
         if (nv == null) {
             throw new IllegalArgumentException("NULL");
         }
         Vector<String> row = new Vector<String>();
-			row.add(nv.getMasach());
-			row.add(nv.getTensach());
-			row.add(String.valueOf(nv.getGiasach()));
-			row.add(nv.getMatheloai());
-			row.add(nv.getMatg());
-			row.add(nv.getManxb());
-			row.add(nv.getMalinhvuc());
-			row.add(String.valueOf(nv.getSoluong()));
-			row.add(nv.getHinhanh());
-                        row.add(String.valueOf(nv.getTrangthai()));
-			super.addRow(row);
+        row.add(nv.getMasach());
+        row.add(nv.getTensach());
+        row.add(String.valueOf(nv.getGiasach()));
+        row.add(nv.getMatheloai());
+        row.add(nv.getMatg());
+        row.add(nv.getManxb());
+        row.add(nv.getMalinhvuc());
+        row.add(String.valueOf(nv.getSoluong()));
+        row.add(nv.getHinhanh());
+        row.add(String.valueOf(nv.getTrangthai()));
+        super.addRow(row);
     }
-	/*@Override
+
+    /*@Override
 	public String getColumnName(int col) {
 		return colName[col];
 	}
@@ -78,31 +89,29 @@ public class modelSach extends DefaultTableModel {
 		}
 	}*/
 
-	
+    public sachDTO getSach(int index) {
+        return sachList.get(index);
+    }
 
-	public sachDTO getSach(int index) {
-		return sachList.get(index);
-	}
+    public void set(int row, sachDTO nv) {
+        super.setValueAt(nv.getTensach(), row, 1);
+        super.setValueAt(nv.getGiasach(), row, 2);
+        super.setValueAt(nv.getMatheloai(), row, 3);
+        super.setValueAt(nv.getMatg(), row, 4);
+        super.setValueAt(nv.getManxb(), row, 5);
+        super.setValueAt(nv.getMalinhvuc(), row, 6);
+        super.setValueAt(nv.getSoluong(), row, 7);
+    }
 
-        public void set(int row, sachDTO nv){
-            super.setValueAt(nv.getTensach(), row, 1);
-            super.setValueAt(nv.getGiasach(), row, 2);
-            super.setValueAt(nv.getMatheloai(), row, 3);
-            super.setValueAt(nv.getMatg(), row, 4);
-            super.setValueAt(nv.getManxb(), row, 5);
-            super.setValueAt(nv.getMalinhvuc(), row, 6);
-            super.setValueAt(nv.getSoluong(), row, 7);
-        }
- 
-        public void removeRow(int index){
-            super.removeRow(index);
-        }
-	/*public nhanvienDTO getNV(String identifier) {
+    public void removeRow(int index) {
+        super.removeRow(index);
+    }
+    /*public nhanvienDTO getNV(String identifier) {
 		// TODO Auto-generated method stub
 		return null;
 	}*/
-	
-	/*@Override
+
+ /*@Override
 	public Object getValueAt(int row, int col) {
 		nhanvienDTO nv = nvList.get(row);
 		switch(col) {
@@ -129,5 +138,4 @@ public class modelSach extends DefaultTableModel {
 		}
 		return null;
 	}*/
-
 }

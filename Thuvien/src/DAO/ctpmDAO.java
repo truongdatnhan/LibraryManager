@@ -15,15 +15,14 @@ public class ctpmDAO {
 	HashMap<String, ArrayList<ctpmDTO>> map = null;
 
 	public ctpmDAO() {
-		conn = new MyConnectUnit("localhost", "root", "", "Thuvien");
+		conn = new MyConnectUnit("localhost", "root", "", "thuvien","ctpmDAO");
 	}
 
 	public ArrayList<ctpmDTO> docCTPM() throws Exception {
 		dsctm = new ArrayList<ctpmDTO>();
 		rs = conn.Select("ctphieumuon");
 		while (rs.next()) {
-			ctpmDTO ctpm = new ctpmDTO(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getString(4), rs.getString(6),
-					rs.getInt(5));
+			ctpmDTO ctpm = new ctpmDTO(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getString(4), rs.getString(6),rs.getInt(5));
 			dsctm.add(ctpm);
 		}
 		conn.Close();
@@ -52,8 +51,7 @@ public class ctpmDAO {
 
 		HashMap<String, Object> sachValue = new HashMap<String, Object>();
 		sachValue.put("soluong", "soluong - " + ctpm.getSoluong());
-		boolean check = conn.UpdateNoComma("sach", sachValue,
-				"masach = '" + ctpm.getMasach() + "'" + " AND " + "(soluong - " + ctpm.getSoluong() + ") >= '0'");
+		boolean check = conn.UpdateNoComma("sach", sachValue,"masach = '" + ctpm.getMasach() + "'" + " AND " + "(soluong - " + ctpm.getSoluong() + ") >= '0'");
 
 		if (check == true) {
 			JOptionPane.showMessageDialog(null, "Trừ sách thành công");

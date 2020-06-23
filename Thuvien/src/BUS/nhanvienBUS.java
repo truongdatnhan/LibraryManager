@@ -1,9 +1,16 @@
 package BUS;
 
 import java.util.ArrayList;
-import javax.swing.JOptionPane;
 import DAO.nhanvienDAO;
 import DTO.nhanvienDTO;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class nhanvienBUS {
 
@@ -13,16 +20,25 @@ public class nhanvienBUS {
 
     public ArrayList<nhanvienDTO> getNVList() {
         if (dsnv == null) {
-            dsnv = new ArrayList<nhanvienDTO>();
+            dsnv = new ArrayList<>();
         }
 
         // đọc dữ liệu lên và truyền vào arraylist
         try {
             dsnv = data.filteredList();
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e);
         }
         return dsnv;
+    }
+    
+    public ArrayList<nhanvienDTO> getNVListForSelecting() throws Exception{
+        if(dsnv == null){
+            dsnv = new ArrayList<>();
+        }
+        
+        ArrayList<nhanvienDTO> dsnvtemp = data.filteredListForSelecting();
+        return dsnvtemp;
     }
 
     public void Insert(nhanvienDTO nv) throws Exception {
@@ -52,7 +68,7 @@ public class nhanvienBUS {
         try {
             dsnv = data.docDSNV();
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e);
         }
         for (nhanvienDTO nv : dsnv) {
             if (nv.getManv().compareTo(userID) == 0) {
@@ -66,27 +82,22 @@ public class nhanvienBUS {
         int k = 0;
         for (nhanvienDTO nv : dsnv) {
             if (manv.compareToIgnoreCase(nv.getManv()) == 0) {
-             //   JOptionPane.showMessageDialog(null, "Mã nhân viên này đã tồn tại");
                 k++;
             }
         }
         if (k == 0) {
-            // là false thì không trùng
             return false;
         } else {
-            // true là trùng
             return true;
         }
     }
 
     public String autoCreateID() {
         String ID = null;
-        nhanvienDAO data = new nhanvienDAO();
         try {
             dsnv = data.docDSNV();
         } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            System.out.println(e);
         }
         if (dsnv.size() < 10) {
             ID = "NV00" + String.valueOf(dsnv.size() + 1);
@@ -96,6 +107,60 @@ public class nhanvienBUS {
             ID = "NV" + String.valueOf(dsnv.size() + 1);
         }
         return ID;
+    }
+
+    public void Import() throws Exception {
+
+        File excelFile;
+
+        //khái báo phần GUI hiển thị nhưng thành phần trùng trong excel
+        //khai báo table
+        FileInputStream excelFIS;
+        BufferedInputStream excelBIS;
+        JFileChooser excelFileChooser = new JFileChooser();
+        FileNameExtensionFilter fnef = new FileNameExtensionFilter("Excel File", "xlsx");
+        excelFileChooser.setFileFilter(fnef);
+        excelFileChooser.setDialogTitle("Chọn file excel");
+        int excelChooser = excelFileChooser.showOpenDialog(null);
+        if (excelChooser == JFileChooser.APPROVE_OPTION) {
+            excelFile = excelFileChooser.getSelectedFile();
+            excelFIS = new FileInputStream(excelFile);
+            excelBIS = new BufferedInputStream(excelFIS);
+            XSSFWorkbook excelJTableImport = new XSSFWorkbook(excelBIS);
+            XSSFSheet excelSheet = excelJTableImport.getSheetAt(0);
+            for (int i = 1; i <= excelSheet.getLastRowNum(); i++) {
+                XSSFRow excelRow = excelSheet.getRow(i);
+                int k = 0;
+                String manvInExcel = excelRow.getCell(0).getStringCellValue();
+                for (int j = 0; j < dsnv.size(); j++) {
+                    if (dsnv.get(j).getManv().equals(manvInExcel)) {
+                        k++;
+                    }
+                }
+                if (k == 0) {
+                    nhanvienDTO nhanvien = new nhanvienDTO();
+                    nhanvien.setManv(excelRow.getCell(0).getStringCellValue());
+                    nhanvien.setHo(excelRow.getCell(1).getStringCellValue());
+                    nhanvien.setTen(excelRow.getCell(2).getStringCellValue());
+                    nhanvien.setNgaysinh(excelRow.getCell(3).getStringCellValue());
+                    nhanvien.setGioitinh(excelRow.getCell(4).getStringCellValue());
+                    nhanvien.setDiachi(excelRow.getCell(5).getStringCellValue());
+                    nhanvien.setEmail(excelRow.getCell(6).getStringCellValue());
+                    nhanvien.setSdt(String.valueOf(excelRow.getCell(7).getStringCellValue()));
+                    nhanvien.setLuong(String.valueOf(excelRow.getCell(8).getStringCellValue()));
+                    nhanvien.setTrangthai(1);
+                    nhanvienBUS bus = new nhanvienBUS();
+                    bus.Insert(nhanvien);
+                } else {
+
+                }
+            }
+
+        }
+    }
+
+    public int getHeader() {
+        return 9;
     }
 
 }

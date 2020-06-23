@@ -10,23 +10,29 @@ import java.awt.Color;
 import javax.swing.JLabel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.BorderFactory;
 
 public class AdminFrame extends UserFrame implements ActionListener, MouseListener {
 
+    private int j = 0;
     private JLabel lbNhanvien;
     private JLabel lbTaikhoan;
     private QLNVPanel nhanvien;
     private QLTKPanel taikhoan;
     private JPanel pnNhanvien;
     private JPanel pnTaikhoan;
+    private thongkePanel tk;
 
-    public AdminFrame() throws Exception {
+    public AdminFrame() {
         super();
-        pnPhieumuon.setLocation(0, 250);
+        pnPhieu.setLocation(0, 250);
         pnSach.setLocation(0, 200);
-        pnPhieuphat.setLocation(0, 200);
+        pnPhieunhap.setLocation(0, 300);
 
         pnNhanvien = new JPanel();
         pnNhanvien.setBounds(0, 100, 180, 40);
@@ -57,18 +63,31 @@ public class AdminFrame extends UserFrame implements ActionListener, MouseListen
                 (int) (pnTaikhoan.getHeight() * 1.5));
         lbTaikhoan.setIcon(iconTK);
         pnTaikhoan.add(lbTaikhoan);
+        
 
         pnSach.setBounds(0, 200, 180, 40);
         pnSach.addMouseListener(this);
 
-        pnPhieumuon.setBounds(0, 250, 180, 40);
-        pnPhieumuon.addMouseListener(this);
+        pnPhieu.setBounds(0, 250, 180, 40);
+        pnPhieu.addMouseListener(this);
 
-        pnPhieuphat.setBounds(0, 300, 180, 40);
-        pnPhieuphat.addMouseListener(this);
-        
-        nhanvien = new QLNVPanel();
-        centerPanel.add(nhanvien, BorderLayout.CENTER);
+        pnPhieunhap.setBounds(0, 290, 180, 40);
+        pnPhieumuon.setBounds(0, 330, 180, 40);
+        pnPhieuphat.setBounds(0, 370, 180, 40);
+
+        try {
+            //        try {
+//            nhanvien = new QLNVPanel();
+//        } catch (Exception ex) {
+//            Logger.getLogger(AdminFrame.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        centerPanel.add(nhanvien, BorderLayout.CENTER);
+
+            tk = new thongkePanel();
+        } catch (Exception ex) {
+            System.out.println("Lỗi adminframe-dòng 88");
+        }
+           centerPanel.add(tk,BorderLayout.CENTER);
     }
 
     @Override
@@ -76,100 +95,37 @@ public class AdminFrame extends UserFrame implements ActionListener, MouseListen
     }
 
     @Override
-
     public void mouseClicked(MouseEvent evt) {
-        if (evt.getSource() == pnNhanvien || evt.getSource() == lbNhanvien) {
+        super.mouseClicked(evt);
+        if (evt.getSource() == lbNhanvien||evt.getSource()==pnNhanvien) {
             centerPanel.removeAll();
             try {
                 nhanvien = new QLNVPanel();
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (Exception e1) {
+                System.out.println(e1);
             }
             centerPanel.add(nhanvien, BorderLayout.CENTER);
             centerPanel.repaint();
             centerPanel.revalidate();
-        } else if (evt.getSource() == pnTaikhoan || evt.getSource() == lbTaikhoan) {
-            centerPanel.removeAll();
-            taikhoan = new QLTKPanel();
+        }else if(evt.getSource()==lbTaikhoan||evt.getSource()==pnTaikhoan){
+              centerPanel.removeAll();
+            try {
+                taikhoan = new QLTKPanel();
+            } catch (Exception e1) {
+                System.out.println(e1);
+            }
             centerPanel.add(taikhoan, BorderLayout.CENTER);
             centerPanel.repaint();
             centerPanel.revalidate();
-        } else if (evt.getSource() == pnSach || evt.getSource() == lbSach) {
-            centerPanel.removeAll();
-            try {
-                sach = new QLSPanel();
-            } catch (Exception e1) {
-                e1.printStackTrace();
-            }
-            centerPanel.add(sach, BorderLayout.CENTER);
-            centerPanel.repaint();
-            centerPanel.revalidate();
-        } else if (evt.getSource() == namePanel || evt.getSource() == lbName) {
-            lbName.setFont(new Font("Tomaho", Font.BOLD, 16));
-            lbName.setForeground(Color.black);
-            suaTT sua;
-            try {
-                sua = new suaTT();
-                sua.setVisible(true);
-                sua.loadData();
-            } catch (UnsupportedLookAndFeelException e) {
-                e.printStackTrace();
-            }
-        } else if (evt.getSource() == pnPhieumuon) {
-            centerPanel.removeAll();
-            QLPMPanel phieumuon = new QLPMPanel();
-            centerPanel.add(phieumuon, BorderLayout.CENTER);
-            centerPanel.repaint();
-            centerPanel.revalidate();
-        } else if (evt.getSource() == panelPhat) {
-            centerPanel.removeAll();
-            thongkePanel thongke = new thongkePanel();
-            centerPanel.add(thongke, BorderLayout.CENTER);
-            centerPanel.repaint();
-            centerPanel.revalidate();
-        } else if (evt.getSource() == pnPhieuphat || evt.getSource() == lbPhieuphat) {
-            centerPanel.removeAll();
-            try {
-                phieuphat = new QLPPPanel();
-            } catch (Exception e1) {
-                e1.printStackTrace();
-            }
-            centerPanel.add(phieuphat, BorderLayout.CENTER);
-            centerPanel.repaint();
-            centerPanel.revalidate();
         }
-
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        // TODO Auto-generated method stub
-        if (e.getSource() == pnNhanvien) {
-            pnNhanvien.setBackground(new Color(43, 110, 214));
-        } else if (e.getSource() == pnSach) {
-            pnSach.setBackground(new Color(43, 110, 214));
-        } else if (e.getSource() == pnPhieumuon) {
-            pnPhieumuon.setBackground(new Color(43, 110, 214));
-        } else if (e.getSource() == pnTaikhoan) {
-            pnTaikhoan.setBackground(new Color(43, 110, 214));
-        } else if (e.getSource() == pnPhieuphat) {
-        	pnPhieuphat.setBackground(new Color(43, 110, 214));
-        }
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-        if (e.getSource() == pnNhanvien) {
-            pnNhanvien.setBackground(new Color(45, 118, 232));
-        } else if (e.getSource() == pnSach) {
-            pnSach.setBackground(new Color(45, 118, 232));
-        } else if (e.getSource() == pnPhieumuon) {
-            pnPhieumuon.setBackground(new Color(45, 118, 232));
-        } else if (e.getSource() == pnTaikhoan) {
-            pnTaikhoan.setBackground(new Color(45, 118, 232));
-        } else if (e.getSource() == pnPhieuphat) {
-        	pnPhieuphat.setBackground(new Color(45, 118, 232));
-        }
     }
 
     @Override

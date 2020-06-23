@@ -21,7 +21,7 @@ public class phieuphatDAO {
 
     public phieuphatDAO() {
         if (conn == null) {
-            conn = new MyConnectUnit("localhost", "root", "", "thuvien");
+            conn = new MyConnectUnit("localhost", "root", "", "thuvien","phieuphatDAO");
         }
     }
 
@@ -32,6 +32,7 @@ public class phieuphatDAO {
             phieuphatDTO pp = new phieuphatDTO(rs.getString(1), rs.getString(2), rs.getString(3), rs.getLong(4));
             dspp.add(pp);
         }
+        conn.Close();
         return dspp;
     }
     

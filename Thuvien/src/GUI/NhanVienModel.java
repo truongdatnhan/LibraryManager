@@ -12,18 +12,31 @@ import TOOL.ThongTinEvent;
 public class NhanVienModel extends DefaultTableModel {
 
     private ArrayList<nhanvienDTO> nvList;
-    private static String[] colName = {"MNV", "Họ", "Tên", "Ngày sinh", "Giới tính", "Địa chỉ", "Email", "Số điện thoại", "Lương"};
-
+    private static String[] colName = {"MNV", "Họ", "Tên", "Ngày sinh", "Giới tính", "Địa chỉ", "Email", "Số điện thoại", "Lương"}; 
+   // private String[] colName2 = {"MNV","Họ","Tên"};
     public NhanVienModel() {
         super(colName, 0);
 
     }
+    
+    
+   
+    
 
     public void setData(ArrayList<nhanvienDTO> list) {
         this.nvList = list;
     }
+    
+    public void deleteAll() {
+        if (super.getRowCount() > 0) {
+            for (int i = super.getRowCount() - 1; i > -1; i--) {
+                super.removeRow(i);
+            }
+        }
+    }
 
     public void loadData() {
+        deleteAll();
         for (nhanvienDTO nv : nvList) {
             Vector<String> row = new Vector<String>();
             row.add(nv.getManv());

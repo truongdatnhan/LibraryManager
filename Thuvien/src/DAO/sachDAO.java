@@ -15,7 +15,7 @@ public class sachDAO {
     private static ArrayList<sachDTO> dss;
 
     public sachDAO() {
-        conn = new MyConnectUnit("localhost", "root", "", "thuvien");
+        conn = new MyConnectUnit("localhost", "root", "", "thuvien","sachDAO");
     }
 
     public ArrayList<sachDTO> getdss() {
@@ -101,4 +101,5 @@ public class sachDAO {
         }
         return temp;
     }
+
 }

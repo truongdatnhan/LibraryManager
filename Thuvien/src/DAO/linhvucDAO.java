@@ -14,7 +14,7 @@ public class linhvucDAO {
     private ArrayList<linhvucDTO> dslv;
 
     public linhvucDAO() {
-        conn = new MyConnectUnit("localhost", "root", "", "thuvien");
+        conn = new MyConnectUnit("localhost", "root", "", "thuvien","linhvucDAO");
     }
 
     public void docDSLV() throws Exception {

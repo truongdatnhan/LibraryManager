@@ -1,146 +1,194 @@
 package GUI;
 
-import BUS.phieumuonBUS;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
-import BUS.theTVBUS;
+import BUS.thongkeBUS;
 import com.toedter.calendar.JDateChooser;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 
 public class thongkePanel extends JPanel implements ActionListener {
 
-    private tableTheThuVien tableTTV;
-    private tablePM tablePMuon;
-    private JDateChooser dateStart, dateEnd;
+    private JDateChooser dateBegin, dateEnd;
     private JButton btnThongke;
     private JPanel pnThongtin;
     public JTextField txThanhvienmoi;
+    private JTable tk1, tk2, tk3, tk4;
+    private thongkeBUS thongke;
 
-    public thongkePanel() {
-
+    public thongkePanel() throws Exception {
         setBackground(Color.WHITE);
         setLayout(null);
+        thongke = new thongkeBUS();
 
-        pnThongtin = new JPanel();
-        pnThongtin.setBorder(new TitledBorder(null, "Thông tin thống kê", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-        pnThongtin.setBounds(30, 26, 350, 200);
-        pnThongtin.setLayout(null);
-        add(pnThongtin);
+        tk1 = new JTable();
+        try {
+            tk1.setModel(thongke.thongKeThuchi());
+        } catch (Exception ex) {
+            Logger.getLogger(thongkePanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
-        JLabel lbStart = new JLabel("Ngày bắt đầu");
-        lbStart.setBounds(10, 30, 100, 25);
-        pnThongtin.add(lbStart);
+        JScrollPane sc1 = new JScrollPane(tk1);
+        sc1.setBounds(20, 20, 1000, 100);
+        sc1.setBorder(new TitledBorder(null, "Th?ng kê thu chi", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+        add(sc1);
 
-        dateStart = new JDateChooser();
-        dateStart.setBounds(150, 30, 150, 25);
-        dateStart.setDateFormatString("yyyy-MM-dd");
+        JLabel lbMaxThu = new JLabel("Max t?ng thu :");
+        lbMaxThu.setBounds(20, 135, 120, 25);
+        add(lbMaxThu);
 
-        pnThongtin.add(dateStart);
+        JTextField txMaxThu;
+        try {
+            txMaxThu = new JTextField(String.valueOf(thongke.maxThu()));
+            txMaxThu.setBounds(140, 135, 60, 25);
+        txMaxThu.setEditable(false);
+        add(txMaxThu);
+        } catch (Exception ex) {
+            Logger.getLogger(thongkePanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
 
-        JLabel lbEnd = new JLabel("Ngày kết thức");
-        lbEnd.setBounds(10, 60, 100, 25);
-        pnThongtin.add(lbEnd);
+        JLabel lbMaxChi = new JLabel("Max t?ng chi :");
+        lbMaxChi.setBounds(220, 135, 120, 25);
+        add(lbMaxChi);
+
+        JTextField txMaxChi = new JTextField(String.valueOf(thongke.maxChi()));
+        txMaxChi.setBounds(340, 135, 60, 25);
+        txMaxChi.setEditable(false);
+        add(txMaxChi);
+
+        tk2 = new JTable();
+        tk2.setModel(thongke.thongKeThanhVienMoi());
+        JScrollPane sc2 = new JScrollPane(tk2);
+        sc2.setBounds(20, 180, 250, 200);
+        sc2.setBorder(new TitledBorder(null, "Th?ng kê thành viên m?i", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+        add(sc2);
+
+        JPanel pn_dtd = new JPanel();
+        pn_dtd.setLayout(null);
+        pn_dtd.setBounds(20, 400, 500, 100);
+        pn_dtd.setBorder(new TitledBorder(null, "Th?ng kê t? ngày t?i ngày", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+        add(pn_dtd);
+
+        JLabel lbBegin = new JLabel("T? :");
+        lbBegin.setBounds(50, 25, 30, 25);
+        pn_dtd.add(lbBegin);
+
+        tk3 = new JTable();
+        tk3.setModel(thongke.thongKePhieuNhap());
+        JScrollPane sc3 = new JScrollPane(tk3);
+        sc3.setBounds(270, 180, 250, 200);
+        sc3.setBorder(new TitledBorder(null, "Th?ng kê phi?u nh?p", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+        add(sc3);
+        dateBegin = new JDateChooser();
+        dateBegin.setDateFormatString("yyyy-MM-dd");
+        dateBegin.setBounds(100, 25, 100, 25);
+        pn_dtd.add(dateBegin);
+
+        tk4 = new JTable();
+        tk4.setModel(thongke.topBook());
+        JScrollPane sc4 = new JScrollPane(tk4);
+        sc4.setBounds(530, 180, 550, 200);
+        sc4.setBorder(new TitledBorder(null, "S?n ph?m du?c mu?n nhi?u nh?t", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+        add(sc4);
+
+        JLabel lbThinhhanh = new JLabel("Sách th?nh hành nh?t");
+        lbThinhhanh.setBounds(550, 400, 200, 25);
+        add(lbThinhhanh);
+
+        JTextField txTopbook = new JTextField(thongke.thongKeTheoSanPham());
+        txTopbook.setBounds(750, 400, 300, 25);
+        add(txTopbook);
+        
+        JLabel lbNhanvien = new JLabel("S? lu?ng nhân viên");
+        lbNhanvien.setBounds(550, 430, 200, 25);
+        add(lbNhanvien);
+        
+        JTextField txNhanvien = new JTextField(thongke.countNhanvien());
+        txNhanvien.setBounds(750, 430, 300, 25);
+        add(txNhanvien);
+
+        JLabel lbTo = new JLabel("Đ?n :");
+        lbTo.setBounds(250, 25, 30, 25);
+        pn_dtd.add(lbTo);
 
         dateEnd = new JDateChooser();
         dateEnd.setDateFormatString("yyyy-MM-dd");
-        dateEnd.setBounds(150, 60, 150, 25);
+        dateEnd.setBounds(300, 25, 100, 25);
+        pn_dtd.add(dateEnd);
 
-        pnThongtin.add(dateEnd);
-
-        btnThongke = new JButton("Thống kê");
-        btnThongke.setBounds(30, 95, 125, 25);
+        btnThongke = new JButton("Th?ng kê");
+        btnThongke.setBounds(180, 60, 100, 25);
         btnThongke.addActionListener(this);
-        pnThongtin.add(btnThongke);
-
-        tableTTV = new tableTheThuVien();
-        tableTTV.setBorder(new TitledBorder(null, "Thống kê số lượng thành viên mới", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-        tableTTV.setBounds(400, 60, 320, 166);
-        tableTTV.getTable().getTableHeader().setBackground(new Color(255, 99, 0));
-        tableTTV.getTable().getTableHeader().setForeground(Color.WHITE);
-        tableTTV.setBackground(Color.LIGHT_GRAY);
-
-        JLabel lbThe = new JLabel("Số lượng thành viên");
-        lbThe.setBounds(400, 30, 120, 25);
-        add(lbThe);
-
-        theTVBUS bus = new theTVBUS();
-        txThanhvienmoi = new JTextField();
-        txThanhvienmoi.setBounds(600, 30, 50, 25);
-        add(txThanhvienmoi);
-        add(tableTTV);
-
-        tablePMuon = new tablePM();
-        tablePMuon.setBounds(30, 250, 500, 166);
-        tablePMuon.getTable().getTableHeader().setBackground(new Color(255, 99, 0));
-        tablePMuon.getTable().getTableHeader().setForeground(Color.WHITE);
-        tablePMuon.setBorder(new TitledBorder(null, "Thống kê các phiếu mượn", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-        tablePMuon.setBackground(Color.LIGHT_GRAY);
-        add(tablePMuon);
-
+        pn_dtd.add(btnThongke);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        theTVBUS busTTV = new theTVBUS();
-        phieumuonBUS busPM = new phieumuonBUS();
         if (e.getSource() == btnThongke) {
-            try {
-                if (dateStart.getDate() != null && dateEnd.getDate() != null) {
-                    busTTV.loadThongKeTTV(dateStart, dateEnd);
-                    busPM.loadThongKePM(dateStart, dateEnd);
-                    tableTTV.setData(busTTV.getNewTTVList(dateStart.getDate(), dateEnd.getDate()));
-                    txThanhvienmoi.setText(String.valueOf(theTVBUS.newTTV.size()));
-                    tableTTV.loadData();
+            if (dateBegin.getDate() != null && dateEnd.getDate() != null) {
+                try {
+                    thongke.deleteAll(tk2);
 
-                    busPM.loadThongKePM(dateStart, dateEnd);
-                    tablePMuon.setData(busPM.getTKPMList(dateStart.getDate(), dateEnd.getDate()));
-                    tablePMuon.loadData();
-
-                } else if (dateStart.getDate() != null && dateEnd.getDate() == null) {
-                    Date end = new Date();
-                    dateEnd.setDate(end);
-                    busTTV.loadThongKeTTV(dateStart, dateEnd);
-                    tableTTV.setData(busTTV.getNewTTVList(dateStart.getDate(), dateEnd.getDate()));
-                    txThanhvienmoi.setText(String.valueOf(theTVBUS.newTTV.size()));
-                    tableTTV.loadData();
-
-                    busPM.loadThongKePM(dateStart, dateEnd);
-                    tablePMuon.setData(busPM.getTKPMList(dateStart.getDate(), dateEnd.getDate()));
-                    tablePMuon.loadData();
-
-                } else if (dateStart.getDate() == null && dateEnd.getDate() != null) {
-                    String temp = "1975-01-01";
-                    SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
-                    Date start = formatDate.parse(temp);
-                    dateStart.setDate(start);
-                    busTTV.loadThongKeTTV(dateStart, dateEnd);
-                    tableTTV.setData(busTTV.getNewTTVList(dateStart.getDate(), dateEnd.getDate()));
-                    txThanhvienmoi.setText(String.valueOf(theTVBUS.newTTV.size()));
-                    tableTTV.loadData();
-
-                    busPM.loadThongKePM(dateStart, dateEnd);
-                    tablePMuon.setData(busPM.getTKPMList(dateStart.getDate(), dateEnd.getDate()));
-                    tablePMuon.loadData();
-                } else {
-                    JOptionPane.showMessageDialog(null, "Hãy chọn ngày để hiện thị thống kê");
+                    tk2.setModel(thongke.thongKeThanhVienMoi(dateBegin.getDate(), dateEnd.getDate()));
+                    thongke.deleteAll(tk3);
+                    tk3.setModel(thongke.thongKePhieuNhap(dateBegin.getDate(), dateEnd.getDate()));
+                } catch (Exception ex) {
+                    System.out.println("thongkePanel l?i 136"+ex);
                 }
-            } catch (ParseException ex) {
-                Logger.getLogger(thongkePanel.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (Exception ex) {
-                Logger.getLogger(thongkePanel.class.getName()).log(Level.SEVERE, null, ex);
+            } else if (dateBegin.getDate() != null && dateEnd.getDate() == null) {
+                Date date = new Date();
+                dateEnd.setDate(date);
+                dateEnd.setDateFormatString("yyyy-MM-dd");
+                thongke.deleteAll(tk2);
+                try {
+                    tk2.setModel(thongke.thongKeThanhVienMoi(dateBegin.getDate(), dateEnd.getDate()));
+                    thongke.deleteAll(tk3);
+                    tk3.setModel(thongke.thongKePhieuNhap(dateBegin.getDate(), dateEnd.getDate()));
+                } catch (Exception ex) {
+                    System.out.println("thongkePanel l?i 148"+ex);
+                }
+            } else if (dateEnd.getDate() == null && dateEnd.getDate() != null) {
+                String date = "2020-01-01";
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                try {
+                    dateBegin.setDate(format.parse(date));
+                    thongke.deleteAll(tk2);
+                    try {
+                        tk2.setModel(thongke.thongKeThanhVienMoi(dateBegin.getDate(), dateEnd.getDate()));
+                        thongke.deleteAll(tk3);
+                        tk3.setModel(thongke.thongKePhieuNhap(dateBegin.getDate(), dateEnd.getDate()));
+                    } catch (Exception ex) {
+                        System.out.println(ex);
+                    }
+                } catch (Exception ex) {
+                    System.out.println("thongkePanel l?i 164"+ex);
+                }
+
+            } else {
+                thongke.deleteAll(tk2);
+                try {
+                    tk2.setModel(thongke.thongKeThanhVienMoi());
+                } catch (Exception ex) {
+                    Logger.getLogger(thongkePanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                thongke.deleteAll(tk3);
+                try {
+                    tk3.setModel(thongke.thongKePhieuNhap());
+                } catch (Exception ex) {
+                    Logger.getLogger(thongkePanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
-
     }
 }

@@ -15,7 +15,7 @@ public class tacgiaDAO {
     private ArrayList<tacgiaDTO> dstg;
 
     public tacgiaDAO() {
-        conn = new MyConnectUnit("localhost", "root", "", "thuvien");
+        conn = new MyConnectUnit("localhost", "root", "", "thuvien","tacgiaDAO");
     }
 
     public void docDSTG() throws Exception {
@@ -36,7 +36,7 @@ public class tacgiaDAO {
 
     public ArrayList<tacgiaDTO> filteredList() throws Exception {
         docDSTG();
-        ArrayList temp = new ArrayList();
+        ArrayList<tacgiaDTO> temp = new ArrayList();
         for (tacgiaDTO sach : dstg) {
             if (sach.getTrangthai() == 1) {
                 temp.add(sach);

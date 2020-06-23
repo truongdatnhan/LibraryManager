@@ -12,14 +12,15 @@ public class loaiDAO {
 
     MyConnectUnit conn = null;
     ResultSet rs = null;
-    private ArrayList<loaiDTO> dstl;
+    private ArrayList<loaiDTO> dstl=null;
 
     public loaiDAO() {
-        conn = new MyConnectUnit("localhost", "root", "", "thuvien");
+        conn = new MyConnectUnit("localhost", "root", "", "thuvien","theloaiDAO");
     }
 
     public void docDSTL() throws Exception {
-        dstl = new ArrayList<loaiDTO>();
+        if(dstl==null)
+            dstl = new ArrayList<loaiDTO>();
         rs = conn.Select("theloai");
 
         while (rs.next()) {

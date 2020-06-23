@@ -28,6 +28,11 @@ public class modelCTPN extends DefaultTableModel {
         this.ctpnList = list;
     }
 
+    @Override
+    public boolean isCellEditable(int row, int col) {
+        return false;
+    }
+
     public void deleteAll() {
         if (super.getRowCount() > 0) {
             for (int i = super.getRowCount() - 1; i > -1; i--) {
@@ -38,7 +43,6 @@ public class modelCTPN extends DefaultTableModel {
 
     public void loadData() {
         deleteAll();
-        phieunhapBUS bus = new phieunhapBUS();
         for (ctpnDTO ctpn : ctpnList) {
             Vector<String> row = new Vector<>();
             row.add(ctpn.getMapn());
@@ -57,10 +61,13 @@ public class modelCTPN extends DefaultTableModel {
         Vector<Object> row = new Vector<>();
         row.add(ctpn.getMapn());
         row.add(ctpn.getMasach());
-        row.add(ctpn.getSoluong());
-        row.add(ctpn.getDongia());
-        row.add(ctpn.getThanhtien());
+        row.add(String.valueOf(ctpn.getSoluong()));
+        row.add(String.valueOf(ctpn.getDongia()));
+        row.add(String.valueOf(ctpn.getThanhtien()));
         super.addRow(row);
     }
 
+    public void delete(int i) {
+        super.removeRow(i);
+    }
 }

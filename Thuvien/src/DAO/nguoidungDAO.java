@@ -15,7 +15,7 @@ public class nguoidungDAO {
 
 	public nguoidungDAO() {
 		if (conn == null) {
-			conn = new MyConnectUnit("localhost", "root", "", "thuvien");
+			conn = new MyConnectUnit("localhost", "root", "", "thuvien","nguoidungDAO");
 		}
 	}
 
@@ -27,6 +27,7 @@ public class nguoidungDAO {
 			nguoidung.setManv(rs.getString(1));
 			nguoidung.setMkhau(rs.getString(2));
 			nguoidung.setQuyen(rs.getString(3));
+                        nguoidung.setTrangthai(rs.getInt(4));
 			dsnd.add(nguoidung);
 		}
 		conn.Close();
@@ -73,19 +74,5 @@ public class nguoidungDAO {
 		conn.Close();
 	}
 
-	public ArrayList<nguoidungDTO> filteredList() {
-		try {
-			dsnd = docDSND();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		ArrayList<nguoidungDTO> edited = new ArrayList<nguoidungDTO>();
-		for (nguoidungDTO nd : dsnd) {
-			if (nd.getTrangthai() == 1) {
-				edited.add(nd);
-			}
-		}
-		return edited;
-	}
+	
 }

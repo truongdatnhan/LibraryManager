@@ -391,8 +391,9 @@ public class QLPMPanel extends JPanel implements ActionListener, KeyListener, Pr
 									System.out.println("Lỗi quá trình thêm");
 								}
 								busPM.Insert(pm);
+								//table.addData(pm);
 								table.setData(busPM.getPMList());
-								table.loadData();
+                                                                table.loadData();
 							} catch (Exception e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
@@ -427,9 +428,10 @@ public class QLPMPanel extends JPanel implements ActionListener, KeyListener, Pr
 									// TODO Auto-generated catch block
 									e.printStackTrace();
 								}
+								//table.updateData(pm, i);
 								try {
 									table.setData(busPM.getPMList());
-									table.loadData();
+                                                                        table.loadData();
 								} catch (Exception e) {
 									// TODO Auto-generated catch block
 									e.printStackTrace();

@@ -1,21 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package DAO;
 
-import DTO.ctpmDTO;
 import DTO.ctpnDTO;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author Admin
- */
 public class ctpnDAO {
 
     MyConnectUnit conn = null;
@@ -24,7 +14,7 @@ public class ctpnDAO {
 
     public ctpnDAO() {
         if (conn == null) {
-            conn = new MyConnectUnit("localhost", "root", "", "thuvien");
+            conn = new MyConnectUnit("localhost", "root", "", "thuvien","ctpnDAO");
         }
     }
 
@@ -35,6 +25,7 @@ public class ctpnDAO {
             ctpnDTO ctpn = new ctpnDTO(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getLong(4), rs.getLong(5));
             dsctpn.add(ctpn);
         }
+        conn.Close();
         if (dsctpn == null) {
             return null;
         } else {
@@ -51,10 +42,11 @@ public class ctpnDAO {
         insertValue.put("dongia", String.valueOf(ctpn.getDongia()));
         insertValue.put("thanhtien", String.valueOf(ctpn.getThanhtien()));
         boolean kt = conn.Insert("ctphieunhap", insertValue);
-        if (kt == true) {
-            JOptionPane.showMessageDialog(null, "Thêm thành công");
-        } else {
-            JOptionPane.showMessageDialog(null, "Thêm thất bại");
+    }
+    
+    public void Insert(ArrayList<ctpnDTO> temp) throws Exception{
+        for(ctpnDTO ctpn : temp){
+            Insert(ctpn);
         }
     }
 
@@ -64,7 +56,18 @@ public class ctpnDAO {
         if (kt == true) {
             JOptionPane.showMessageDialog(null, "Xóa thành công");
         } else {
-            JOptionPane.showMessageDialog(null, "Thêm thất bại");
+            JOptionPane.showMessageDialog(null, "Xóa thất bại");
+        }
+    }
+
+    public void DeleteReal(ctpnDTO ctpn) throws Exception {
+        
+        
+        boolean kt = conn.DeleteReal("ctphieunhap", "mapn = '" + ctpn.getMapn() + "' and masach = '" + ctpn.getMasach() + "'");
+        if (kt == true) {
+            JOptionPane.showMessageDialog(null, "Xóa thành công");
+        } else {
+            JOptionPane.showMessageDialog(null, "Xóa thất bại");
         }
     }
 

@@ -8,6 +8,8 @@ import javax.swing.table.DefaultTableModel;
 
 import DTO.loaiDTO;
 import DAO.loaiDAO;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
 
@@ -69,6 +71,12 @@ public class loaiBUS {
         
         public boolean sameid(String a)
         {
+            try {
+                loaiDAO data=new loaiDAO();
+                dstl = data.filteredList();
+            } catch (Exception ex) {
+                Logger.getLogger(loaiBUS.class.getName()).log(Level.SEVERE, null, ex);
+            }
             for(int i=0;i<dstl.size();i++)
             {
                 loaiDTO temp=((loaiDTO) dstl.get(i));
@@ -89,4 +97,6 @@ public class loaiBUS {
             }
             return -1;
         }
+        
+
 }

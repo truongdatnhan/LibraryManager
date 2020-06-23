@@ -283,7 +283,7 @@ public class QLPPPanel extends JPanel implements ActionListener, KeyListener, Pr
 					}
 					busPP.Insert(pp);
 					table.setData(busPP.getPPList());
-					table.loadData();
+                                        table.loadData();
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -341,8 +341,9 @@ public class QLPPPanel extends JPanel implements ActionListener, KeyListener, Pr
 				System.out.println("Lỗi quá trình thêm");
 			} else {
 				bus.insert(ctpp);
-				tableCTPP.addData(ctpp);
+
 				tableCTPP.setData(bus.getCTPPList(txMaPP.getText()));
+                                tableCTPP.loadData();
 				try {
 					table.setData(busPP.getPPList());
 				} catch (Exception e) {
@@ -379,7 +380,8 @@ public class QLPPPanel extends JPanel implements ActionListener, KeyListener, Pr
 			phieuphatBUS busPP = new phieuphatBUS();
 			try {
 				bus.update(ctpp);
-				tableCTPP.updateData(ctpp);
+				tableCTPP.setData(bus.getCTPPList(txMaPP.getText()));
+                                tableCTPP.loadData();
 				table.setData(busPP.getPPList());
 				table.loadData();
 			} catch (Exception e) {

@@ -19,11 +19,12 @@ public class nxbDTO {
 	public void setTrangthai(int trangthai) {
 		this.trangthai = trangthai;
 	}
-	public nxbDTO(String manxb, String tenxb, String sdt, String email) {
+	public nxbDTO(String manxb, String tenxb, String sdt, String email,int trangthai) {
 		this.manxb = manxb;
 		this.tenxb = tenxb;
 		this.sdt = sdt;
 		this.email = email;
+                this.trangthai=trangthai;
 	}
 	public String getManxb() {
 		return manxb;

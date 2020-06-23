@@ -26,7 +26,7 @@ public class MyConnectToMySQL {
 
     public void DriverTest() throws Exception {
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("org.gjt.mm.mysql.Driver");
         } catch (ClassNotFoundException e) {
             throw new Exception("MySQL Driver JDBC not found");
         }
@@ -43,6 +43,8 @@ public class MyConnectToMySQL {
                 throw new Exception("Không thể kết nói MySQL server " + e);
             }
         }
+        if(this.connect != null )
+            System.out.println("Tạo kết nối thành công");
         return this.connect;
     }
 
@@ -57,15 +59,17 @@ public class MyConnectToMySQL {
     }
 
     public ResultSet excuteQuery(String query) throws Exception {
+        ResultSet temp = null;
         try {
             // thực thi câu lệnh
             this.rs = getStatement().executeQuery(query);
+            temp=rs;
         } catch (Exception e) {
             // nếu không thành công thì ném lỗi ra ngoài
-            throw new Exception("Error : " + e.getMessage());
-        }
+            System.out.println(e);
+        } 
         // trả vể resultset
-        return this.rs;
+        return temp;
     }
 
     public int executeUpdate(String query) throws Exception {
@@ -85,16 +89,20 @@ public class MyConnectToMySQL {
 
     public void Close() throws Exception {
         if (this.rs != null && !this.rs.isClosed()) {
-            this.rs.isClosed();
+            this.rs.close();
             this.rs = null;
         }
         if (this.statement != null && !this.statement.isClosed()) {
-            this.statement.isClosed();
+            this.statement.close();
             this.statement = null;
         }
         if (this.connect != null && !this.connect.isClosed()) {
-            this.connect.isClosed();
+            this.connect.close();
             this.connect = null;
+        }
+        if(this.connect == null)
+        {
+            System.out.println("Đã đóng kết nối hoàn toàn\n");
         }
     }
 }

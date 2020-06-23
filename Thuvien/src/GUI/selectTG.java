@@ -23,7 +23,6 @@ public class selectTG extends selectID {
         header.add("Mã TG");
         header.add("Họ TG");
         header.add("Tên TG");
-        header.add("Email TG");
 
         model = new DefaultTableModel(header, 0) {
             @Override
@@ -48,7 +47,6 @@ public class selectTG extends selectID {
             a.add(tacgia.getMatg());
             a.add(tacgia.getHotg());
             a.add(tacgia.getTentg());
-            a.add(tacgia.getEmail());
             model.addRow(a);
         }
         tbTG.setModel(model);
@@ -67,5 +65,4 @@ public class selectTG extends selectID {
             return 1;
         }
     }
-
 }

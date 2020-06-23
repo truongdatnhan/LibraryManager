@@ -80,8 +80,31 @@ public class check {
 			return false;
 		}
 	}
-
+        
+        public static String returnNumber(String s)
+        {
+            s=s.trim();
+            int k=s.length();
+            for(int i=0;i<k;i++)
+            {
+                if(s.charAt(i)==' '){
+                String temp1=s.substring(0,i);
+                String temp2=s.substring(i+1);
+                s=temp1+temp2;
+                i=-1;
+                k=s.length();}
+                if(s.charAt(0)=='0')
+                    {
+                        s=s.substring(1);
+                        i=-1;
+                        k=s.length();
+                    }
+            }
+            return s;
+            
+        }
 	public static boolean isNumeric(String s) {
+            s=returnNumber(s);
 		return s.matches("-?\\d+(\\.\\d+)?");
 	}
 	

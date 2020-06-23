@@ -41,7 +41,7 @@ public class selectNXB extends selectID {
 
     public void loaddata() {
         nxbBUS bus = new nxbBUS();
-        bus.getLoaiList();
+        bus.getNXBList();
         for (nxbDTO nxb : nxbBUS.dsnxb) {
             Vector a = new Vector();
             a.add(nxb.getManxb());
